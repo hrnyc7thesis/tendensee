@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -12,11 +6,14 @@ import {
   View
 } from 'react-native';
 
+import Cam from './src/Components/Cam';
+
 export default class client extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
+      <Cam />
+        {/* <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
@@ -25,7 +22,7 @@ export default class client extends Component {
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
           Cmd+D or shake for dev menu
-        </Text>
+        </Text> */}
       </View>
     );
   }
