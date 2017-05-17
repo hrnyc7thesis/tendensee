@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,13 +17,27 @@
     "url": "https://github.com/Gigabyte-Gorillas/Gigabyte-Gorillas/issues"
   },
   "homepage": "https://github.com/Gigabyte-Gorillas/Gigabyte-Gorillas#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.2",
+    "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
+    "passport": "^0.3.2",
+    "path": "^0.12.7",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "serve-favicon": "^2.4.2"
+  },
   "devDependencies": {
-  "eslint": "^3.19.0",
-  "eslint-config-airbnb": "^14.1.0",
-  "eslint-loader": "^1.7.1",
-  "eslint-plugin-import": "^2.2.0",
-  "eslint-plugin-jsx-a11y": "^4.0.0",
-  "eslint-plugin-react": "^6.10.3",
-  "nodemon": "^1.11.0"
-}
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "nodemon": "^1.11.0"
+  }
 }
