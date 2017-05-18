@@ -4,7 +4,7 @@ const controllers = require('./controllers.js');
 //DO AUTH STUFF HERE;
 
 routes.route('/api/users')
-  .get(controllers.getAllUserData)
+  .get(controllers.getUserData)
   .post(controllers.addUser);
   // .put(controllers.updateUser)
   // .delete(controllers.deleteUser);

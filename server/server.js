@@ -21,7 +21,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client'))); // IS THIS RIGHT FOLDER?
+app.use(express.static(path.join(__dirname, '../client'))); 
 
 // SETUP ROUTES
 app.use(require('./routes.js'));
