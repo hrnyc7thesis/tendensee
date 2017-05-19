@@ -18,7 +18,7 @@ const deletePromise = Promise.promisify(dbHelpers.delete);
 
 // USERS -------------------------------->
 exports.getUserData = (req, res) => {
-  let userId = 101; // LATER - get from front end? Session? 
+  let userId = 101; // LATER - get from front end? Session?
   let responseData = {};
   retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
   .then(habits => {
@@ -32,7 +32,7 @@ exports.getUserData = (req, res) => {
     res.json(responseData);
   })
 }
- 
+
 exports.addUser = (req, res) => {
   console.log('add user req.body', req.body)
   createPromise(req.body, 'users')
