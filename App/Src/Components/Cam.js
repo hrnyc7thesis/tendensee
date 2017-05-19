@@ -28,8 +28,22 @@ export default class Cam extends Component {
   takePicture() {
     const options = {};
     //options.location = ...
+    console.log('')
     this.camera.capture({metadata: options})
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log('data: ', data);
+        console.log('taking photo');
+        fetch('http://{INSERT IP ADDRESS HERE}:8080/api/dates', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ imageData: data })
+        })
+          .then(() => console.log('Send success'))
+          .catch((err) => console.log('Send error', err))
+      })
       .catch(err => console.error(err));
   }
 }
