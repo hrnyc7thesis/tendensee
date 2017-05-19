@@ -1,7 +1,16 @@
 const db = require('./db/db-config.js');
+const config = require('./config.js');
 const dbHelpers = require('./db/helpers.js');
+const uploadS3 = require('./db/s3-config.js');
 const Promise = require('bluebird');
+// const zlib = require('zlib'); // USE THIS TO COMPRESS?
+const fs = require('fs');
+const Clarifai = require('clarifai');
 
+// SETUP IMAGE RECOGNITION
+const imageRec = new Clarifai.App(config.imageId, config.imageSecret)
+
+//PROMISIFY DB HELPERS
 const createPromise = Promise.promisify(dbHelpers.create);
 const retrievePromise = Promise.promisify(dbHelpers.retrieve);
 const updatePromise = Promise.promisify(dbHelpers.update);
@@ -44,5 +53,22 @@ exports.addHabit = (req, res) => {
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
-  
+  let newDate = req.body; // pull needed stuff off req.body
+  console.log('add date req.body', req.body)
+  // WILL NEED TO SEND TO S3 & PUT RETURNED URL INTO CLARIFAI
+  imageUrl = 'http://cdnak1.psbin.com/img/mw=390/mh=250/cr=n/d=v5tal/78wvuofy7raoto9t.jpg';
+  let tags;
+  imageRec.models.predict(Clarifai.GENERAL_MODEL, imageUrl)
+  .then(imageTags => {
+    tags = imageTags.outputs[0].data.concepts.map(item => item.name)
+    console.log('image recognized!!!:', tags)
+    return tags
+  })
+  .then(array => {
+    // SET HABIT BASED ON TAGS, add to newDate
+    createPromise(newDate, 'dates')
+    .then(date => {
+      res.status(201).json(date)
+    })
+  })
 }

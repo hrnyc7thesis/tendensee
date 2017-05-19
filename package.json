@@ -18,19 +18,9 @@
   },
   "homepage": "https://github.com/Gigabyte-Gorillas/Gigabyte-Gorillas#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "clarifai": "^2.1.6",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.15.3",
-    "express-session": "^1.15.2",
-    "morgan": "^1.8.1",
-    "mysql": "^2.13.0",
-    "passport": "^0.3.2",
-    "path": "^0.12.7",
-    "promise-mysql": "^3.0.1",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.0",
-    "serve-favicon": "^2.4.2"
+    "aws-sdk": "^2.54.0",
+    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
+    "s3-upload-stream": "^1.0.7"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
@@ -41,8 +31,5 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "nodemon": "^1.11.0"
-  },
-  "dependencies": {
-    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git"
   }
 }
