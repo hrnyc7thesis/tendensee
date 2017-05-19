@@ -38,6 +38,7 @@ module.exports = {
 
   query: function(q, userId) {
     let queries = {
+      retrieveUser: `select * from users where users.id = "${userId}"`,
       retrieveUserHabits: `select habits.* from users, habits where users.id = "${userId}" AND habits.id_users = users.id`,
       retrieveUserDates: `select dates.* from users, habits, dates where users.id = "${userId}" AND habits.id_users = users.id AND dates.id_users = users.id`,
     }

@@ -30,7 +30,10 @@
     "promise-mysql": "^3.0.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
-    "serve-favicon": "^2.4.2"
+    "serve-favicon": "^2.4.2",
+    "aws-sdk": "^2.54.0",
+    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
+    "s3-upload-stream": "^1.0.7"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
@@ -41,8 +44,5 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "nodemon": "^1.11.0"
-  },
-  "dependencies": {
-    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git"
   }
 }
