@@ -17,6 +17,7 @@ export default class Cam extends Component {
           ref={(cam) => {
             this.camera = cam;
           }}
+          captureTarget={Camera.constants.CaptureTarget.disk}
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[Click!]</Text>
@@ -26,25 +27,27 @@ export default class Cam extends Component {
   }
 
   takePicture() {
-    const options = {};
-    //options.location = ...
+    let options = {};
     console.log('')
     this.camera.capture({metadata: options})
-      .then((data) => {
-        console.log('data: ', data);
-        console.log('taking photo');
-        fetch('http://{INSERT IP ADDRESS HERE}:8080/api/dates', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ imageData: data })
-        })
-          .then(() => console.log('Send success'))
-          .catch((err) => console.log('Send error', err))
+    .then((data) => {
+      console.log('data: ', data);
+      console.log('taking photo');
+      let postData = data;
+      postData['id_users'] = ''; // ADD USER ID HERE
+      postData['id_habits'] = []; // array of USER HABIT DATA HERE
+      fetch('http://10.16.0.80:8080/api/dates', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
       })
-      .catch(err => console.error(err));
+      .then((data) => console.log('picture res from server data:', data))
+      .catch((err) => console.log('Send error', err))
+    })
+    .catch(err => console.error(err));
   }
 }
 
