@@ -1,29 +1,42 @@
 const AWS = require('aws-sdk');
 const config = require('../config');
-const s3Stream = require('s3-upload-stream')(new AWS.S3());
+// const zlib = require('zlib'); // USE THIS TO COMPRESS?
+const fs = require('fs');
+const shortid = require('shortid');
+const s3Stream = require('s3-upload-stream')(new AWS.S3({
+  accessKeyId: config.storageId,
+  secretAccessKey: config.storageKey,
+  signatureVersion: 'v4'
+}));
 
-AWS.config.update({accessKeyId: config.storageId, secretAccessKey: config.storageKey});
+module.exports = (filePath, cb) => {
 
-//USE READSTREAM? OR READ FROM URL?
-module.exports = (readStream, key, cb) => {
+  let key = shortid.generate() + '.jpg';
+  let read = fs.createReadStream(filePath);
+  // let compress = zlib.createGzip();
   let upload = s3Stream.upload({
     'Bucket': config.bucket,
     'Key' : key
   });
 
+  upload.maxPartSize(1048576); // 1 MB 
+  upload.concurrentParts(5);
+
   upload.on('error', err => {
-    callback(err);
+    cb(err);
   });
 
   //ONCE ALL WORKING COMMENT THIS OUT
   upload.on('part', details => {
-    console.log(inspect(details));
+    console.log(details);
   });
 
   upload.on('uploaded', details => {
     console.log('upload to s3 complete:', details);
-    callback();
+    details.key = key;
+    cb(details);
   });
 
-  readStream.pipe(upload);
+  read.pipe(upload);
+  // read.pipe(compress).pipe(upload);
 }
