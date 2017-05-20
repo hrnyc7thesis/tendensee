@@ -7,7 +7,7 @@ module.exports = {
   create: (input, table, cb) => {
     db.query(`INSERT INTO ${table} SET ?`, input, (err, res) => {
       if(err) console.log(err);
-      console.log('inserted:', res.insertID)
+      console.log('inserted:', res)
       cb(err, res)
     })
   },
@@ -36,11 +36,11 @@ module.exports = {
     })
   },
 
-  query: function(q, userId) {
+  query: function(q, id) {
     let queries = {
-      retrieveUser: `select * from users where users.id = "${userId}"`,
-      retrieveUserHabits: `select habits.* from users, habits where users.id = "${userId}" AND habits.id_users = users.id`,
-      retrieveUserDates: `select dates.* from users, habits, dates where users.id = "${userId}" AND habits.id_users = users.id AND dates.id_users = users.id`,
+      retrieveUser: `select * from users where users.id = "${id}"`,
+      retrieveUserHabits: `select habits.* from users, habits where users.id = "${id}" AND habits.id_users = users.id`,
+      retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id`,
     }
     return queries[q]
   },
