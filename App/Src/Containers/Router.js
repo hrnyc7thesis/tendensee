@@ -4,8 +4,6 @@ import { Router, Scene, Modal, ActionConst } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../Actions/ActionCreators';
-
-
 import Camera from './Camera';
 import Habits from './Habits';
 
@@ -58,8 +56,6 @@ class AppRouter extends Component {
             </Scene>
           </Scene>
         </Scene>
-
-
       </Router>
     )
   }
@@ -71,8 +67,4 @@ mapDispatchToProps = (dispatch) => (
 
 mapStateToProps = (state) => ({});
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
-
-
-// export default connect()(AppRouter)
