@@ -3,6 +3,12 @@ const controllers = require('./controllers.js');
 
 //DO AUTH STUFF HERE;
 
+// LOG TIME OF EACH REQUEST
+routes.use(function timeLog (req, res, next) {
+  console.log('Time: ', new Date())
+  next()
+})
+
 routes.route('/api/users')
   .get(controllers.getUserData)
   .post(controllers.addUser);
