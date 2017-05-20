@@ -16,13 +16,15 @@ module.exports = (filePath, cb) => {
   // let compress = zlib.createGzip();
   let upload = s3Stream.upload({
     'Bucket': config.bucket,
-    'Key' : key
+    'Key' : key,
+    ACL: "public-read"
   });
 
   upload.maxPartSize(1048576); // 1 MB 
   upload.concurrentParts(5);
 
   upload.on('error', err => {
+    console.log('S3 Upload Error:', err);
     cb(err);
   });
 
@@ -33,7 +35,6 @@ module.exports = (filePath, cb) => {
 
   upload.on('uploaded', details => {
     console.log('upload to s3 complete:', details);
-    details.key = key;
     cb(details);
   });
 
