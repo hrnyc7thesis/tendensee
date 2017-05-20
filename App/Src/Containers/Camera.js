@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
-import {
-  AppRegistry,
-  Text,
-  View,
-  Dimensions,
-  StyleSheet,
-  TouchableHighlight
-} from 'react-native';
+import { connect } from 'react-redux';
+import { Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
 import Camera from 'react-native-camera';
 
-export default class Cam extends Component {
+class Cam extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -71,4 +65,8 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('Cam', () => Cam);
+mapStateToProps = (state) => (
+  {}
+);
+
+export default connect(mapStateToProps)(Cam);
