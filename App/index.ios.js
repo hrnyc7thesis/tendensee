@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import { AppRegistry } from 'react-native'
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { AppRegistry } from 'react-native';
 
-import configureStore from './Src/Store/ConfigureStore'
-import Router from './Src/Containers/Router'
+import configureStore from './Src/Store/ConfigureStore';
+import Router from './Src/Containers/Router';
 
-const store = configureStore()
+const store = configureStore({
+  photoCount: 0
+});
 
 const App = () => (
   <Provider store={store}>

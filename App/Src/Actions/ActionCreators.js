@@ -1,9 +1,9 @@
-incrementPhotoCount = () => (
-  {
-    type: 'INCREMENT_PHOTO_COUNT'
-  }
-);
+const incrementPhotoCount = () => {
+  return {
+      type: 'INCREMENT_PHOTO_COUNT'
+    }
+};
 
-export const ActionCreators = Object.assign({},
+export const ActionCreators = {
   incrementPhotoCount
-);
+};
