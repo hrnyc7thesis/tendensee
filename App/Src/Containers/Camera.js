@@ -6,6 +6,15 @@ import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
 
 class Cam extends Component {
+
+  this.props.fetchUserInit()
+  .then((data) => {
+    this.props.fetchUserSuccess(data);
+  })
+  .catch(() => {
+    this.props.fetchUserFail();
+  });
+
   render() {
     return (
       <View style={styles.container}>
