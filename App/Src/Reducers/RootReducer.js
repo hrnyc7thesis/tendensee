@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import cameraReducer from './Camera';
+import photoCount from './Photos';
 
 const rootReducer = combineReducers({
-  cameraReducer
+  photoCount,
 });
 
 export default rootReducer;

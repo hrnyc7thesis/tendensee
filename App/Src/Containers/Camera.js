@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
+import { bindActionCreators } from 'redux';
 import Camera from 'react-native-camera';
+import { ActionCreators } from './../Actions/ActionCreators';
 
 class Cam extends Component {
   render() {
@@ -22,9 +24,10 @@ class Cam extends Component {
 
   takePicture() {
     let options = {};
-    console.log('')
+    console.log('');
     this.camera.capture({metadata: options})
     .then((data) => {
+      this.props.incrementPhotoCount();
       console.log('data: ', data);
       console.log('taking photo');
       let postData = data;
@@ -65,8 +68,10 @@ const styles = StyleSheet.create({
   }
 });
 
-mapStateToProps = (state) => (
-  {}
-);
+const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps)(Cam);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cam);
