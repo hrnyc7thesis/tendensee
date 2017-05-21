@@ -61,10 +61,10 @@ class AppRouter extends Component {
   }
 }
 
-mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = (dispatch) => (
   bindActionCreators(ActionCreators, dispatch)
 );
 
-mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
