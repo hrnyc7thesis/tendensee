@@ -6,7 +6,11 @@ import configureStore from './Src/Store/ConfigureStore';
 import Router from './Src/Containers/Router';
 
 const store = configureStore({
-  photoCount: 0
+  photoCount: 0,
+  user: {
+    isFetching: false,
+    userData: {}
+  }
 });
 
 const App = () => (
