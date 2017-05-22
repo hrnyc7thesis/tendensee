@@ -7,8 +7,11 @@ import { ActionCreators } from './../Actions/ActionCreators';
 
 class Cam extends Component {
 
-  render() {
+  componentWillMount() {
     this.props.fetchUser();
+  }
+
+  render() {
     return (
       <View style={styles.container}>
         <Camera
@@ -32,11 +35,11 @@ class Cam extends Component {
 
       let sendData = Object.assign({}, this.props.user, {
         data: data
-      }
+      });
       this.props.sendPhoto(sendData);
 
       this.props.incrementPhotoCount();
-      console.log('data: ', data);
+      console.log('sendData: ', sendData);
       console.log('taking photo');
 
       // //
@@ -78,9 +81,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({
-  user
-});
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.userData
+  }
+};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
