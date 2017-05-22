@@ -56,7 +56,7 @@ exports.getUserData = (req, res) => {
 
 exports.addUser = (req, res) => {
   console.log('add user req.body:', req.body)
-  createPromise(req.body, 'users')
+  createPromise(req.body, 'users') // req.body.data???
   .then(user => {
     console.log('user:', user);
     res.status(201).json(user);
@@ -66,8 +66,8 @@ exports.addUser = (req, res) => {
 
 // HABITS -------------------------------->
 exports.addHabit = (req, res) => {
-  console.log('add user req.body:', req.body)
-  createPromise(req.body, 'habits')
+  console.log('add habit req.body:', req.body)
+  createPromise(req.body.data, 'habits')
   .then(habit => {
     res.status(201).json(habit);
   })
@@ -77,30 +77,39 @@ exports.addHabit = (req, res) => {
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
   // DEAL WITH NO PICTURE INSTANCES!!!
-  let id_users = req.body.id_users || 101; // GET RID OF OR ONCE USING
-  let id_habits = req.body.id_habits.length ? req.body.id_habits : 12; // GET RID OF TERNARY ONCE USING
+  let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
+  let id_habits = req.body.habits.map(h => h.id)
   let newDate = { id_users, id_habits };
-  newDate.date = new Date();
+  newDate.date = new Date(); // LATER - ability to set date?
   let imageRecData;
 
-  uploadS3(req.body.path, pic =>{
+  uploadS3(req.body.data.path, pic =>{
     console.log('in s3 cb');
     newDate.picture = pic.Location;
-    // LATER: if one habit, send immediately; if >1 do this: ALSO, if ONLY 1, TRAIN CLARIFAI!!!
-    imageRec.models.predict(Clarifai.GENERAL_MODEL, newDate.picture)
-    .then(data => {
-      imageRecData = data;
-      imageRecData.tags = data.outputs[0].data.concepts.map(item => item.name)
-      // USE TAGS TO MATCH IMAGE TO HABIT (USER habit IDs ARE IN newDate.id_habits ARRAY -ONCE FIND CORRECT HABIT, OVERWRITE ID to id_habits)
-      console.log('image recognized!!!:', imageRecData.tags)
-      console.log('newDate right before add to sql', newDate)
+    if(newDate.id_habits.length === 1) {
+      newDate.id_habits = newDate.id_habits[0];
+      // LATER: if ONLY 1 HABIT, TRAIN CLARIFAI!!!
       createPromise(newDate, 'dates')
       .then(date => {
         res.status(201).json(date)
       })
       .catch(err => console.log('Error adding date to DB:', err))
-    }, err => {
-      console.log(err);
-    })
+    } else if(newDate.id_habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID
+      imageRec.models.predict(Clarifai.GENERAL_MODEL, newDate.picture)
+      .then(data => {
+        imageRecData = data;
+        imageRecData.tags = data.outputs[0].data.concepts.map(item => item.name)
+        // USE TAGS TO MATCH IMAGE TO HABIT (USER habit IDs ARE IN newDate.id_habits ARRAY -ONCE FIND CORRECT HABIT, OVERWRITE ID to id_habits)
+        console.log('image recognized!!!:', imageRecData.tags)
+        console.log('newDate right before add to sql', newDate)
+        createPromise(newDate, 'dates')
+        .then(date => {
+          res.status(201).json(date)
+        })
+        .catch(err => console.log('Error adding date to DB:', err))
+      }, err => {
+        console.log('Clarifai error:', err);
+      })  
+    }
   })
 }

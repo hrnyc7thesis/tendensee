@@ -35,7 +35,7 @@ class Cam extends Component {
       let postData = data;
       postData['id_users'] = ''; // ADD USER ID HERE
       postData['id_habits'] = []; // array of USER HABIT DATA HERE
-      fetch('http://192.168.1.5:8080/api/dates', {
+      fetch('http://10.16.0.80:8080/api/dates', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
