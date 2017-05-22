@@ -1,31 +1,57 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from './../Actions/ActionCreators';
+import HabitsListContainer from './HabitsListContainer.js';
 
-class Habits extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Your Habits!
-        </Text>
-      </View>
-    );
-  }
+let Habits = () => {
+  return (
+    <View style={styles.container}>
+      <HabitsListContainer />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  }
+  },
+
+  // container: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: '#F5FCFF',
+  // },
 });
 
-export default Habits;
+export default Habits
+
+// class Habits extends Component {
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <Text style={styles.welcome}>
+//           Your Habss!
+//         </Text>
+//         <HabitContainer text={'he'}/>
+//       </View>
+//     );
+//   }
+// };
+
+// class Habits extends Component {
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <Text style={styles.welcome}>
+//           Your Habss!
+//         </Text>
+//         <HabitContainer text={'he'}/>
+//       </View>
+//     );
+//   }
+// };
