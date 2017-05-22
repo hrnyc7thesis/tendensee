@@ -11,4 +11,4 @@ const sendingPhoto = (state = false, action) => {
   }
 };
 
-export default photo;
+export default sendingPhoto;

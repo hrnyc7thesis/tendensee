@@ -32,7 +32,7 @@ class Cam extends Component {
 
       let sendData = Object.assign({}, this.props.user, {
         data: data
-      }
+      })
       this.props.sendPhoto(sendData);
 
       this.props.incrementPhotoCount();
@@ -78,8 +78,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({
-  user
+const mapStateToProps = (state) => (
+return {
+  user: state.user.userData
 });
 
 const mapDispatchToProps = (dispatch) => {

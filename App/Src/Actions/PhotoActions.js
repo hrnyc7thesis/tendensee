@@ -28,7 +28,7 @@ export const sendPhoto = (data) => {
     //Start loading animation
     dispatch(fetchUserInit());
     //Begin fetching
-    return fetch('http://10.16.0.109:8080/api/dates', {
+    return fetch('http://10.16.0.80:8080/api/dates', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -38,9 +38,9 @@ export const sendPhoto = (data) => {
     })
     .then(data => {
       data.json().then(data => {
-        dispatch(fetchUserSuccess(data)));
+        dispatch(fetchUserSuccess(data));
         dispatch(sendPhotoSuccess());
-      }
+      })
     })
     .catch(() => {
       dispatch(sendPhotoFail());

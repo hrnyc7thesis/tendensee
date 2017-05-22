@@ -23,7 +23,7 @@ export const fetchUser = () => {
     //Start loading animation
     dispatch(fetchUserInit());
     //Begin fetching
-    return fetch('http://10.16.0.109:8080/api/users', {
+    return fetch('http://10.16.0.80:8080/api/users', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
