@@ -22,9 +22,8 @@ export const fetchUser = () => {
   return (dispatch) => {
     //Start loading animation
     dispatch(fetchUserInit());
-    console.log('just dispatched fetchuserinit');
     //Begin fetching
-    return fetch('http://192.168.1.5:8080/api/users', {
+    return fetch('http://10.16.0.109:8080/api/users', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
