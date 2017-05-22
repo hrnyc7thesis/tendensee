@@ -1,3 +1,5 @@
+import { MY_IP } from './../myip';
+
 export const fetchUserInit = () => {
   return {
     type: 'FETCH_USER_INIT'
@@ -23,7 +25,7 @@ export const fetchUser = () => {
     //Start loading animation
     dispatch(fetchUserInit());
     //Begin fetching
-    return fetch('http://10.16.0.109:8080/api/users', {
+    return fetch(`http://${MY_IP}:8080/api/users`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
