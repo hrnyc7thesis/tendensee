@@ -56,7 +56,7 @@ exports.getUserData = (req, res) => {
 
 exports.addUser = (req, res) => {
   console.log('add user req.body:', req.body)
-  createPromise(req.body, 'users') // req.body.data???
+  createPromise(req.body, 'users')
   .then(user => {
     console.log('user:', user);
     res.status(201).json(user);
@@ -76,11 +76,14 @@ exports.addHabit = (req, res) => {
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
+  console.log('adddate body:', req.body);
   // DEAL WITH NO PICTURE INSTANCES!!!
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)
   let newDate = { id_users, id_habits };
-  newDate.date = new Date(); // LATER - ability to set date?
+
+  newDate.date = new Date().toMysqlFormat(); // LATER - ability to set date?
+  console.log('date to check format', newDate.date)
   let imageRecData;
 
   uploadS3(req.body.data.path, pic =>{
