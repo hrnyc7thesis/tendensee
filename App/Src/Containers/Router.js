@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../Actions/ActionCreators';
 import Camera from './Camera';
 import Habits from './Habits';
+import Auth from './Auth';
 
 class TabIcon extends Component {
     render(){
@@ -52,6 +53,18 @@ class AppRouter extends Component {
                 key={'habits'}
                 component={Habits}
                 title={'Your Habits!'}
+                passProps={true} />
+            </Scene>
+            <Scene
+              key={'authTab'}
+              title={'Login'}
+              icon={TabIcon}
+              style={{paddingTop: 64}}
+            >
+              <Scene
+                key={'auth'}
+                component={Auth}
+                title={'Login or Signup'}
                 passProps={true} />
             </Scene>
           </Scene>
