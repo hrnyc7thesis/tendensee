@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
+import { Alert, Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
 import { bindActionCreators } from 'redux';
 import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
@@ -18,7 +18,7 @@ class Cam extends Component {
           ref={(cam) => {
             this.camera = cam;
           }}
-          captureTarget={Camera.constants.CaptureTarget.disk}
+          captureTarget={Camera.constants.CaptureTarget.memory}
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Click!</Text>
@@ -32,10 +32,11 @@ class Cam extends Component {
     console.log('');
     this.camera.capture({metadata: options})
     .then((data) => {
-
+      Alert.alert('Got Photo!');
       let sendData = Object.assign({}, this.props.user, {
         data: data
       });
+
       this.props.sendPhoto(sendData);
 
       this.props.incrementPhotoCount();
