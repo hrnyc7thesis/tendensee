@@ -2,12 +2,25 @@ const db = require('./db-config.js');
 
 let user;
 
+  // HELPER FOR DATE FORMATTING
+  twoDigits = d => {
+      if(0 <= d && d < 10) return "0" + d.toString();
+      if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+      return d.toString();
+  }
+
+  Date.prototype.toMysqlFormat = function() {
+      return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+  };
 module.exports = {
+
+  // HELPERS FOR DATE FORMATTING
+
   // FUNCTION ESCAPES INPUT
   create: (input, table, cb) => {
     db.query(`INSERT INTO ${table} SET ?`, input, (err, res) => {
       if(err) console.log(err);
-      console.log('inserted:', res.insertID)
+      console.log('inserted:', res);
       cb(err, res)
     })
   },
@@ -36,13 +49,12 @@ module.exports = {
     })
   },
 
-  query: function(q, userId) {
+  query: function(q, id) {
     let queries = {
-      retrieveUser: `select * from users where users.id = "${userId}"`,
-      retrieveUserHabits: `select habits.* from users, habits where users.id = "${userId}" AND habits.id_users = users.id`,
-      retrieveUserDates: `select dates.* from users, habits, dates where users.id = "${userId}" AND habits.id_users = users.id AND dates.id_users = users.id`,
+      retrieveUser: `select * from users where users.id = "${id}"`,
+      retrieveUserHabits: `select habits.* from users, habits where users.id = "${id}" AND habits.id_users = users.id`,
+      retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id`,
     }
     return queries[q]
-  },
-
+  }
 }

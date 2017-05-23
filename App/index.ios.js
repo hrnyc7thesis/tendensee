@@ -1,50 +1,23 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { Provider } from 'react-redux';
+import { AppRegistry } from 'react-native';
 
-import Cam from './Src/Components/Cam';
+import configureStore from './Src/Store/ConfigureStore';
+import Router from './Src/Containers/Router';
 
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-      <Cam />
-        {/* <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text> */}
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+const store = configureStore({
+  photoCount: 0,
+  user: {
+    isFetching: false,
+    userData: {}
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  sendingPhoto: false
 });
+
+const App = () => (
+  <Provider store={store}>
+    <Router />
+  </Provider>
+);
 
 AppRegistry.registerComponent('App', () => App);
