@@ -10,7 +10,7 @@ routes.use(function timeLog (req, res, next) {
 })
 
 routes.route('/api/users')
-  .get(controllers.getUserData)
+  .get(controllers.getUser)
   .post(controllers.addUser);
   // .put(controllers.updateUser)
   // .delete(controllers.deleteUser);
@@ -25,6 +25,9 @@ routes.route('/api/dates')
   // .get(controllers.getDate)
   .post(controllers.addDate);
   // .delete(controllers.deleteDate);
+
+// routes.route('/api/register')
+//   .post(controllers.register);
 
 // routes.route('/api/friends')
 //   .get(controllers.getFriends)
