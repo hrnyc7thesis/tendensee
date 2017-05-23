@@ -33,7 +33,11 @@ export const fetchUser = () => {
       }
     })
     .then(data => {
-      data.json().then(data => dispatch(fetchUserSuccess(data)));
+      data.json()
+      .then(data => dispatch(fetchUserSuccess(data)))
+      .catch(() => {
+        dispatch(fetchUserFail());
+      })
     })
     .catch(() => {
       dispatch(fetchUserFail());

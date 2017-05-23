@@ -3,19 +3,13 @@ const defaultState = {
   isFetching: false,
   username: '',
   password: '',
-  email: ''
+  email: '',
+  route: 'Login'
 }
 
 const auth = (state = defaultState, action) => {
 
   switch (action.type) {
-    case ('LOGIN'):
-      return Object.assign({}, state, {
-        isLoggedIn: true,
-        username: action.username,
-        password: action.password,
-        email: action.email
-      });
     case ('LOGOUT'):
       return Object.assign({}, state, {
         isLoggedIn: false,
@@ -23,16 +17,17 @@ const auth = (state = defaultState, action) => {
         password: '',
         email: ''
       });
-    case ('SIGNUP_INIT'):
+    case ('AUTH_INIT'):
       return Object.assign({}, state, {
         isFetching: true
       });
-    case ('SIGNUP_SUCCESS'):
+    case ('AUTH_SUCCESS'):
       return Object.assign({}, state, {
         isFetching: false,
-        userData: action.response
+        isLoggedIn: true
+        // SHOULD SET USER DATA - CALL fetchUserSuccess???
       });
-    case ('SIGNUP_FAIL'):
+    case ('AUTH_FAIL'):
       return Object.assign({}, state, {
         isFetching: false
       });

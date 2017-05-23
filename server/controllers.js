@@ -3,8 +3,6 @@ const config = require('./config.js');
 const dbHelpers = require('./db/helpers.js');
 const uploadS3 = require('./db/s3-config.js');
 const Promise = require('bluebird');
-// const zlib = require('zlib'); // USE THIS TO COMPRESS?
-// const fs = require('fs');
 const Clarifai = require('clarifai');
 
 // SETUP IMAGE RECOGNITION
@@ -16,42 +14,56 @@ const retrievePromise = Promise.promisify(dbHelpers.retrieve);
 const updatePromise = Promise.promisify(dbHelpers.update);
 const deletePromise = Promise.promisify(dbHelpers.delete);
 
-// USERS -------------------------------->
-exports.getUserData = (req, res) => {
-  let userId = 101; // LATER - get from front end? Session?
+const getUserData = (userId) => {
   let responseData = {};
-  retrievePromise(dbHelpers.query('retrieveUser', userId))
+  return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
     console.log('user:', user)
     let { id, username, email, facebook } = user[0];
     responseData['user'] = { id, username, email, facebook }
-    retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
+    return retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
     .then(habits => {
-      habits.forEach(habit => {
-        habit.has_picture = habit.has_picture.lastIndexOf(1) !== -1;
-        habit.private = habit.private.lastIndexOf(1) !== -1;
-        habit.dates = [];
-      })
-      console.log('habits:', habits)
-      responseData['habits'] = habits;
-      datePromises = responseData.habits.map(habit => {
-        return retrievePromise(dbHelpers.query('retrieveDatesFromHabit', habit.id))
-        .then(dates => {
-          dates.forEach(day => {
-            let { id, date, picture } = day;
-            habit.dates.push({ id, date, picture });
-            return day;
+      if(habits.length) {
+        habits.forEach(habit => {
+          habit.has_picture = habit.has_picture.lastIndexOf(1) !== -1;
+          habit.private = habit.private.lastIndexOf(1) !== -1;
+          habit.dates = [];
+        })
+        console.log('habits:', habits)
+        responseData['habits'] = habits;
+        // DOES THIS WORK FOR WHEN THERE ARE NO DATES PER HABIT?
+        datePromises = responseData.habits.map(habit => {
+          return retrievePromise(dbHelpers.query('retrieveDatesFromHabit', habit.id))
+          .then(dates => {
+            dates.forEach(day => {
+              let { id, date, picture } = day;
+              habit.dates.push({ id, date, picture });
+              return day;
+            })
           })
         })
-      })
-      Promise.all(datePromises)
-      .then(() => {
-        console.log('resdata with all in controller:', responseData);
-        res.json(responseData);
-      })
+        return Promise.all(datePromises)
+        .then(() => {
+          console.log('resdata with all in controller:', responseData);
+          return responseData;
+        })
+      } else {
+        responseData['habits'] = [];
+        return responseData;
+      }
     })
     .catch(err => console.log('Error getting user data from DB:', err))
   })
+}
+
+// USERS -------------------------------->
+exports.getUser = (req, res) => {
+  let userId = 101; // LATER - get from Session...
+  getUserData(userId)
+  .then(data => {
+    res.status(200).json(data);
+  })
+  .catch(err => console.log('Error getting user data from DB:', err))
 }
 
 exports.addUser = (req, res) => {
@@ -59,7 +71,12 @@ exports.addUser = (req, res) => {
   createPromise(req.body, 'users')
   .then(user => {
     console.log('user:', user);
-    res.status(201).json(user);
+    getUserData(user.insertId)
+    .then(data => {
+      console.log('adduser get user data', data)
+      res.status(201).json(data);
+    })
+    .catch(err => console.log('Error getting user data from DB:', err))
   })
   .catch(err => console.log('Error adding user to DB:', err))
 }
@@ -77,6 +94,7 @@ exports.addHabit = (req, res) => {
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
   console.log('adddate body:', req.body);
+  const returnObj = req.body;
   // DEAL WITH NO PICTURE INSTANCES!!!
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)
@@ -94,7 +112,9 @@ exports.addDate = (req, res) => {
       // LATER: if ONLY 1 HABIT, TRAIN CLARIFAI!!!
       createPromise(newDate, 'dates')
       .then(date => {
-        res.status(201).json(date)
+        newDate.id = date.insertId;
+        returnObj.habits[0].dates.push(newDate);
+        res.status(201).json(returnObj);
       })
       .catch(err => console.log('Error adding date to DB:', err))
     } else if(newDate.id_habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID
@@ -107,6 +127,7 @@ exports.addDate = (req, res) => {
         console.log('newDate right before add to sql', newDate)
         createPromise(newDate, 'dates')
         .then(date => {
+          //return correct obj...
           res.status(201).json(date)
         })
         .catch(err => console.log('Error adding date to DB:', err))
@@ -115,4 +136,11 @@ exports.addDate = (req, res) => {
       })  
     }
   })
+}
+
+// AUTHENTICATION --------------------------------------------->
+
+exports.register = (req, res) => {
+  console.log(req.body);
+  res.send(201);
 }

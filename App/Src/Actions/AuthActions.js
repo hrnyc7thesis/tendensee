@@ -1,41 +1,45 @@
-export const login = (username, password) => {
-  return {
-    type: 'LOGIN',
-    username, 
-    password
-  }
-}
+// export const login = (username, password) => {
+//   return {
+//     type: 'LOGIN',
+//     username, 
+//     password
+//   }
+// }
 
-export const signupInit = () => {
+export const authInit = () => {
   return {
-    type: 'SIGNUP_INIT'
+    type: 'AUTH_INIT'
   }
 };
 
-export const signupSuccess = (data) => {
+export const authSuccess = (data) => {
   return {
-    type: 'SIGNUP_SUCCESS',
+    type: 'AUTH_SUCCESS',
     response: data
   }
 };
 
-export const signupFail = () => {
+export const authFail = () => {
   return {
-    type: 'SIGNUP_FAIL',
+    type: 'AUTH_FAIL',
     response: 'Error Signing Up New User'
   }
 };
 
-export const signup = (username, password, email) => {
+export const auth = (username, password, email, route) => {
   return dispatch => {
 
-    dispatch(signupInit());
+    console.log('un, pass, email, route', username, password, email, route);
+
+    dispatch(authInit());
 
     const user = {
       username,
       password, 
       email
     }
+
+    const path = route === 'Login' ? 'login' : 'register'; // can add to end of path instead of users...
 
     return fetch('http://10.16.0.80:8080/api/users', {
       method: 'POST',
@@ -48,9 +52,9 @@ export const signup = (username, password, email) => {
     .then(data => {
       data.json()
       .then(data => {
-        dispatch(signupSuccess(data))
+        dispatch(authSuccess(data))
       })
     })
-    .catch(() => dispatch(signupFail()));
+    .catch(() => dispatch(authFail()));
   }
 }

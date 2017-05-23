@@ -35,11 +35,7 @@ class Cam extends Component {
 
       let sendData = Object.assign({}, this.props.user, {
         data: data
-<<<<<<< HEAD
       });
-=======
-      })
->>>>>>> frontAuth
       this.props.sendPhoto(sendData);
 
       this.props.incrementPhotoCount();
