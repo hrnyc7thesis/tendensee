@@ -19,8 +19,8 @@ const app = express();
 
 // SETUP MIDDLEWARE
 app.use(morgan('dev'));
-app.use(bodyParser.json({ limit: '50mb'}));
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json({ limit: '1mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 app.use(express.static(path.join(__dirname, '../client')));
 
 // SETUP ROUTES
