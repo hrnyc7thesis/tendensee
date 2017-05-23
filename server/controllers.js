@@ -97,8 +97,8 @@ exports.addHabit = (req, res) => {
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
   // console.log('adddate body:', req.body);
-  // const returnObj = req.body;
   // console.log('addDate body.data.data', req.body.data.data);
+  const returnObj = req.body;
 
   // DEAL WITH NO PICTURE INSTANCES!!!
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
