@@ -20,7 +20,7 @@ module.exports = {
   create: (input, table, cb) => {
     db.query(`INSERT INTO ${table} SET ?`, input, (err, res) => {
       if(err) console.log(err);
-      console.log('inserted:', res)
+      console.log('inserted:', res);
       cb(err, res)
     })
   },
@@ -56,6 +56,5 @@ module.exports = {
       retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id`,
     }
     return queries[q]
-  },
-
+  }
 }
