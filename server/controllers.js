@@ -98,8 +98,8 @@ exports.addHabit = (req, res) => {
   createPromise(newHabit, 'habits')
   .then(habit => {
     console.log('habit after put in', habit);
-    newHabits.id = insertId;
-    returnObj.habits.push(newHabits);
+    newHabit.id = habit.insertId;
+    returnObj.habits.push(newHabit);
     res.status(201).json(returnObj);
   })
   .catch(err => console.log('Error adding habit to DB:', err))

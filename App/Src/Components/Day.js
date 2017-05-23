@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react'
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+var moment = require('moment');
 
 const Day = ({day}) => (
   <TouchableOpacity style={styles.dayContainer}>
-    <Text style={styles.dayOfWeekTitle}></Text>
+    <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd")}</Text>
     <Image
       style={styles.dayContainerImage}
       source={{uri: day.picture}}
