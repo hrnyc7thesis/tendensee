@@ -33,3 +33,4 @@ bower_components/
 # Environment Files
 App/ios/App/Environment.xcconfig
 App/Src/myip.js
+.DS_Store
