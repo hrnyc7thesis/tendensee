@@ -81,11 +81,18 @@ const styles = StyleSheet.create({
   }
 });
 
+<<<<<<< HEAD
 const mapStateToProps = (state) => {
   return {
     user: state.user.userData
   }
 };
+=======
+const mapStateToProps = (state) => (
+return {
+  user: state.user.userData
+});
+>>>>>>> front end login and signup
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);

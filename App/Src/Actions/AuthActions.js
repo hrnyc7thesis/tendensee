@@ -37,7 +37,7 @@ export const signup = (username, password, email) => {
       email
     }
 
-    return fetch('http://10.16.0.109:8080/api/users', {
+    return fetch('http://10.16.0.80:8080/api/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

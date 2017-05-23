@@ -25,6 +25,7 @@ export const fetchUser = () => {
     //Start loading animation
     dispatch(fetchUserInit());
     //Begin fetching
+
     return fetch(`http://${MY_IP}:8080/api/users`, {
       method: 'GET',
       headers: {
