@@ -1,7 +1,7 @@
 // export const login = (username, password) => {
 //   return {
 //     type: 'LOGIN',
-//     username, 
+//     username,
 //     password
 //   }
 // }
@@ -35,7 +35,7 @@ export const auth = (username, password, email, route) => {
 
     const user = {
       username,
-      password, 
+      password,
       email
     }
 
