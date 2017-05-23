@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
-import { login } from '../Actions/AuthActions.js'
+import { ScrollView, Text, TextInput, View, StyleSheet, Button } from 'react-native';
+import { auth } from '../Actions/AuthActions.js'
 
 class Login extends Component {
   //LATER - REDUX to get rid of constructor?
@@ -17,9 +17,7 @@ class Login extends Component {
 
   userLogin (e) {
     e.preventDefault();
-    this.state.email ? 
-      this.props.onLogin(this.state.username, this.state.password, this.state.email) :
-      this.props.onLogin(this.state.username, this.state.password);
+    this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
   }
 
   toggleRoute (e) {
@@ -32,43 +30,70 @@ class Login extends Component {
 
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
-    let showEmail = this.state.route === 'Login' ? '{{ display: "none" }}' : '{{ display: "block" }}'
+    let showEmail = styles.textInput;
+    showEmail.display = this.state.route === 'Login' ? 'none' : 'flex';
     return (
-      <ScrollView style = {{padding: 20}}>
+      <View style={styles.container}>
         <Text style = {{fontSize: 27}}> {this.state.route}</Text>
+        <View style = {{ margin: 7 }} />
         <TextInput
+          style={styles.textInput}
           placeholder='Username'
-          autoCapitlize='none'
+          autoCapitalize='none'
           autoCorrect={false}
           autoFocus={true}
           value={this.state.username}
-          onChangeText={(text) => this.setState({ username: text })} 
-        />
+          onChangeText={(text) => this.setState({ username: text })} />
+        <View style = {{ margin: 7 }} />
         <TextInput
           style={showEmail}
           placeholder='E-mail'
-          autoCapitlize='none'
+          autoCapitalize='none'
           autoCorrect={false}
           autoFocus={true}
           keyboardType='email-address'
           value={this.state.email}
-          onChangeText={(text) => this.setState({ email: text })} 
-        />
+          onChangeText={(text) => this.setState({ email: text })} />
+        <View style = {{ margin: 7 }} />
         <TextInput
+          style={styles.textInput}
           placeholder='Password'
-          autoCapitlize='none'
+          autoCapitalize='none'
           autoCorrect={false}
           autoFocus={true}
           value={this.state.password}
-          onChangeText={(text) => this.setState({ password: text })} 
-        />
-        <View style={{ margin: 6 }} />
+          onChangeText={(text) => this.setState({ password: text })} />
+        <View style = {{ margin: 7 }} />
         <Button onPress={e => this.userLogin(e)} title={this.state.route} />
         <Text style={{fontSize: 16, color: 'blue'}} onPress={e => this.toggleRoute(e)}>{alt}</Text>
-      </ScrollView>
+        <View style = {{ margin: 7 }} />
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  wraps: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textInput: {
+      height: 80,
+      fontSize: 30,
+      backgroundColor: '#FFF',
+      display: 'flex',
+  },
+});
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -78,9 +103,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLogin: (username, password) => { dispatch (login(username, password)); },
-    onSignup: (username, password, email) => { dispatch (signup(username, password, email)); },
+    onLogin: (username, password, email, route) => { dispatch (auth(username, password, email, route)); },
   }
 }
 
-export default connect (mapDispatchToProps)(Login);
+export default connect (mapStateToProps, mapDispatchToProps)(Login);
+
