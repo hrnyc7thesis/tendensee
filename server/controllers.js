@@ -3,6 +3,7 @@ const config = require('./config.js');
 const dbHelpers = require('./db/helpers.js');
 const uploadS3 = require('./db/s3-config.js');
 const Promise = require('bluebird');
+
 // const zlib = require('zlib'); // USE THIS TO COMPRESS?
 // const fs = require('fs');
 const Clarifai = require('clarifai');
@@ -76,7 +77,9 @@ exports.addHabit = (req, res) => {
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
-  console.log('adddate body:', req.body);
+
+  // console.log('adddate body:', req.body);
+  console.log('addDate body.data.data', req.body.data.data);
   // DEAL WITH NO PICTURE INSTANCES!!!
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)
@@ -86,10 +89,16 @@ exports.addDate = (req, res) => {
   console.log('date to check format', newDate.date)
   let imageRecData;
 
-  uploadS3(req.body.data.path, pic =>{
+  // STREAM UPLOAD FUNCTION CALL
+  // uploadS3(req.body.data.path, pic => {
+
+  //DIRECT UPLOAD FUNCTION CALL
+  uploadS3(req.body.data.data, pic => {
+
     console.log('in s3 cb');
     newDate.picture = pic.Location;
     if(newDate.id_habits.length === 1) {
+
       newDate.id_habits = newDate.id_habits[0];
       // LATER: if ONLY 1 HABIT, TRAIN CLARIFAI!!!
       createPromise(newDate, 'dates')
@@ -112,7 +121,7 @@ exports.addDate = (req, res) => {
         .catch(err => console.log('Error adding date to DB:', err))
       }, err => {
         console.log('Clarifai error:', err);
-      })  
+      })
     }
   })
 }

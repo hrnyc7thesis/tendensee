@@ -19,9 +19,9 @@ const app = express();
 
 // SETUP MIDDLEWARE
 app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client'))); 
+app.use(bodyParser.json({ limit: '50mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.static(path.join(__dirname, '../client')));
 
 // SETUP ROUTES
 app.use(require('./routes.js'));
@@ -32,5 +32,3 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 })
 console.log('serving static files from' + __dirname + '/../client');
-
-
