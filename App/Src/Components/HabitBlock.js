@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 
   habitName: {
     width: 70,
-    // backgroundColor: 'skyblue',
     alignItems: 'center',
   },
 

@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react'
-import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const Day = ({day}) => (
-  <TouchableOpacity
-    style={styles.dayContainer}>
-
+  <TouchableOpacity style={styles.dayContainer}>
     <Text style={styles.dayOfWeekTitle}>{day.day}</Text>
-
     <Image
       style={styles.dayContainerImage}
       source={{uri: day.picture}}
