@@ -40,7 +40,7 @@ export const sendPhoto = (data) => {
       body: JSON.stringify(data)
     })
     .then(data => {
-      data.json().then(data => {
+      return data.json().then(data => {
         dispatch(UserActions.fetchUserSuccess(data));
         dispatch(sendPhotoSuccess());
       });
