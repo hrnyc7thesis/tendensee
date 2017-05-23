@@ -4,7 +4,7 @@ const defaultState = {
   username: '',
   password: '',
   email: '',
-  route: 'Login'
+  route: 'SignUp'
 }
 
 const auth = (state = defaultState, action) => {

@@ -86,20 +86,30 @@ exports.addUser = (req, res) => {
 
 // HABITS -------------------------------->
 exports.addHabit = (req, res) => {
-  console.log('add habit req.body:', req.body)
-  createPromise(req.body.data, 'habits')
+  let newHabit = Object.assign({}, req.body.data);
+  newHabit.id_users = req.body.user.id;
+  newHabit.start_date = new Date().toMysqlFormat(); // LATER - ability to set date?
+
+  let returnObj = {};
+  returnObj.user = req.body.user;
+  returnObj.habits = req.body.habits;
+
+  console.log('add habit newHabit', newHabit)
+  createPromise(newHabit, 'habits')
   .then(habit => {
-    res.status(201).json(habit);
+    console.log('habit after put in', habit);
+    newHabits.id = insertId;
+    returnObj.habits.push(newHabits);
+    res.status(201).json(returnObj);
   })
   .catch(err => console.log('Error adding habit to DB:', err))
 }
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
-  // console.log('adddate body:', req.body);
-  // console.log('addDate body.data.data', req.body.data.data);
-  const returnObj = req.body;
-
+  let returnObj = {};
+  returnObj.user = req.body.user;
+  returnObj.habits = req.body.habits;
   // DEAL WITH NO PICTURE INSTANCES!!!
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)

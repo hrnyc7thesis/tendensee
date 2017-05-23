@@ -1,3 +1,5 @@
+import { MY_IP } from './../myip';
+
 // export const login = (username, password) => {
 //   return {
 //     type: 'LOGIN',
@@ -41,7 +43,7 @@ export const auth = (username, password, email, route) => {
 
     const path = route === 'Login' ? 'login' : 'register'; // can add to end of path instead of users...
 
-    return fetch('http://10.16.0.80:8080/api/users', {
+    return fetch(`http://${MY_IP}:8080/api/users`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -50,7 +52,7 @@ export const auth = (username, password, email, route) => {
       body: JSON.stringify(user)
     })
     .then(data => {
-      data.json()
+      return data.json()
       .then(data => {
         dispatch(authSuccess(data))
       })
