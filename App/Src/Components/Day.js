@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 var moment = require('moment');
 
 const Day = ({day, onPressItem}) => (
-  <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem()}>
+  <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(5)}>
     <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd")}</Text>
     <Image
       style={styles.dayContainerImage}

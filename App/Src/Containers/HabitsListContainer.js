@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsList from './../Components/HabitsList.js';
 import { incrementPhotoCount } from './../Actions/PhotoActions';
+import { editHabitDayType } from './../Actions/ModalActions';
 
 const getHabits = (habits) => {
   return habits;
@@ -19,7 +20,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     test: () => {
-      dispatch(incrementPhotoCount())
+      dispatch(editHabitDayType())
     }
   }
 }
