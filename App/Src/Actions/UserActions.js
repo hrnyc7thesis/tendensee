@@ -20,7 +20,7 @@ export const fetchUserFail = () => {
   }
 };
 
-export const fetchUser = () => {
+export const fetchUser = (id) => {
   return (dispatch) => {
     //Start loading animation
     dispatch(fetchUserInit());
@@ -30,7 +30,8 @@ export const fetchUser = () => {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "X-Custom-Header": id
       }
     })
     .then(data => {
