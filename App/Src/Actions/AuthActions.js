@@ -1,4 +1,5 @@
 import { MY_IP } from './../myip';
+import { fetchUserSuccess } from './UserActions.js'
 
 // export const login = (username, password) => {
 //   return {
@@ -21,10 +22,10 @@ export const authSuccess = (data) => {
   }
 };
 
-export const authFail = () => {
+export const authFail = (err) => {
   return {
     type: 'AUTH_FAIL',
-    response: 'Error Signing Up New User'
+    response: err
   }
 };
 
@@ -43,7 +44,7 @@ export const auth = (username, password, email, route) => {
 
     const path = route === 'Login' ? 'login' : 'register'; // can add to end of path instead of users...
 
-    return fetch(`http://${MY_IP}:8080/api/users`, {
+    return fetch(`http://${MY_IP}:8080/api/` + path, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -54,9 +55,11 @@ export const auth = (username, password, email, route) => {
     .then(data => {
       return data.json()
       .then(data => {
+        console.log('data in authact:', data);
         dispatch(authSuccess(data))
+        dispatch(fetchUserSuccess(data))
       })
     })
-    .catch(() => dispatch(authFail()));
+    .catch(err => dispatch(authFail(err)));
   }
 }

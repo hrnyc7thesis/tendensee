@@ -12,10 +12,15 @@ DROP TABLE IF EXISTS `users`;
     
 CREATE TABLE `users` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
-  `username` VARCHAR(15) NOT NULL DEFAULT 'NULL' UNIQUE,
-  `email` VARCHAR(255) NOT NULL DEFAULT 'NULL'CHECK (email like '%_@__%.__%'),
+  `username` VARCHAR(15) NULL DEFAULT 'NO_USERNAME' UNIQUE, -- once facebook - MUST remove unqiue
+  `session_id` VARCHAR(128) NOT NULL UNIQUE,
+  `facebook_id` VARCHAR(40) NULL DEFAULT 'NO_FACEBOOK_AUTH',
+  `facebook_token` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_AUTH',
+  `facebook_name` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_AUTH',
+  `facebook_friends` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_FRIENDS', -- SHOULD BE OWN SCHEMA ONCE UP... 
+  `photo` VARCHAR(255) NULL DEFAULT 'NO_PHOTO', 
+  `email` VARCHAR(255) NULL DEFAULT 'NO_EMAIL' CHECK (email like '%_@__%.__%'),
   `password` VARCHAR(128) NULL DEFAULT NULL,
-  `facebook` VARCHAR(255) NULL DEFAULT NULL UNIQUE,
   PRIMARY KEY (`id`)
 );
 
@@ -28,7 +33,7 @@ DROP TABLE IF EXISTS `habits`;
     
 CREATE TABLE `habits` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR(40) NOT NULL DEFAULT 'NULL',
+  `name` VARCHAR(40) NOT NULL,
   `description` VARCHAR(255) NULL DEFAULT NULL,
   `type` VARCHAR(20) NOT NULL DEFAULT 'NULL',
   `start_date` DATE NULL DEFAULT NULL,
@@ -52,8 +57,8 @@ CREATE TABLE `dates` (
   `picture` VARCHAR(255) NULL DEFAULT NULL,
   `id_habits` INTEGER NOT NULL,
   `id_users` INTEGER NOT NULL,
-  PRIMARY KEY (`id`)
-  CONSTRAINT unique_name UNIQUE(date, id_habits)
+  PRIMARY KEY (`id`),
+  CONSTRAINT unique_name UNIQUE (date, id_habits)
 );
 
 -- ---

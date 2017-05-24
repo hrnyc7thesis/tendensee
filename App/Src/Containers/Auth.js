@@ -30,6 +30,7 @@ class Auth extends Component {
   }
 
   addHabit (e) {
+    console.log(e);
     e.preventDefault();
     let habit = {name: this.state.habitName, type: this.state.habitType}
     this.props.onAddHabit(this.props.userData, habit);
