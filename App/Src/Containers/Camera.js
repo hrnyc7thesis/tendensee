@@ -8,7 +8,7 @@ import { ActionCreators } from './../Actions/ActionCreators';
 class Cam extends Component {
 
   componentWillMount() {
-    this.props.fetchUser();
+    this.props.fetchUser(this.props.user.user.id);
   }
 
   render() {

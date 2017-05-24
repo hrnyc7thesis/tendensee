@@ -17,25 +17,29 @@ const retrievePromise = Promise.promisify(dbHelpers.retrieve);
 const updatePromise = Promise.promisify(dbHelpers.update);
 const deletePromise = Promise.promisify(dbHelpers.delete);
 
+exports.retrieve = retrievePromise;
+exports.create = createPromise;
+exports.update = updatePromise;
+
 const getUserData = (userId) => {
-  let responseData = {};
+  let resData = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
     console.log('user:', user)
     let { id, username, email, facebook } = user[0];
-    responseData['user'] = { id, username, email, facebook }
+    resData['user'] = { id, username, email, facebook }
     return retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
     .then(habits => {
       if(habits.length) {
         habits.forEach(habit => {
-          habit.has_picture = habit.has_picture.lastIndexOf(1) !== -1;
+          habit.has_pictures = habit.has_pictures.lastIndexOf(1) !== -1;
           habit.private = habit.private.lastIndexOf(1) !== -1;
           habit.dates = [];
         })
         console.log('habits:', habits)
-        responseData['habits'] = habits;
+        resData['habits'] = habits;
         // DOES THIS WORK FOR WHEN THERE ARE NO DATES PER HABIT?
-        datePromises = responseData.habits.map(habit => {
+        datePromises = resData.habits.map(habit => {
           return retrievePromise(dbHelpers.query('retrieveDatesFromHabit', habit.id))
           .then(dates => {
             dates.forEach(day => {
@@ -47,12 +51,11 @@ const getUserData = (userId) => {
         })
         return Promise.all(datePromises)
         .then(() => {
-          console.log('resdata with all in controller:', responseData);
-          return responseData;
+          return resData;
         })
       } else {
-        responseData['habits'] = [];
-        return responseData;
+        resData['habits'] = [];
+        return resData;
       }
     })
     .catch(err => console.log('Error getting user data from DB:', err))
@@ -61,7 +64,12 @@ const getUserData = (userId) => {
 
 // USERS -------------------------------->
 exports.getUser = (req, res) => {
-  let userId = 101; // LATER - get from Session...
+  console.log('gu req.user', req.user);
+  console.log('gu req.session', req.session);
+  console.log('gu req.headers', req.headers['x-custom-header']);
+  console.log('gu req.cookies', req.cookies);
+  // let username = req.session.passport.user;
+  let userId = req.headers['x-custom-header'];
   getUserData(userId)
   .then(data => {
     res.status(200).json(data);
@@ -70,19 +78,37 @@ exports.getUser = (req, res) => {
 }
 
 exports.addUser = (req, res) => {
-  console.log('add user req.body:', req.body)
+  let resData = {};
+  resData.user = req.body;
+  resData.habits = [];
+
   createPromise(req.body, 'users')
   .then(user => {
-    console.log('user:', user);
-    getUserData(user.insertId)
-    .then(data => {
-      console.log('adduser get user data', data)
-      res.status(201).json(data);
-    })
-    .catch(err => console.log('Error getting user data from DB:', err))
+    resData.user.id = user.insertId;
+
+    console.log('adduser return obj', data)
+    res.status(201).json(resData);
   })
   .catch(err => console.log('Error adding user to DB:', err))
 }
+
+exports.patchUser = (req, res) => {
+  let resData = {};
+  resData.user = req.body.user; 
+  for(let key in req.body.data) {
+    resData.user[key] = req.body.data[key];
+  }
+  resData.habits = req.body.habits;
+
+  updatePromise(req.body.data, 'users', req.body.user.id)
+  .then(user => {
+    console.log('User Updated:', user)
+    console.log('resData', resData)
+    res.status(201).json(resData);
+  })
+  .catch(err => console.log('Error updating user in DB:', err))
+}
+
 
 // HABITS -------------------------------->
 exports.addHabit = (req, res) => {
@@ -90,26 +116,27 @@ exports.addHabit = (req, res) => {
   newHabit.id_users = req.body.user.id;
   newHabit.start_date = new Date().toMysqlFormat(); // LATER - ability to set date?
 
-  let returnObj = {};
-  returnObj.user = req.body.user;
-  returnObj.habits = req.body.habits;
+  let resData = {};
+  resData.user = req.body.user;
+  resData.habits = req.body.habits;
 
   console.log('add habit newHabit', newHabit)
   createPromise(newHabit, 'habits')
   .then(habit => {
     console.log('habit after put in', habit);
     newHabit.id = habit.insertId;
-    returnObj.habits.push(newHabit);
-    res.status(201).json(returnObj);
+
+    resData.habits.push(newHabit);
+    res.status(201).json(resData);
   })
   .catch(err => console.log('Error adding habit to DB:', err))
 }
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
-  let returnObj = {};
-  returnObj.user = req.body.user;
-  returnObj.habits = req.body.habits;
+  let resData = {};
+  resData.user = req.body.user;
+  resData.habits = req.body.habits;
   // DEAL WITH NO PICTURE INSTANCES!!!
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)
@@ -134,8 +161,8 @@ exports.addDate = (req, res) => {
       createPromise(newDate, 'dates')
       .then(date => {
         newDate.id = date.insertId;
-        returnObj.habits[0].dates.push(newDate);
-        res.status(201).json(returnObj);
+        resData.habits[0].dates.push(newDate);
+        res.status(201).json(resData);
       })
       .catch(err => console.log('Error adding date to DB:', err))
     } else if(newDate.id_habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID

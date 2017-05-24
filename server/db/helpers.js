@@ -33,8 +33,8 @@ module.exports = {
     })
   },
 
-  update: (update, table, cb) => {
-    db.query(`UPDATE ${table} SET ?`, update, (err, res) => {
+  update: (update, table, id, cb) => {
+    db.query(`UPDATE ${table} SET ? WHERE id=?`, [update, id], (err, res) => {
       if(err) console.log(err);
       console.log('updated:', res.changedRows, 'rows')
       cb(err, res)
