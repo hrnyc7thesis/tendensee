@@ -4,6 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsList from './../Components/HabitsList.js';
+import { incrementPhotoCount } from './../Actions/PhotoActions';
 
 const getHabits = (habits) => {
   return habits;
@@ -15,6 +16,14 @@ const mapStateToProps = (state) => {
   }
 }
 
-const HabitsListContainer = connect(mapStateToProps)(HabitsList)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    test: () => {
+      dispatch(incrementPhotoCount())
+    }
+  }
+}
+
+const HabitsListContainer = connect(mapStateToProps, mapDispatchToProps)(HabitsList)
 
 export default HabitsListContainer
