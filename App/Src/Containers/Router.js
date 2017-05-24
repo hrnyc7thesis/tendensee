@@ -32,6 +32,18 @@ class AppRouter extends Component {
         <Scene key={'root'}>
           <Scene key={'tabs'} hideNavBar={true} tabs={true} tabBarStyle={styles.tabBar} direction={'vertical'}>
             <Scene
+              key={'authTab'}
+              title={'Login'}
+              icon={TabIcon}
+              style={{paddingTop: 64}}
+            >
+              <Scene
+                key={'auth'}
+                component={Auth}
+                title={'Login or Signup'}
+                passProps={true} />
+            </Scene>           
+            <Scene
               key={'cameraTab'}
               title={'Camera'}
               icon={TabIcon}
@@ -53,18 +65,6 @@ class AppRouter extends Component {
                 key={'habits'}
                 component={Habits}
                 title={'Your Habits!'}
-                passProps={true} />
-            </Scene>
-            <Scene
-              key={'authTab'}
-              title={'Login'}
-              icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
-              <Scene
-                key={'auth'}
-                component={Auth}
-                title={'Login or Signup'}
                 passProps={true} />
             </Scene>
           </Scene>
