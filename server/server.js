@@ -38,7 +38,6 @@ app.use(flash());
 // IMPLEMENT THE BELOW LATER? OR NO NEED BC APP NOT SITE?
 // app.use('/api', auth.checkAuth);
 
-
 // OTHER MIDDLEWARE
 app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '1mb'}));
