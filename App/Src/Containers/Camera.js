@@ -4,6 +4,8 @@ import { Alert, Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'r
 import { bindActionCreators } from 'redux';
 import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
+import { Icon} from 'native-base';
+
 
 class Cam extends Component {
 
@@ -21,7 +23,7 @@ class Cam extends Component {
           captureTarget={Camera.constants.CaptureTarget.memory}
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Click!</Text>
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}><Icon name="camera" /></Text>
         </Camera>
       </View>
     );

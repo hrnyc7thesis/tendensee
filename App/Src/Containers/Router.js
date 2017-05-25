@@ -7,7 +7,7 @@ import { ActionCreators } from '../Actions/ActionCreators';
 import Camera from './Camera';
 import Habits from './Habits';
 import Auth from './Auth';
-import UserProfile from '../Components/UserProfile';
+import Setting from './Setting';
 
 class TabIcon extends Component {
     render(){
@@ -69,14 +69,14 @@ class AppRouter extends Component {
             </Scene>
 
             <Scene
-              key={'profileTab'}
-              title={'Profile'}
+              key={'SettingTab'}
+              title={'Setting'}
               icon={TabIcon}
               style={{paddingTop: 64}} >
               <Scene
-                key={'profile'}
-                component={UserProfile}
-                title={'Profile Page'}
+                key={'Setting'}
+                component={Setting}
+                title={'Setting Page'}
                 passProps={true} />
             </Scene>
 
