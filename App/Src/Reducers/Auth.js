@@ -4,7 +4,8 @@ const defaultState = {
   username: '',
   password: '',
   email: '',
-  route: 'SignUp'
+  route: 'SignUp',
+  userId: ''
 }
 
 const auth = (state = defaultState, action) => {
@@ -24,7 +25,8 @@ const auth = (state = defaultState, action) => {
     case ('AUTH_SUCCESS'):
       return Object.assign({}, state, {
         isFetching: false,
-        isLoggedIn: true
+        isLoggedIn: true,
+        userId: action.response
         // SHOULD SET USER DATA - CALL fetchUserSuccess???
       });
     case ('AUTH_FAIL'):

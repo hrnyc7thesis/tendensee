@@ -12,10 +12,10 @@ import { Actions } from 'react-native-router-flux';
 class Cam extends Component {
 
   componentWillMount() {
-    this.props.fetchUser(this.props.user.user.id);
+    this.props.fetchUser(this.props.auth.userId);
   }
 
-  onSwipeLeft(gestureState) {
+  onSwipeLeft() {
     Actions.habits();
   }
 
@@ -27,8 +27,8 @@ class Cam extends Component {
 
     return (
         <GestureRecognizer
-          style={styles.container}
-          onSwipeLeft={(state) => this.onSwipeLeft(state)}
+          style={styles.gesture}
+          onSwipeLeft={() => this.onSwipeLeft()}
           config={config}
         >
           <Camera
@@ -80,7 +80,7 @@ class Cam extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  gesture: {
     flex: 1,
     flexDirection: 'row',
   },
@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.userData
+    user: state.user.userData,
+    auth: state.auth
   }
 };
 

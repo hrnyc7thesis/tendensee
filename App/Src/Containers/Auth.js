@@ -24,7 +24,6 @@ class Auth extends Component {
   userLogin (e) {
     e.preventDefault();
     this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
-    Actions.camera();
   }
 
   toggleRoute (e) {
