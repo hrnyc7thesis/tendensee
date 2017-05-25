@@ -4,12 +4,12 @@ USE habitdb;
 
 -- ---
 -- Table 'users'
--- 
+--
 -- ---
 
 
 DROP TABLE IF EXISTS `users`;
-    
+
 CREATE TABLE `users` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
   `username` VARCHAR(15) NULL DEFAULT 'NO_USERNAME' UNIQUE, -- once facebook - MUST remove unqiue
@@ -17,8 +17,8 @@ CREATE TABLE `users` (
   `facebook_id` VARCHAR(40) NULL DEFAULT 'NO_FACEBOOK_AUTH',
   `facebook_token` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_AUTH',
   `facebook_name` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_AUTH',
-  `facebook_friends` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_FRIENDS', -- SHOULD BE OWN SCHEMA ONCE UP... 
-  `photo` VARCHAR(255) NULL DEFAULT 'NO_PHOTO', 
+  `facebook_friends` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_FRIENDS', -- SHOULD BE OWN SCHEMA ONCE UP...
+  `photo` VARCHAR(255) NULL DEFAULT 'NO_PHOTO',
   `email` VARCHAR(255) NULL DEFAULT 'NO_EMAIL' CHECK (email like '%_@__%.__%'),
   `password` VARCHAR(128) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -26,11 +26,11 @@ CREATE TABLE `users` (
 
 -- ---
 -- Table 'habits'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `habits`;
-    
+
 CREATE TABLE `habits` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
   `name` VARCHAR(40) NOT NULL,
@@ -46,11 +46,11 @@ CREATE TABLE `habits` (
 
 -- ---
 -- Table 'dates'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `dates`;
-    
+
 CREATE TABLE `dates` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
   `date` DATE NOT NULL,
@@ -63,11 +63,11 @@ CREATE TABLE `dates` (
 
 -- ---
 -- Table 'keywords'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `keywords`;
-    
+
 CREATE TABLE `keywords` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
   `keyword` VARCHAR(20) NOT NULL DEFAULT 'NULL',
@@ -77,11 +77,11 @@ CREATE TABLE `keywords` (
 
 -- ---
 -- Table 'friends'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `friends`;
-    
+
 CREATE TABLE `friends` (
   `id` INTEGER AUTO_INCREMENT DEFAULT NULL,
   `challenge` bit NOT NULL DEFAULT 0,
@@ -91,7 +91,7 @@ CREATE TABLE `friends` (
 );
 
 -- ---
--- Foreign Keys 
+-- Foreign Keys
 -- ---
 
 ALTER TABLE `habits` ADD FOREIGN KEY (id_users) REFERENCES `users` (`id`);
