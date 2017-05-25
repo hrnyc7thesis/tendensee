@@ -30,13 +30,9 @@ routes.post('/api/login', passport.authenticate('local-login', { failureRedirect
   req.session.cookie.expires = false;
   console.log('rqu', req.user);
 
-  controllers.update({session_id: req.user.session_id}, 'users', req.user.id)
-  let { id, username, email, session_id, habits } = req.user;
-  let resData = {};
-  resData.user = { id, username, email, sessionId: session_id };
-  resData.habits = habits || [];
+  // controllers.update({session_id: req.user.session_id}, 'users', req.user.id) // NEED THIS?! MAY NOT USE SESSIONS...
 
-  res.status(200).json(resData); // need to send different stuff? not password... yes session?
+  res.status(200).json(req.user.id); // need to send different stuff? not password... yes session?
 });
 
 routes.get('/api/logout', (req, res) => {
