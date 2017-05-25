@@ -6,6 +6,7 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 
 let Habits = () => {
+  console.log('render habits container')
   return (
     <View style={styles.container}>
       <HabitsListContainer />

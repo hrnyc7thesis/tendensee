@@ -57,7 +57,6 @@ export const auth = (username, password, email, route) => {
       .then(data => {
         console.log('data in authact:', data);
         dispatch(authSuccess(data))
-        dispatch(fetchUserSuccess(data))
       })
     })
     .catch(err => dispatch(authFail(err)));

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { Router, Scene, Modal, ActionConst } from 'react-native-router-flux';
+import { Actions, Router, Scene, Modal, ActionConst } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../Actions/ActionCreators';
@@ -30,44 +30,9 @@ class AppRouter extends Component {
     return (
       <Router>
         <Scene key={'root'}>
-          <Scene key={'tabs'} hideNavBar={true} tabs={true} tabBarStyle={styles.tabBar} direction={'vertical'}>
-            <Scene
-              key={'authTab'}
-              title={'Login'}
-              icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
-              <Scene
-                key={'auth'}
-                component={Auth}
-                title={'Login or Signup'}
-                passProps={true} />
-            </Scene>           
-            <Scene
-              key={'cameraTab'}
-              title={'Camera'}
-              icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
-              <Scene
-                key={'camera'}
-                component={Camera}
-                title={'Capture your Habit'}
-                passProps={true}/>
-            </Scene>
-            <Scene
-              key={'habitsTab'}
-              title={'Habits'}
-              icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
-              <Scene
-                key={'habits'}
-                component={Habits}
-                title={'Your Habits!'}
-                passProps={true} />
-            </Scene>
-          </Scene>
+          <Scene key='auth' component={Auth} title='Signup' passProps={true} />
+          <Scene key='camera' component={Camera} title='Capture You Habit' passProps={true} />
+          <Scene key='habits' component={Habits} title='Your Habits!' passProps={true} />
         </Scene>
       </Router>
     )

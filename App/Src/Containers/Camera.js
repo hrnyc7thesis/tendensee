@@ -4,6 +4,9 @@ import { Alert, Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'r
 import { bindActionCreators } from 'redux';
 import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import { Actions } from 'react-native-router-flux';
+
 
 class Cam extends Component {
 
@@ -11,19 +14,32 @@ class Cam extends Component {
     this.props.fetchUser(this.props.user.user.id);
   }
 
+  onSwipeLeft(gestureState) {
+    Actions.habits();
+  }
+
   render() {
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
+
     return (
-      <View style={styles.container}>
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          captureTarget={Camera.constants.CaptureTarget.memory}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Click!</Text>
-        </Camera>
-      </View>
+        <GestureRecognizer
+          style={styles.container}
+          onSwipeLeft={(state) => this.onSwipeLeft(state)}
+          config={config}
+        >
+          <Camera
+            ref={(cam) => {
+              this.camera = cam;
+            }}
+            captureTarget={Camera.constants.CaptureTarget.memory}
+            style={styles.preview}
+            aspect={Camera.constants.Aspect.fill}>
+            <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Click!</Text>
+          </Camera>
+        </GestureRecognizer>
     );
   }
 

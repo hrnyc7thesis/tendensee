@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, Text, TextInput, View, StyleSheet, Button, Modal } from 'react-native';
-import { auth } from '../Actions/AuthActions.js'
-import { addHabit } from '../Actions/HabitActions.js'
+import { auth } from '../Actions/AuthActions.js';
+import { addHabit } from '../Actions/HabitActions.js';
+import { Actions } from 'react-native-router-flux';
+
 
 class Auth extends Component {
   //LATER - REDUX to get rid of constructor?
@@ -23,10 +25,14 @@ class Auth extends Component {
     };
   }
 
+  static contextTypes = {
+    routes: PropTypes.object.isRequired,
+  };
+
   userLogin (e) {
     e.preventDefault();
     this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
-    this._setModalVisible(true);
+    Actions.camera();
   }
 
   addHabit (e) {
@@ -156,5 +162,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
 

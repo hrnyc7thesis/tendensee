@@ -47,9 +47,11 @@ const getUserData = (userId) => {
         })
         return Promise.all(datePromises)
         .then(() => {
+          console.log('pormiseall', resData)
           return resData;
         })
       } else {
+          console.log('no habits', resData)
         resData['habits'] = [];
         return resData;
       }
@@ -57,6 +59,8 @@ const getUserData = (userId) => {
     .catch(err => console.log('Error getting user data from DB:', err))
   })
 }
+
+exports.getUserData = getUserData;
 
 // USERS -------------------------------->
 exports.getUser = (req, res) => {
