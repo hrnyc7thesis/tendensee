@@ -58,7 +58,7 @@ const onButtonPress = () =>{
 
 //key={habit.id} habit={habit}
 
-export default class ButtonThemeExample extends Component {
+export default class UserSettings extends Component {
   state = {
   trueSwitchIsOn: true,
   falseSwitchIsOn: false,
