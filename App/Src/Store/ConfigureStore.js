@@ -35,6 +35,6 @@ export default (initialState) => {
     )
   )
   // https://github.com/rt2zz/redux-persist
-  // persistStore(store, {storage: AsyncStorage})
+  persistStore(store, {storage: AsyncStorage})
   return store
 }
