@@ -204,7 +204,7 @@ _setHabitName(text) {
 const styles = StyleSheet.create({
   habitsPageContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   container: {
     flex: -1,
