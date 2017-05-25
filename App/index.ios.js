@@ -10,7 +10,8 @@ const store = configureStore({
     isFetching: false,
     userData: {}
   },
-  sendingPhoto: false
+  sendingPhoto: false,
+  addingHabit: false
 });
 
 const App = () => (

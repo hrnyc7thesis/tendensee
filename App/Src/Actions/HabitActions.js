@@ -1,4 +1,5 @@
 import { MY_IP } from './../myip';
+import * as UserActions from './UserActions';
 
 export const habitInit = () => {
   return {
@@ -24,7 +25,7 @@ export const addHabit = (userData, habit) => {
   return dispatch => {
     dispatch (habitInit());
     console.log('in add habit, ud then habit:', userData, habit)
-    let postData = Object.assign({}, userData, {data:habit}); // WILL EVENTUALLY HAVE A HABIT TYPE!!!
+    let postData = Object.assign({}, userData, {data: habit}); // WILL EVENTUALLY HAVE A HABIT TYPE!!!
 
     return fetch(`http://${MY_IP}:8080/api/habits`, {
       method: 'POST',
@@ -37,7 +38,8 @@ export const addHabit = (userData, habit) => {
     .then(data => {
       return data.json()
       .then(data => {
-        dispatch(habitSuccess(data))
+        dispatch(habitSuccess(data));
+        // dispatch(UserActions.fetchUserSuccess(data));
       })
     })
     .catch(()=> dispatch(habitFail()));

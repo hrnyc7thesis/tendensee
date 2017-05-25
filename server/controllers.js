@@ -90,7 +90,7 @@ exports.addUser = (req, res) => {
 
 exports.patchUser = (req, res) => {
   let resData = {};
-  resData.user = req.body.user; 
+  resData.user = req.body.user;
   for(let key in req.body.data) {
     resData.user[key] = req.body.data[key];
   }
@@ -164,7 +164,7 @@ exports.addDate = (req, res) => {
       //   // USE TAGS TO MATCH IMAGE TO HABIT (USER habit IDs ARE IN newDate.id_habits ARRAY -ONCE FIND CORRECT HABIT, OVERWRITE ID to id_habits)
       //   console.log('image recognized!!!:', imageRecData.tags)
       //   console.log('newDate right before add to sql', newDate)
-      
+
       let habitId = Math.floor(Math.random()*newDate.id_habits.length);
       newDate.id_habits = newDate.id_habits[habitId];
 

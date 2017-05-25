@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, TextInput, View, StyleSheet, Button, Modal } from 'react-native';
+import { ScrollView, Text, TextInput, View, StyleSheet, Button } from 'react-native';
 import { auth } from '../Actions/AuthActions.js'
-import { addHabit } from '../Actions/HabitActions.js'
 
 class Auth extends Component {
   //LATER - REDUX to get rid of constructor?
@@ -13,28 +12,12 @@ class Auth extends Component {
       username: '',
       password: '',
       email: '',
-      //MODAL >
-        animationType: 'none',
-        modalVisible: false,
-        transparent: false,
-        // LATER ADD OTHER PROPS TO HABIT!
-        habitName: '',
-        habitType: ''
     };
   }
 
   userLogin (e) {
     e.preventDefault();
     this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
-    this._setModalVisible(true);
-  }
-
-  addHabit (e) {
-    console.log(e);
-    e.preventDefault();
-    let habit = {name: this.state.habitName, type: this.state.habitType}
-    this.props.onAddHabit(this.props.userData, habit);
-    this._setModalVisible(false);
   }
 
   toggleRoute (e) {
@@ -43,14 +26,6 @@ class Auth extends Component {
     this.setState({ route: alt });
     this.setState({ email: '' });
   }
-
-  _setModalVisible (visible) {
-    this.setState({modalVisible: visible});
-  };
-
-  _setAnimationType (type) {
-    this.setState({animationType: type});
-  };
 
 
 
@@ -95,25 +70,6 @@ class Auth extends Component {
           <Text style={{fontSize: 16, color: 'blue'}} onPress={e => this.toggleRoute(e)}>{alt}</Text>
           <View style = {{ margin: 7 }} />
         </View>
-        <Modal
-          animationType={this.state.animationType}
-          transparent={this.state.transparent}
-          visible={this.state.modalVisible}
-          onRequestClose={() => this._setModalVisible(false)}
-          >
-          <View style={styles.container}>
-            <Text>Enter New Habit: </Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder='Habit'
-              autoCapitalize='none'
-              autoCorrect={false}
-              autoFocus={true}
-              value={this.state.habit}
-              onChangeText={(text) => this.setState({ habitName:text, habitType: text})} />
-            <Button onPress={e => this.addHabit(e)} title='Add New Habit' />
-          </View>
-        </Modal>
       </View>
     )
   }
@@ -145,16 +101,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     isLoggedIn: state.auth.isLoggedIn,
-    userData: state.user.userData
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: (username, password, email, route) => { dispatch (auth(username, password, email, route)); },
-    onAddHabit: (userData, habit) => { dispatch (addHabit(userData, habit)); },
   }
 }
 
 export default connect (mapStateToProps, mapDispatchToProps)(Auth);
-
