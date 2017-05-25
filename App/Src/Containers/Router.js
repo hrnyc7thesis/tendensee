@@ -42,7 +42,7 @@ class AppRouter extends Component {
                 component={Auth}
                 title={'Login or Signup'}
                 passProps={true} />
-            </Scene>           
+            </Scene>
             <Scene
               key={'cameraTab'}
               title={'Camera'}
