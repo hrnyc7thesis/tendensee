@@ -69,18 +69,6 @@ class AppRouter extends Component {
             </Scene>
 
             <Scene
-              key={'authTab'}
-              title={'Login'}
-              icon={TabIcon}
-              style={{paddingTop: 64}} >
-              <Scene
-                key={'auth'}
-                component={Auth}
-                title={'Login or Signup'}
-                passProps={true} />
-            </Scene>
-
-            <Scene
               key={'SettingTab'}
               title={'Setting'}
               icon={TabIcon}
