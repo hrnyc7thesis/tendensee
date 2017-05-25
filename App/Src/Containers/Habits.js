@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, ScrollView, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 
 let Habits = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <HabitsListContainer />
-    </View>
+    </ScrollView>
   );
 };
 

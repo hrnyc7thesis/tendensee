@@ -28,7 +28,7 @@ const getUserData = (userId) => {
     .then(habits => {
       if(habits.length) {
         habits.forEach(habit => {
-          habit.has_picture = habit.has_picture.lastIndexOf(1) !== -1;
+          habit.has_pictures = habit.has_pictures.lastIndexOf(1) !== -1;
           habit.private = habit.private.lastIndexOf(1) !== -1;
           habit.dates = [];
         })
@@ -61,7 +61,7 @@ const getUserData = (userId) => {
 
 // USERS -------------------------------->
 exports.getUser = (req, res) => {
-  let userId = 101; // LATER - get from Session...
+  let userId = 1; // LATER - get from Session...
   getUserData(userId)
   .then(data => {
     res.status(200).json(data);
@@ -111,7 +111,7 @@ exports.addDate = (req, res) => {
   returnObj.user = req.body.user;
   returnObj.habits = req.body.habits;
   // DEAL WITH NO PICTURE INSTANCES!!!
-  let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
+  let id_users = req.body.user.id || 1; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)
   let newDate = { id_users, id_habits };
 
