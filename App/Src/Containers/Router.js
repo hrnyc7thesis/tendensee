@@ -7,6 +7,8 @@ import { ActionCreators } from '../Actions/ActionCreators';
 import Camera from './Camera';
 import Habits from './Habits';
 import Auth from './Auth';
+import UserProfile from '../Components/UserProfile';
+import Setting from './Setting';
 
 class TabIcon extends Component {
     render(){
@@ -35,36 +37,46 @@ class AppRouter extends Component {
               key={'authTab'}
               title={'Login'}
               icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
+              style={{paddingTop: 64}} >
               <Scene
                 key={'auth'}
                 component={Auth}
                 title={'Login or Signup'}
                 passProps={true} />
-            </Scene>           
+            </Scene>
             <Scene
               key={'cameraTab'}
               title={'Camera'}
               icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
+              style={{paddingTop: 64}} >
               <Scene
                 key={'camera'}
                 component={Camera}
                 title={'Capture your Habit'}
-                passProps={true}/>
+                passProps={true} />
             </Scene>
+
             <Scene
               key={'habitsTab'}
               title={'Habits'}
               icon={TabIcon}
-              style={{paddingTop: 64}}
-            >
+              style={{paddingTop: 64}} >
               <Scene
                 key={'habits'}
                 component={Habits}
                 title={'Your Habits!'}
+                passProps={true} />
+            </Scene>
+
+            <Scene
+              key={'SettingTab'}
+              title={'Setting'}
+              icon={TabIcon}
+              style={{paddingTop: 64}} >
+              <Scene
+                key={'Setting'}
+                component={Setting}
+                title={'Setting Page'}
                 passProps={true} />
             </Scene>
           </Scene>
