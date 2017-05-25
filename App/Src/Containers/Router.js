@@ -18,6 +18,8 @@ class TabIcon extends Component {
     }
 }
 
+const ReduxRouter = connect()(Router);
+
 class AppRouter extends Component {
   render() {
     let styles = StyleSheet.create({
@@ -30,14 +32,14 @@ class AppRouter extends Component {
     })
 
     return (
-      <Router>
+      <ReduxRouter>
         <Scene key='root'>
           <Scene key='auth' component={Auth} title='Signup' passProps={true} />
-          <Scene key='camera' component={Camera} title='Capture You Habit' passProps={true} />
-          <Scene key='habits' component={Habits} title='Your Habits!' passProps={true} />
-          <Scene key='setting' component={Setting} title='Setting Page' passProps={true} />
+          <Scene key='camera' titleProps={{order:1}} component={Camera} title='Capture Your Habit' passProps={true} animation='leftToRight' />
+          <Scene key='habits' titleProps={{order:2}} component={Habits} title='Your Habits!' passProps={true} />
+          <Scene key='setting' titleProps={{order:3}} component={Setting} title='Setting Page' passProps={true} />
         </Scene>
-      </Router>
+      </ReduxRouter>
     )
   }
 }

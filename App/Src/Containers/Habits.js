@@ -7,6 +7,9 @@ import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import { Actions } from 'react-native-router-flux';
+
 
 class Habits extends Component {
 
@@ -74,24 +77,44 @@ class Habits extends Component {
   this.setState({buttonOpacities: highlights, habitCategory: category});
 }
 
-_setHabitName(text) {
-  this.setState({habitName: text});
-}
+  _setHabitName(text) {
+    this.setState({habitName: text});
+  }
+
+  onSwipeRight() {
+    Actions.camera();
+  }
+
+  onSwipeLeft() {
+    Actions.setting();
+  }
 
   render() {
+
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80
+    };
+
     return (
       <View style={styles.habitsPageContainer}>
+        <GestureRecognizer
+          style={styles.container}
+          onSwipeRight={() => this.onSwipeRight()}
+          onSwipeLeft={() => this.onSwipeLeft()}
+          config={config}
+        >
+          <View style={styles.container}>
+            <HabitsListContainer />
+          </View>
 
-        <View style={styles.container}>
-          <HabitsListContainer />
-        </View>
-
-        <View style={styles.addHabitButtonContainer}>
-          <Button dark transparent onPress = {() => this._openModal()}>
-            <Icon name='add-circle' style={{fontSize: 45}}/>
-          </Button>
-          <Text>(New habit)</Text>
-        </View>
+          <View style={styles.addHabitButtonContainer}>
+            <Button dark transparent onPress = {() => this._openModal()}>
+              <Icon name='add-circle' style={{fontSize: 45}}/>
+            </Button>
+            <Text>(New habit)</Text>
+          </View>
+        </GestureRecognizer>
 
         <Modal
           animationType={this.state.animationType}
@@ -202,6 +225,10 @@ _setHabitName(text) {
 
 
 const styles = StyleSheet.create({
+  gesture: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   habitsPageContainer: {
     flex: 1,
     justifyContent: 'flex-start'

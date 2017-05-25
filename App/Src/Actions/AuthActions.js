@@ -1,5 +1,6 @@
 import { MY_IP } from './../myip';
 import { fetchUserSuccess } from './UserActions.js'
+import { Actions } from 'react-native-router-flux';
 
 // export const login = (username, password) => {
 //   return {
@@ -57,6 +58,7 @@ export const auth = (username, password, email, route) => {
       .then(data => {
         console.log('data in authact:', data);
         dispatch(authSuccess(data))
+        Actions.camera();
       })
     })
     .catch(err => dispatch(authFail(err)));
