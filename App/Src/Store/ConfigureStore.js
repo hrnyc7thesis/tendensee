@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 // Logs all actions going through redux into console
 // https://github.com/evgenyrodionov/redux-logger
 import { createLogger } from 'redux-logger'
-import reducer from './../Reducers/RootReducer';
+import reducers from './../Reducers/RootReducer';
 
 // http://redux.js.org/docs/advanced/Middleware.html
 const middleware = [ thunk ]
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 export default (initialState) => {
   // http://redux.js.org/docs/api/createStore.html
   const store = createStore(
-    reducer,
+    reducers,
     initialState,
     compose(
       applyMiddleware(...middleware),

@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, Text, TextInput, View, StyleSheet, Button } from 'react-native';
-import { auth } from '../Actions/AuthActions.js'
+import { auth } from '../Actions/AuthActions.js';
+import { addHabit } from '../Actions/HabitActions.js';
+import { Actions } from 'react-native-router-flux';
 
 class Auth extends Component {
   //LATER - REDUX to get rid of constructor?
@@ -15,9 +17,14 @@ class Auth extends Component {
     };
   }
 
+  static contextTypes = {
+    routes: PropTypes.object.isRequired,
+  };
+
   userLogin (e) {
     e.preventDefault();
     this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
+    Actions.camera();
   }
 
   toggleRoute (e) {
@@ -26,8 +33,6 @@ class Auth extends Component {
     this.setState({ route: alt });
     this.setState({ email: '' });
   }
-
-
 
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
