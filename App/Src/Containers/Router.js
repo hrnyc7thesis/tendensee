@@ -22,19 +22,11 @@ const ReduxRouter = connect()(Router);
 
 class AppRouter extends Component {
   render() {
-    let styles = StyleSheet.create({
-      tabBar: {
-        borderTopWidth: 0.5,
-        borderColor: '#b7b7b7',
-        backgroundColor: '#fff',
-        opacity: 1
-      }
-    })
 
     return (
       <ReduxRouter>
         <Scene key='root'>
-          <Scene key='auth' component={Auth} title='Signup' passProps={true} />
+          <Scene key='auth' component={Auth} title='Signup' passProps={true} hideNavBar={true} />
           <Scene key='camera' titleProps={{order:1}} component={Camera} title='Capture Your Habit' passProps={true} animation='leftToRight' />
           <Scene key='habits' titleProps={{order:2}} component={Habits} title='Your Habits!' passProps={true} />
           <Scene key='setting' titleProps={{order:3}} component={Setting} title='Setting Page' passProps={true} />
