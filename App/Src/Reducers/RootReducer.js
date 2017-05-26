@@ -5,6 +5,7 @@ import auth from './Auth';
 import routes from './Routes';
 import sendingPhoto from './SendPhoto';
 import addingHabit from './AddHabit';
+import modal from './Modal';
 
 const rootReducer = combineReducers({
   routes,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   auth,
   user,
   sendingPhoto,
-  addingHabit
+  addingHabit,
+  modal,
 });
 
 export default rootReducer;

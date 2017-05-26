@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, ScrollView, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
@@ -283,29 +283,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Habits);
-
-// class Habits extends Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>
-//           Your Habss!
-//         </Text>
-//         <HabitContainer text={'he'}/>
-//       </View>
-//     );
-//   }
-// };
-
-// class Habits extends Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>
-//           Your Habss!
-//         </Text>
-//         <HabitContainer text={'he'}/>
-//       </View>
-//     );
-//   }
-// };
