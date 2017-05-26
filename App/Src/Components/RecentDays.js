@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react'
 import { StyleSheet, ScrollView } from 'react-native';
 import Day from './Day.js';
 
-const RecentDays = ({dates}) => (
+const RecentDays = ({dates, onPressItem}) => (
   <ScrollView horizontal style={styles.recentDaysContainer}>
     {dates.map((day) => {
-      return <Day key={day.id} day={day}/>
+      return <Day key={day.id} day={day} onPressItem={onPressItem}/>
     })}
   </ScrollView>
 )
