@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Text, ScrollView, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
+import { Alert, Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { ActionCreators } from './../Actions/ActionCreators';
@@ -82,7 +82,8 @@ class Habits extends Component {
   }
 
   onSwipeRight() {
-    Actions.camera();
+    this.props.user.habits.length ? Actions.camera() : Alert.alert('Please Add a Habit to Access the Camera!');
+
   }
 
   onSwipeLeft() {
@@ -96,6 +97,10 @@ class Habits extends Component {
       directionalOffsetThreshold: 80
     };
 
+    const noHabitText = this.props.user.habits.length ? '' : '  Add a new habit to get started!'
+    const noHabitStyle = {};
+    noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
+
     return (
       <View style={styles.habitsPageContainer}>
         <GestureRecognizer
@@ -104,6 +109,10 @@ class Habits extends Component {
           onSwipeLeft={() => this.onSwipeLeft()}
           config={config}
         >
+        <Text style={[styles.noHabitText, noHabitStyle]}>
+          <H3>{noHabitText}</H3>
+        </Text>
+
           <View style={styles.container}>
             <HabitsListContainer />
           </View>
@@ -227,7 +236,7 @@ class Habits extends Component {
 const styles = StyleSheet.create({
   gesture: {
     flex: 1,
-    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   habitsPageContainer: {
     flex: 1,
@@ -268,6 +277,11 @@ const styles = StyleSheet.create({
   },
   successButton: {
     flex: 1
+  },
+  noHabitText : {
+    marginTop: 200,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

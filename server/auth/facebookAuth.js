@@ -4,7 +4,7 @@ const FBStrategy = require('passport-facebook').Strategy;
 const config = process.env.FBID ? {
   fbId: process.env.FBID,
   fbSecret: process.env.FBSECRET,
-} : require('./config.js');
+} : require('../config.js');
 
 const baseURL = process.env.BASEURL || config.baseURL; // NEED TO SET THIS!
 

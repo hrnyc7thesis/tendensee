@@ -5,7 +5,6 @@ const defaultState = {
   password: '',
   email: '',
   route: 'SignUp',
-  userId: ''
 }
 
 const auth = (state = defaultState, action) => {
@@ -26,7 +25,6 @@ const auth = (state = defaultState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         isLoggedIn: true,
-        userId: action.response
         // SHOULD SET USER DATA - CALL fetchUserSuccess???
       });
     case ('AUTH_FAIL'):

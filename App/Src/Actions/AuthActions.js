@@ -49,8 +49,9 @@ export const auth = (username, password, email, route) => {
       return data.json()
       .then(data => {
         console.log('data in authact:', data);
-        dispatch(authSuccess(data))
-        Actions.camera();
+        dispatch(authSuccess())
+        dispatch(fetchUserSuccess(data))
+        route === 'Login' ? Actions.camera() : Actions.habits();
       })
     })
     .catch(err => dispatch(authFail(err)));
