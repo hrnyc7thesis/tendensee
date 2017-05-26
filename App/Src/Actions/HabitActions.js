@@ -1,5 +1,7 @@
 import { MY_IP } from './../myip';
 import * as UserActions from './UserActions';
+import { fetchUserSuccess } from './UserActions.js'
+
 
 export const habitInit = () => {
   return {
@@ -14,10 +16,10 @@ export const habitSuccess = (data) => {
   }
 };
 
-export const habitFail = () => {
+export const habitFail = (err) => {
   return {
     type: 'HABIT_FAIL',
-    response: 'Error Signing Up New User'
+    response: err
   }
 };
 
@@ -39,9 +41,9 @@ export const addHabit = (userData, habit) => {
       return data.json()
       .then(data => {
         dispatch(habitSuccess(data));
-        // dispatch(UserActions.fetchUserSuccess(data));
+        dispatch(fetchUserSuccess(data));
       })
     })
-    .catch(()=> dispatch(habitFail()));
+    .catch((err)=> dispatch(habitFail(err)));
   }
 }

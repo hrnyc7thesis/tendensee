@@ -20,18 +20,19 @@ export const fetchUserFail = () => {
   }
 };
 
-export const fetchUser = (id) => {
+export const fetchUser = (token) => {
   return (dispatch) => {
     //Start loading animation
     dispatch(fetchUserInit());
     //Begin fetching
+    console.log('token', token);
 
     return fetch(`http://${MY_IP}:8080/api/users`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        "X-Custom-Header": id
+        "x-custom-header": token
       }
     })
     .then(data => {

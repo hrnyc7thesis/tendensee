@@ -1,5 +1,6 @@
 const db = require('./db/db-config.js');
 const config = require('./config.js');
+const jwt = require('jwt-simple');
 const dbHelpers = require('./db/helpers.js');
 const uploadS3 = require('./db/s3-config.js');
 const Promise = require('bluebird');
@@ -64,14 +65,16 @@ exports.getUserData = getUserData;
 
 // USERS -------------------------------->
 exports.getUser = (req, res) => {
-  console.log('gu req.user', req.user);
-  console.log('gu req.session', req.session);
+  console.log('x-custom?', req.headers['x-custom-header'])
+
   console.log('gu req.headers', req.headers['x-custom-header']);
   console.log('gu req.cookies', req.cookies);
   // let username = req.session.passport.user;
-  let userId = req.headers['x-custom-header'];
-  getUserData(userId)
+  let token = req.headers['x-custom-header'];
+  let user = jwt.decode(token, config.tokenSecret);
+  getUserData(user.id)
   .then(data => {
+    data.token = token;
     res.status(200).json(data);
   })
   .catch(err => console.log('Error getting user data from DB:', err))
@@ -125,8 +128,9 @@ exports.addHabit = (req, res) => {
   .then(habit => {
     console.log('habit after put in', habit);
     newHabit.id = habit.insertId;
-
+    newHabit.dates = [];
     resData.habits.push(newHabit);
+    console.log('resData in addHabit', resData)
     res.status(201).json(resData);
   })
   .catch(err => console.log('Error adding habit to DB:', err))

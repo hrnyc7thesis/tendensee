@@ -11,10 +11,6 @@ import { Actions } from 'react-native-router-flux';
 
 class Cam extends Component {
 
-  componentWillMount() {
-    this.props.fetchUser(this.props.auth.userId);
-  }
-
   onSwipeLeft() {
     Actions.habits();
   }

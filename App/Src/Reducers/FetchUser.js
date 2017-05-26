@@ -1,6 +1,6 @@
 const user = (state = {
   isFetching: false,
-  userData: {}
+  userData: {},
 }, action) => {
   switch (action.type) {
     case ('FETCH_USER_INIT'):

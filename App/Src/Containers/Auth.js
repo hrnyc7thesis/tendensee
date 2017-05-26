@@ -42,7 +42,7 @@ class Auth extends Component {
         <Card>
           <View style={styles.card}>
             <CardItem>
-              <H1>SignUp or Login</H1>
+              <H1>{this.state.route}</H1>
             </CardItem>
             <CardItem>
               <Body>
@@ -82,7 +82,7 @@ class Auth extends Component {
                     </Button>
                   </View>
                   <View style={styles.successButton}>
-                    <Button block success onPress={e => this.toggleRoute()}>
+                    <Button block warning onPress={e => this.toggleRoute()}>
                       <Text style={styles.buttonText}>Rather {alt} than {this.state.route}?</Text>
                     </Button>
                   </View>                  
