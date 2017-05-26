@@ -7,9 +7,7 @@ const MODAL_COMPONENTS = {
 }
 
 const ModalRoot = ({ modalType, modalProps}) => {
-  console.log('hello')
   if (!modalType) {
-    console.log('hi')
     return null;
   }
 
