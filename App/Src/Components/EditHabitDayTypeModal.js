@@ -53,6 +53,14 @@ const styles = StyleSheet.create({
     margin: 15
   },
 
+  habitName: {
+    width: 70,
+    alignItems: 'center',
+  },
+
+  habitNameTitle: {
+    color: 'white',
+  },
 })
 
 export default connect(
