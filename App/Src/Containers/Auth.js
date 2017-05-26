@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, TextInput, View, StyleSheet, Button } from 'react-native';
+import { ScrollView, Text, TextInput, View, StyleSheet } from 'react-native';
+import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import { auth } from '../Actions/AuthActions.js';
 import { addHabit } from '../Actions/HabitActions.js';
 import { Actions } from 'react-native-router-flux';
@@ -21,13 +22,11 @@ class Auth extends Component {
     routes: PropTypes.object.isRequired,
   };
 
-  userLogin (e) {
-    e.preventDefault();
+  userLogin () {
     this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
   }
 
-  toggleRoute (e) {
-    e.preventDefault();
+  toggleRoute () {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     this.setState({ route: alt });
     this.setState({ email: '' });
@@ -35,70 +34,87 @@ class Auth extends Component {
 
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
-    let showEmail = styles.textInput;
-    showEmail.display = this.state.route === 'Login' ? 'none' : 'flex';
+    let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
+    let emailMargin = { margin: this.state.route === 'Login' ? 0 : 6 };
     return (
-      <View>
-        <View style={styles.container}>
-          <Text style = {{fontSize: 27}}> {this.state.route}</Text>
-          <View style = {{ margin: 7 }} />
-          <TextInput
-            style={styles.textInput}
-            placeholder='Username'
-            autoCapitalize='none'
-            autoCorrect={false}
-            autoFocus={true}
-            value={this.state.username}
-            onChangeText={(text) => this.setState({ username: text })} />
-          <View style = {{ margin: 7 }} />
-          <TextInput
-            style={showEmail}
-            placeholder='E-mail'
-            autoCapitalize='none'
-            autoCorrect={false}
-            autoFocus={true}
-            keyboardType='email-address'
-            value={this.state.email}
-            onChangeText={(text) => this.setState({ email: text })} />
-          <View style = {{ margin: 7 }} />
-          <TextInput
-            style={styles.textInput}
-            placeholder='Password'
-            autoCapitalize='none'
-            autoCorrect={false}
-            autoFocus={true}
-            value={this.state.password}
-            onChangeText={(text) => this.setState({ password: text })} />
-          <View style = {{ margin: 7 }} />
-          <Button onPress={e => this.userLogin(e)} title={this.state.route} />
-          <Text style={{fontSize: 16, color: 'blue'}} onPress={e => this.toggleRoute(e)}>{alt}</Text>
-          <View style = {{ margin: 7 }} />
-        </View>
+      <View style={styles.container}>
+      <View style = {{ margin: 10 }} />
+        <Card>
+          <View style={styles.card}>
+            <CardItem>
+              <H1>SignUp or Login</H1>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <View style={styles.formContainer}>
+                  <Form>
+                    <Item rounded>
+                      <Input 
+                        placeholder='   Username'
+                        autoCapitalize='none'
+                        value={this.state.username}
+                        onChangeText={(text) => this.setState({ username: text })}
+                      />
+                    </Item>
+                    <View style = { emailMargin } />
+                    <Item rounded style={showEmail}>
+                      <Input
+                        placeholder='   E-mail'
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        value={this.state.email}
+                        onChangeText={(text) => this.setState({ email: text })}
+                      />
+                    </Item>
+                    <View style = {{ margin: 6 }} />
+                    <Item rounded>
+                      <Input
+                        autoCapitalize='none'
+                        placeholder='   Password'
+                        value={this.state.password}
+                        onChangeText={(text) => this.setState({ password: text })}
+                      />
+                    </Item>
+                  </Form>
+                  <View style={styles.successButton}>
+                    <Button block success onPress={e => this.userLogin()}>
+                      <Text style={styles.buttonText}>{this.state.route}</Text>
+                    </Button>
+                  </View>
+                  <View style={styles.successButton}>
+                    <Button block success onPress={e => this.toggleRoute()}>
+                      <Text style={styles.buttonText}>Rather {alt} than {this.state.route}?</Text>
+                    </Button>
+                  </View>                  
+                </View>
+              </Body>
+            </CardItem>
+          </View>
+        </Card>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  card: {
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  formContainer: {
+    alignSelf: 'stretch',
+    margin: 10,
+    marginTop: 5
+  },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: '#F5FCFF',
+    flex: 1,
+    justifyContent: 'flex-start'
   },
-  wraps: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+  successButton: {
+    marginTop: 12
   },
-  textInput: {
-      height: 80,
-      fontSize: 30,
-      backgroundColor: '#FFF',
-      display: 'flex',
+  buttonText: {
+    color: 'white'
   },
 });
 
