@@ -2,14 +2,6 @@ import { MY_IP } from './../myip';
 import { fetchUserSuccess } from './UserActions.js'
 import { Actions } from 'react-native-router-flux';
 
-// export const login = (username, password) => {
-//   return {
-//     type: 'LOGIN',
-//     username,
-//     password
-//   }
-// }
-
 export const authInit = () => {
   return {
     type: 'AUTH_INIT'

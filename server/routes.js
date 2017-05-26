@@ -22,7 +22,7 @@ routes.post('/api/register', passport.authenticate('local-signup', {failureRedir
   let resData = {};
   resData.user = { id, username, email, sessionId: session_id };
   resData.habits = [];
-  res.status(201).json(resData); // check client to see if they get cookie
+  res.status(201).json(id); // check client to see if they get cookie
 });
 
 routes.post('/api/login', passport.authenticate('local-login', { failureRedirect : '/login', failureFlash: false }), (req, res) => {
