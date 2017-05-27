@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Text, ScrollView, View, StyleSheet } from 'react-native';
+import { Alert, Text, ScrollView, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { Alert, Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
+import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
-
 
 class Habits extends Component {
 

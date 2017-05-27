@@ -85,7 +85,7 @@ exports.checkAuth = (req, res) => {
     if (!rows.length) {
       res.status(401).json('User Not Found.');
     } else {
-      res.json(200)
+      res.status(200).json(true)
     }
   })
   .catch(err =>{

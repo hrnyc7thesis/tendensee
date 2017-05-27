@@ -120,6 +120,7 @@ exports.addHabit = (req, res) => {
   newHabit.start_date = new Date().toMysqlFormat(); // LATER - ability to set date?
 
   let resData = {};
+  resData.token = req.body.token;
   resData.user = req.body.user;
   resData.habits = req.body.habits;
 
@@ -141,6 +142,7 @@ exports.addDate = (req, res) => {
   let resData = {};
   resData.user = req.body.user;
   resData.habits = req.body.habits;
+  resData.token = req.body.token;
   // DEAL WITH NO PICTURE INSTANCES?
   let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
   let id_habits = req.body.habits.map(h => h.id)

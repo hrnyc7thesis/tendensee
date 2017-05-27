@@ -1,13 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, Text, TextInput, View, StyleSheet } from 'react-native';
-import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
+import { Button, Card, Form, Item, Input, H1, CardItem, Body } from 'native-base';
 import { auth } from '../Actions/AuthActions.js';
 import { addHabit } from '../Actions/HabitActions.js';
 import { Actions } from 'react-native-router-flux';
 
 class Auth extends Component {
-  //LATER - REDUX to get rid of constructor?
+
+  componentWillMount() {
+    console.log('in auth com, loggedin?', this.props.auth.isLoggedIn)
+
+  }
   constructor (props) {
     super (props);
     this.state = {
@@ -33,6 +37,10 @@ class Auth extends Component {
   }
 
   render() {
+    if(this.props.auth.isLoggedIn) {
+      this.props.user.habits.length ? Actions.camera() : Actions.habits();
+    }
+    console.log('auth render')
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let emailMargin = { margin: this.state.route === 'Login' ? 0 : 6 };
@@ -120,7 +128,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isLoggedIn: state.auth.isLoggedIn,
+    auth: state.auth,
+    user: state.user.userData
   }
 }
 
