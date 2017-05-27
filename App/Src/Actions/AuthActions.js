@@ -15,6 +15,13 @@ export const authSuccess = (data) => {
   }
 };
 
+export const setLandingTimeout = (bool) => {
+  return {
+    type: 'LANDING_TIMEOUT',
+    response: bool
+  }
+};
+
 export const authFail = (err) => {
   return {
     type: 'AUTH_FAIL',
@@ -42,7 +49,15 @@ export const checkAuthFail = (bool) => {
   }
 };
 
-
+export const landingTimeout = (token, route) => {
+  return dispatch => {
+    console.log('token & route in timeout', token, route)
+    if(!token && route === 'Landing') {
+      Actions.auth();
+      dispatch(setLandingTimeout(true));
+    }
+  }
+}
 
 export const checkAuth = (token) => {
   return dispatch => {
@@ -55,10 +70,10 @@ export const checkAuth = (token) => {
       },
     })
     .then(bool => {
-      console.log('bool in checkauth', bool)
-      console.log('checkauth action boolean?', bool);
-      bool ? Actions.camera() : Actions.auth;
-      bool ? dispatch(checkAuthSuccess(bool)) : dispatch(checkAuthFail(data))
+      console.log('bool in checkauth', bool.ok)
+      console.log('checkauth action boolean?', bool.ok);
+      bool.ok ? Actions.camera() : Actions.auth();
+      bool.ok ? dispatch(checkAuthSuccess(bool.ok)) : dispatch(checkAuthFail(bool.ok))
     })
   }
 }

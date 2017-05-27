@@ -37,10 +37,6 @@ class Auth extends Component {
   }
 
   render() {
-    if(this.props.auth.isLoggedIn) {
-      this.props.user.habits.length ? Actions.camera() : Actions.habits();
-    }
-    console.log('auth render')
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let emailMargin = { margin: this.state.route === 'Login' ? 0 : 6 };

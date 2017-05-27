@@ -5,6 +5,7 @@ const defaultState = {
   password: '',
   email: '',
   route: 'SignUp',
+  timeout: false,
 }
 
 const auth = (state = defaultState, action) => {
@@ -44,6 +45,10 @@ const auth = (state = defaultState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         isLoggedIn: action.response
+      });
+    case ('LANDING_TIMEOUT'):
+      return Object.assign({}, state, {
+        timeout: true,
       });
     default:
       return state;

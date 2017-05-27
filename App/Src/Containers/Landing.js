@@ -9,19 +9,32 @@ class Landing extends Component {
   
   constructor (props) {
     super (props);
-    this.state = {};
+    this.state = {
+      timeout: false
+    };
+
+    setTimeout(this.noPersistTimeout.bind(this), 1000);
+
   }
 
   componentDidUpdate() {
-    console.log('landing user token', this.props.user.token)
-
     if(this.props.user.token) {
       this.props.checkAuth(this.props.user.token);
     }
   }
 
   shouldComponentUpdate() {
-    return this.props.user.token ? false : true;
+    return (this.props.user.token || this.state.timeout) ? false : true;
+  }
+
+  noPersistTimeout() {
+    if (!this.props) {
+      setTimeout(this.noPersistTimeout.bind(this), 1000);
+    } else if(!this.props.routes.scene.title === "Landing") {
+      return
+    } else if (this.props.routes.scene.title ==="Landing") {
+      this.props.landingTimeout(this.props.user.token, this.props.routes.scene.title);
+    } 
   }
 
   render() {
@@ -38,6 +51,7 @@ const mapDispatchToProps = (dispatch) => (
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    routes: state.routes,
     user: state.user.userData,
     auth: state.auth
   }
