@@ -4,6 +4,7 @@ const jwt = require('jwt-simple');
 const dbHelpers = require('./db/helpers.js');
 const uploadS3 = require('./db/s3-config.js');
 const Promise = require('bluebird');
+const imageRec = require('./imageRec.js')
 
 // const zlib = require('zlib'); // USE THIS TO COMPRESS?
 // const fs = require('fs');
@@ -143,8 +144,9 @@ exports.addDate = (req, res) => {
   resData.user = req.body.user;
   resData.habits = req.body.habits;
   resData.token = req.body.token;
+  // DEAL WITH DAY ALREADY IN THERE!!!!
   // DEAL WITH NO PICTURE INSTANCES?
-  let id_users = req.body.user.id || 101; // GET RID OF OR ONCE USING
+  let id_users = req.body.user.id;
   let id_habits = req.body.habits.map(h => h.id)
   let newDate = { id_users, id_habits };
 
@@ -165,26 +167,21 @@ exports.addDate = (req, res) => {
       })
       .catch(err => console.log('Error adding date to DB:', err))
     } else if(newDate.id_habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID
-
-      //COMMENT OUT IMAGE REC FOR NOW...
-      // imageRec.models.predict(Clarifai.GENERAL_MODEL, newDate.picture)
-      // .then(data => {
-      //   imageRecData = data;
-      //   imageRecData.tags = data.outputs[0].data.concepts.map(item => item.name)
-      //   // USE TAGS TO MATCH IMAGE TO HABIT (USER habit IDs ARE IN newDate.id_habits ARRAY -ONCE FIND CORRECT HABIT, OVERWRITE ID to id_habits)
-      //   console.log('image recognized!!!:', imageRecData.tags)
-      //   console.log('newDate right before add to sql', newDate)
-
-      let habitId = Math.floor(Math.random()*newDate.id_habits.length);
-      newDate.id_habits = newDate.id_habits[habitId];
-
-      createPromise(newDate, 'dates')
-      .then(date => {
-        newDate.id = date.insertId;
-        resData.habits[habitId].dates.push(newDate);
-        res.status(201).json(resData);
+      imageRec(req.body.data.data, resData.habits)
+      .then(habit => {
+        if(!habit) res.status(409).json('Already marked off habit for the day');
+        else {
+          newDate.id_habits = habit.id;
+          createPromise(newDate, 'dates')
+          .then(date => {
+            newDate.id = date.insertId;
+            resData.habits[habit.index].dates.push(newDate);
+            res.status(201).json(resData);
+          })
+          .catch(err => console.log('Error adding date to DB:', err))
+        }
       })
-      .catch(err => console.log('Error adding date to DB:', err))
+
     }
   })
 }
