@@ -80,16 +80,16 @@ class Images extends Component {
           <View style={styles.screenAboveTabs}>
             <View style={styles.topRowContainer}>
               <View>
-                <Button dark transparent iconCenter onPress={() => {Actions.camera()}}>
-                  <Icon name='arrow-back' />
+                <Button dark transparent iconCenter onPress={() => {Actions.setting()}}>
+                  <Icon name='settings' />
                 </Button>
               </View>
               <View style={styles.userPictureContainer}>
                 <Image source={{uri: users[0].user.picture}} style={styles.userImage}/>
               </View>
               <View>
-                <Button dark transparent iconCenter>
-                  <Icon name='settings' />
+                <Button dark transparent iconCenter onPress={() => {Actions.camera()}}>
+                  <Icon name='arrow-forward' />
                 </Button>
               </View>
             </View>
