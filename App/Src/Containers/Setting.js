@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { ScrollView, Alert, View, Image } from 'react-native';
-import { Container, Tab, Tabs, TabHeading, Card, CardItem, logo, Text, Header, Title, Switch, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Thumbnail } from 'native-base';
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch } from 'react-native';
+import { Container } from 'native-base';
 
 const dummyUserData = {
     "user": {
-      "fullname": "User object doesn't include name Yet!",
+      "fullname": "Yet!",
       "id": 101,
       "username": "Deb123",
       "email": "debasishbd@outlook.com",
@@ -56,74 +56,124 @@ const onButtonPress = () =>{
   Alert.alert("button pressed")
 }
 
+
+
 //key={habit.id} habit={habit}
 
 export default class UserSettings extends Component {
   state = {
-  trueSwitchIsOn: true,
-  falseSwitchIsOn: false,
-};
+    notification: true,
+    allPrivate: false,
+
+  };
+  _toggleNotification = () => {
+    this.setState({notification: !this.state.notification});
+  };
+  _toggleAllPrivate = () => {
+    this.setState({allPrivate: !this.state.allPrivate});
+  };
+
     render() {
         return (
-            <Container>
-            <Header hasTabs/>
-            <Tabs>
-              {/* This is for profile setting*/}
-                <Tab heading={ <TabHeading><Icon name="person" /><Text>Profile</Text></TabHeading>}>
-                <Content>
-                  <Right>
-                    <Thumbnail size={80} source={{uri: 'https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg'}} />
-                    <Text>{dummyUserData.user.username}</Text>
-                 </Right>
-                    <Button transparent style={{backgroundColor: '#8686CA'}} onPress={onButtonPress} small dark iconLeft>
-                      <Icon name='settings'/>
-                      <Text>Edit</Text>
-                   </Button>
-                   <Text>Full Name : {dummyUserData.user.fullname}</Text>
-                   <Text>Profile Name : {dummyUserData.user.username}</Text>
-                   <Text>Email : {dummyUserData.user.email}</Text>
-                </Content>
-                </Tab>
-
-                {/*The following code is habit setting*/}
-
-                <Tab heading={ <TabHeading><Text>Habits</Text></TabHeading>}>
-                  {dummyUserData.habits.map(habit => {
-                    return (
-                      <Card >
-                      <CardItem>
-                        <Left>
-                           <Body>
-                            <Text>{habit.name}</Text>
-                            <Text note>Lets Improve Another Day!</Text>
-                          </Body>
-                        </Left>
-                        <Right>
-                         <Switch value={true} />
-                        </Right>
-                        </CardItem>
-                        <CardItem cardBody>
-                            <Image source={{uri: 'https://media-cdn.tripadvisor.com/media/photo-s/04/b9/12/9a/fairfield-inn-suite-rdu.jpg'}}/>
-                        </CardItem>
-                        <CardItem>
-                            <Button transparent>
-                                <Icon active name="thumbs-up" />
-                                <Text>12 Likes</Text>
-                            </Button>
-                            <Button transparent>
-                                <Icon active name="chatbubbles" />
-                                <Text>4 Comments</Text>
-                            </Button>
-                            <Text>11h ago</Text>
-                      </CardItem>
-                  </Card>)
-                })}
-                </Tab>
-            </Tabs>
-            </Container>
+          <View style= {styles.pageView}>
+            <View style={styles.container}>
+              <Text style={styles.headingText}>Setting</Text>
+              <View style={styles.habitWrap}>
+                <Text style={styles.habitSetting}>Profile Setting:</Text>
+                <View style={styles.habitProp}>
+            {/* I need to stylet this text with one style */}
+                  <Text style={styles.textst}>User Name: {dummyUserData.user.username}</Text>
+                  <Text style={styles.textst}>Email: {dummyUserData.user.email}</Text>
+                  <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
+                  <Text style={styles.textst}>Full Name: {dummyUserData.user.fullname}</Text>
+                </View>
+              </View>
+              <View style={styles.habitWrap}>
+                <Text style={styles.habitSetting}>Habit Setting:</Text>
+                <View style={styles.habitProp}>
+                  <View style={styles.row}>
+                    <Text style={styles.textst}>Notification For All Habits:   </Text>
+                    <Switch value={this.state.notification} onValueChange={this._toggleNotification}
+                      onTintColor="#00ff00"
+                      style={styles.switchSt}
+                      thumbTintColor="#0000ff"
+                      tintColor="#ff0000"
+                    />
+                  </View>
+                  <View style={styles.row}>
+                    <Text style={styles.textst}>Make All Habit Private:         </Text>
+                    <Switch value={this.state.allPrivate} onValueChange={this._toggleAllPrivate}
+                      onTintColor="#00ff00"
+                      style={styles.switchSt}
+                      thumbTintColor="#0000ff"
+                      tintColor="#ff0000"
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
         );
     }
 }
-<Right>
-   <Switch value={true} />
-</Right>
+
+const styles = StyleSheet.create({
+  pageView: {
+    marginTop: 10,
+    padding: 4,
+  },
+  container: {
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+    // flex: 1,
+    // flexDirection: 'column',
+    justifyContent: 'center',
+    // flexDirection: 'row',
+    // margin: 100,
+    marginTop: 10,
+    padding:20,
+    // borderRadius: 10,
+    // alignSelf: 'center',
+  },
+  headingText: {
+    fontFamily: 'Cochin',
+    fontSize: 25,
+    fontWeight: 'bold',
+    alignSelf:'center'
+  },
+  habitSetting: {
+    borderRadius: 2,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+    fontSize: 19,
+    fontWeight: '300',
+  },
+  habitWrap: {
+    justifyContent: 'space-between',
+    padding: 20,
+    borderWidth: 0.5,
+    marginTop: 10,
+    alignItems: 'flex-start',
+    borderColor: '#d6d7da',
+  },
+  habitProp: {
+    padding: 10,
+    justifyContent: 'space-around',
+  },
+  row: {
+  alignItems: 'center',
+  // flex: 1,
+  flexDirection: 'row',
+  marginBottom: 20,
+  },
+  textst: {
+    fontFamily: 'Georgia-Italic',
+    marginBottom: 10,
+    fontSize: 15,
+  },
+  switchSt: {
+    marginBottom: 10,
+    transform: [{scaleX: .75}, {scaleY: .75}],
+  }
+});
