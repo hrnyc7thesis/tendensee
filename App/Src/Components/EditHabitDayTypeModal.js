@@ -8,14 +8,7 @@ var moment = require('moment');
 
 const EditHabitDayTypeModal = ({day, habitProps, dispatch}) => {
 
-  // return (
-  //   <Modal>
-  //     <Text>Habit Modal / {day}</Text>
-  //     <Text onPress={()=> dispatch(hideModal())}>Exit</Text>
-  //   </Modal>
-  // )
-
-  // Link up from database of different types
+  // Link up from database of different habits, should be habit names
   let BUTTONS = ['Exercise', 'Nutrition', 'Mindset', 'Time Mgmt', 'Cancel']; //populate from state
   var DESTRUCTIVE_INDEX = 3;
   var CANCEL_INDEX = 4;
@@ -60,14 +53,6 @@ const styles = StyleSheet.create({
     margin: 15
   },
 
-  habitName: {
-    width: 70,
-    alignItems: 'center',
-  },
-
-  habitNameTitle: {
-    color: 'white',
-  },
 })
 
 export default connect(
