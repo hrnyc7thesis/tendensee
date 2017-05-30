@@ -28,7 +28,7 @@ exports.login = (req, res) => {
     }
   })
   .catch(err =>{
-    console.error('Login Error');
+    console.error('Login Error', err);
     res.status(403).json(err);
   })
 }
@@ -62,13 +62,13 @@ exports.register = (req, res) => {
         })
       })
       .catch(err =>{
-        console.error('SignUp Error Upon DB Insertion');
+        console.error('SignUp Error Upon DB Insertion', err);
         res.status(403).json(err);
       })
     }
   })
   .catch(err =>{
-    console.error('SignUp Error');
+    console.error('SignUp Error', err);
     res.status(403).json(err);
   })
 }
@@ -89,7 +89,7 @@ exports.checkAuth = (req, res) => {
     }
   })
   .catch(err =>{
-    console.error('Token DB Error');
+    console.error('Token DB Error', err);
     res.status(403).json(err);
   })
   }
