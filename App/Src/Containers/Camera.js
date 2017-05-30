@@ -4,7 +4,7 @@ import { Alert, Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'r
 import { bindActionCreators } from 'redux';
 import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
-import { Icon} from 'native-base';
+import { Button, Icon } from 'native-base';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
 
@@ -40,7 +40,17 @@ class Cam extends Component {
             captureQuality='low'
             style={styles.preview}
             aspect={Camera.constants.Aspect.fill}>
-            <Text style={styles.capture} onPress={this.takePicture.bind(this)}><Icon name="camera" /></Text>
+            <View style={styles.buttonsContainer}>
+              <Button transparent onPress={() => {Actions.images()}}>
+                <Icon style={{fontSize: 40, color: 'white'}} name="person" />
+              </Button>
+              <Button transparent onPress={this.takePicture.bind(this)}>
+                <Icon style={{fontSize: 80, color: 'white', alignSelf: 'flex-end'}} name="radio-button-on" />
+              </Button>
+              <Button transparent onPress={() => {Actions.habits()}}>
+                <Icon style={{fontSize: 40, color: 'white'}} name="menu" />
+              </Button>
+            </View>
           </Camera>
         </GestureRecognizer>
     );
@@ -89,15 +99,13 @@ const styles = StyleSheet.create({
   preview: {
     flex: 1,
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginBottom: 20,
   }
 });
 
