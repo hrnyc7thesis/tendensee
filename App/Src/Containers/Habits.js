@@ -82,11 +82,10 @@ class Habits extends Component {
 
   onSwipeRight() {
     this.props.user.habits.length ? Actions.camera() : Alert.alert('Please Add a Habit to Access the Camera!');
-
   }
 
   onSwipeLeft() {
-    Actions.setting();
+    Actions.individualHabit();
   }
 
   render() {
@@ -108,9 +107,9 @@ class Habits extends Component {
           onSwipeLeft={() => this.onSwipeLeft()}
           config={config}
         >
-        <Text style={[styles.noHabitText, noHabitStyle]}>
-          <H3>{noHabitText}</H3>
-        </Text>
+          <Text style={[styles.noHabitText, noHabitStyle]}>
+            <H3>{noHabitText}</H3>
+          </Text>
 
           <View style={styles.container}>
             <HabitsListContainer />
