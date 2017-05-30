@@ -60,8 +60,9 @@ export const landingTimeout = (token, route) => {
 }
 
 export const checkAuth = (token) => {
+  console.log('in checkauth: token', token)
   return dispatch => {
-    return fetch(`http://${MY_IP}:8080/api/signedin`, {
+    return fetch(`http://${MY_IP}:8080/signedin`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -91,7 +92,7 @@ export const auth = (username, password, email, route) => {
 
     const path = route === 'Login' ? 'login' : 'register'; // can add to end of path instead of users...
 
-    return fetch(`http://${MY_IP}:8080/api/` + path, {
+    return fetch(`http://${MY_IP}:8080/` + path, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

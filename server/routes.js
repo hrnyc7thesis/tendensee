@@ -25,10 +25,9 @@ routes.use(function timeLog (req, res, next) {
 //   res.status(201).json(id); // check client to see if they get cookie
 // });
 
-routes.post('/api/login', auth.login);
-routes.post('/api/register', auth.register);
-routes.post('/api/register', auth.register);
-routes.get('/api/signedin', auth.checkAuth);
+routes.post('/login', auth.login);
+routes.post('/register', auth.register);
+routes.get('/signedin', auth.checkAuth);
 
 // OTHER ROUTES
 routes.route('/api/users')
