@@ -32,6 +32,7 @@ class Cam extends Component {
               this.camera = cam;
             }}
             captureTarget={Camera.constants.CaptureTarget.memory}
+            captureQuality='low'
             style={styles.preview}
             aspect={Camera.constants.Aspect.fill}>
             <Text style={styles.capture} onPress={this.takePicture.bind(this)}><Icon name="camera" /></Text>
