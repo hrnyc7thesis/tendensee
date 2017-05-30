@@ -19,8 +19,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    test: (day) => {
-      dispatch(editHabitDayType(day))
+    test: (day, habitProps) => {
+      dispatch(editHabitDayType(day, habitProps))
     }
   }
 }
