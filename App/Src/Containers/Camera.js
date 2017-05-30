@@ -15,6 +15,10 @@ class Cam extends Component {
     Actions.habits();
   }
 
+  onSwipeRight() {
+    Actions.images();
+  }
+
   render() {
     const config = {
       velocityThreshold: 0.3,
@@ -26,6 +30,7 @@ class Cam extends Component {
           style={styles.gesture}
           onSwipeLeft={() => this.onSwipeLeft()}
           config={config}
+          onSwipeRight={() => this.onSwipeRight()}
         >
           <Camera
             ref={(cam) => {
