@@ -4,7 +4,7 @@ import user from './FetchUser';
 import auth from './Auth';
 import routes from './Routes';
 import sendingPhoto from './SendPhoto';
-import addingHabit from './AddHabit';
+import habit from './Habit';
 import modal from './Modal';
 
 const rootReducer = combineReducers({
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   auth,
   user,
   sendingPhoto,
-  addingHabit,
+  habit,
   modal,
 });
 
