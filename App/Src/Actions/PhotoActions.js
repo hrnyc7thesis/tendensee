@@ -35,7 +35,8 @@ export const sendPhoto = (data) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "x-custom-header": data.token
       },
       body: JSON.stringify(data)
     })

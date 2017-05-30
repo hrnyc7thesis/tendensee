@@ -7,7 +7,7 @@ const dbHelpers = require('./db/helpers.js');
 const habitTypes = ['Fitness', 'Diet', 'Study', 'Time', 'Sleeping', 'Hygiene', 'timeManagement'];
 
 const keywords = {
-  'Fitness': ['fitness', 'exercise', 'weights', 'working out'],
+  'Fitness': ['fitness', 'exercise', 'weights', 'working out', 'footwear', 'shoe'],
   'Diet': ['food', 'drink', 'eating', 'meal', 'snack', 'diet', 'water'],
   'Study': ['reading', 'read', 'books', 'book', 'study', 'school', 'whiteboard', 'chalkboard'],
   'Time Mgmt.': ['clock', 'watch', 'time'],
@@ -21,7 +21,7 @@ module.exports = (picture, habits) => {
   return imageRec.models.predict(Clarifai.GENERAL_MODEL, picture)
   .then(data => {
     let imageRecData = data;
-    imageRecData.tags = data.outputs[0].data.concepts.map(item => item.name.toLowerCase()).slice(0,5)
+    imageRecData.tags = data.outputs[0].data.concepts.map(item => item.name.toLowerCase());
     console.log('image recognized!!!:', imageRecData.tags)
     let result;
     let uncheckedHabits = [];
@@ -49,5 +49,5 @@ module.exports = (picture, habits) => {
     console.log('result', result)
     return result;
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error('Image Recognition Error', err));
 }

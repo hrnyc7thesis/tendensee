@@ -78,7 +78,7 @@ exports.getUser = (req, res) => {
     data.token = token;
     res.status(200).json(data);
   })
-  .catch(err => console.log('Error getting user data from DB:', err))
+  .catch(err => console.error('Error getting user data from DB:', err))
 }
 
 exports.addUser = (req, res) => {
@@ -93,7 +93,7 @@ exports.addUser = (req, res) => {
     console.log('adduser return obj', data)
     res.status(201).json(resData);
   })
-  .catch(err => console.log('Error adding user to DB:', err))
+  .catch(err => console.error('Error adding user to DB:', err))
 }
 
 exports.patchUser = (req, res) => {
@@ -110,7 +110,7 @@ exports.patchUser = (req, res) => {
     console.log('resData', resData)
     res.status(201).json(resData);
   })
-  .catch(err => console.log('Error updating user in DB:', err))
+  .catch(err => console.error('Error updating user in DB:', err))
 }
 
 
@@ -135,7 +135,7 @@ exports.addHabit = (req, res) => {
     console.log('resData in addHabit', resData)
     res.status(201).json(resData);
   })
-  .catch(err => console.log('Error adding habit to DB:', err))
+  .catch(err => console.error('Error adding habit to DB:', err))
 }
 
 // DATES ---------------------------------->
@@ -165,7 +165,7 @@ exports.addDate = (req, res) => {
         resData.habits[0].dates.push(newDate);
         res.status(201).json(resData);
       })
-      .catch(err => console.log('Error adding date to DB:', err))
+      .catch(err => console.error('Error adding date to DB:', err))
     } else if(newDate.id_habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID
       imageRec(req.body.data.data, resData.habits)
       .then(habit => {
@@ -178,17 +178,10 @@ exports.addDate = (req, res) => {
             resData.habits[habit.index].dates.push(newDate);
             res.status(201).json(resData);
           })
-          .catch(err => console.log('Error adding date to DB:', err))
+          .catch(err => console.error('Error adding date to DB:', err))
         }
       })
 
     }
   })
-}
-
-// AUTHENTICATION --------------------------------------------->
-
-exports.register = (req, res) => {
-  console.log(req.body);
-  res.send(201);
 }
