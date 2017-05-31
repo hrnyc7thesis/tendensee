@@ -27,14 +27,26 @@ class Images extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.getFriends(this.props.user);
+  }
+
+  _deleteFriend = (id) => {
+    this.props.deleteFriendAndUpdate(this.props.user, id);
+  }
+
   _openModal = () => {
     this.setState({ isModalVisible: true });
   }
 
 
   _closeModal = () => {
+    if (this.state.selectedFriends.length > 0) {
+      this.props.addFriendsAndUpdate(this.props.user, this.state.selectedFriends);
+    }
     this.setState({
       username: '',
+      selectedFriends: [],
       isModalVisible: false
     });
   }
@@ -44,18 +56,14 @@ class Images extends Component {
   }
 
   _addFriendToList(id) {
-    let tempSelectedFriends = this.state.selectedFriends;
-    tempSelectedFriends.push(id);
     this.setState({
-      selectedFriends: tempSelectedFriends
+      selectedFriends: this.state.selectedFriends.concat(id)
     });
   }
 
   _removeFriendFromList(id) {
-    let tempSelectedFriends = this.state.selectedFriends;
-    tempSelectedFriends.splice(tempSelectedFriends.indexOf(id), 1);
     this.setState({
-      selectedFriends: tempSelectedFriends
+      selectedFriends: this.state.selectedFriends.filter((f) => f !== id)
     });
   }
 
@@ -69,6 +77,12 @@ class Images extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
+
+    const images = this.props.user.habits.reduce((acc, habit) => {
+      return acc.concat(habit.dates.reduce((acc, date) => {
+        return acc.concat(date.picture);
+      }, []));
+    }, []);
 
     return (
       // <GestureRecognizer
@@ -85,7 +99,7 @@ class Images extends Component {
                 </Button>
               </View>
               <View style={styles.userPictureContainer}>
-                <Image source={{uri: users[0].user.picture}} style={styles.userImage}/>
+                <Image source={{uri: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
               </View>
               <View>
                 <Button dark transparent iconCenter onPress={() => {Actions.camera()}}>
@@ -94,17 +108,17 @@ class Images extends Component {
               </View>
             </View>
             <View style={styles.usernameContainer}>
-              <Text style={styles.usernameText}>{users[0].user.username}</Text>
+              <Text style={styles.usernameText}>{this.props.user.user.username}</Text>
             </View>
             <View style={styles.taglineContainer}>
-              <Text style={styles.taglineText}>{users[0].user.quote}</Text>
+              <Text style={styles.taglineText}>{this.props.user.user.tagline}</Text>
             </View>
           </View>
          <Tabs>
            <Tab heading={ <TabHeading><Text>Photos</Text></TabHeading>}>
             <ScrollView>
               <View style={styles.habitImages}>
-              {sampleImages.map(image => {
+              {images.map(image => {
                 return (
                     <Image source={{uri: image}} style={styles.habitImage}/>
                 );
@@ -124,26 +138,26 @@ class Images extends Component {
                   </Button>
                 </View>
               </View>
-              <View style={styles.currentFriendsListContainer}>
-                {friends.length === 0 &&
+              <ScrollView style={styles.currentFriendsListContainer}>
+                {this.props.friends.length === 0 ?
                   <View style={{alignItems: 'center', marginTop: 20}}>
                     <H3 style={{color: '#cccccc'}}>No friends yet :(</H3>
                   </View>
-                }
-              </View>
-              {/* <ScrollView style={styles.currentFriendsListContainer}>
-                {
-                  users
+                :
+                  this.props.allUsers
                   .filter(user => {
-                    return user.user.username.toLowerCase().includes(this.state.username.toLowerCase());
+                    return this.props.friends.includes(user.id);
+                  })
+                  .filter(user => {
+                    return user.username.toLowerCase().includes(this.state.username.toLowerCase());
                   })
                   .map(user => {
                     return (
-                      <Friend key={user.id} user={user} _removeFriendFromList={this._removeFriendFromList.bind(this)} _addFriendToList={this._addFriendToList.bind(this)} />
+                      <Friend key={user.id} isModalVisible={false} user={user} deleteFriend={this._deleteFriend.bind(this)} _addFriendToList={this._addFriendToList.bind(this)} />
                     )
                   })
                 }
-              </ScrollView> */}
+              </ScrollView>
             </View>
            </Tab>
          </Tabs>
@@ -168,13 +182,16 @@ class Images extends Component {
                   </View>
                   <ScrollView style={styles.addFriendsListContainer}>
                     {
-                      users
+                      this.props.allUsers
                       .filter(user => {
-                        return user.user.username.toLowerCase().includes(this.state.username.toLowerCase());
+                        return !this.props.friends.includes(user.id);
+                      })
+                      .filter(user => {
+                        return user.username.toLowerCase().includes(this.state.username.toLowerCase());
                       })
                       .map(user => {
                         return (
-                          <Friend key={user.id} user={user} _removeFriendFromList={this._removeFriendFromList.bind(this)} _addFriendToList={this._addFriendToList.bind(this)} />
+                          <Friend key={user.id} isModalVisible={true} user={user} _removeFriendFromList={this._removeFriendFromList.bind(this)} _addFriendToList={this._addFriendToList.bind(this)} />
                         )
                       })
                     }
@@ -294,7 +311,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user.userData
+    user: state.user.userData,
+    allUsers: state.friends.allUsers,
+    friends: state.friends.friends,
   }
 }
 
@@ -303,93 +322,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Images);
-
-const friends = [
-];
-
-const users = [
-  {
-    "user": {
-      "id": 1,
-      "username": "debnomite",
-      "quote": 'Boom!',
-      "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-    }
-  },
-  {
-    "user": {
-      "id": 2,
-      "username": "tcoc99",
-      "quote": 'Life is like a box of chocolates...',
-      "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-    }
-  },
-  {
-    "user": {
-      "id": 3,
-      "username": "gedyman",
-      "quote": 'Float like a butterfly sting like a bee.',
-      "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-    }
-  },
-  {
-      "user": {
-        "id": 4,
-        "username": "harv",
-        "quote": "I cannot pitch",
-        "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-      }
-  },
-  {
-      "user": {
-        "id": 5,
-        "username": "billyzane",
-        "quote": "I have a child!",
-        "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-      }
-  },
-  {
-      "user": {
-        "id": 6,
-        "username": "joeM",
-        "quote": "do you want to catch those hands?",
-        "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-      }
-  }
-];
-
-const sampleImages = [
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-]
