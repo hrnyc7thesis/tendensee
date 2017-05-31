@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
       Actions.individualHabit({habitProps})
     },
     test: (day, habitProps) => {
-      day ? dispatch(editHabitDayType(day, habitProps)) : ''
+      dispatch(editHabitDayType(day, habitProps))
     }
   }
 }

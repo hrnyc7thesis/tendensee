@@ -178,7 +178,7 @@ exports.addDate = (req, res) => {
       createPromise(newDate, 'dates')
       .then(date => {
         newDate.id = date.insertId;
-        resData.habits[0].dates.unshift(newDate);
+        resData.habits[0].dates.push(newDate);
         res.status(201).json(resData);
       })
       .catch(err => console.error('Error adding date to DB:', err))
@@ -191,7 +191,7 @@ exports.addDate = (req, res) => {
           createPromise(newDate, 'dates')
           .then(date => {
             newDate.id = date.insertId;
-            resData.habits[habit.index].dates.unshift(newDate);
+            resData.habits[habit.index].dates.push(newDate);
             res.status(201).json(resData);
           })
           .catch(err => console.error('Error adding date to DB:', err))
