@@ -138,6 +138,16 @@ exports.addHabit = (req, res) => {
   .catch(err => console.error('Error adding habit to DB:', err))
 }
 
+// HASNT BEEN TESTED... 
+exports.updateHabit = (req, res) => {
+  updatePromise(req.body.data, 'habits', req.body.data.id)
+  .then(habit => {
+    console.log('updated habit:', habit);
+    res.status(200).json(habit);
+  })
+  .catch(err => console.error('Error updating habit in DB:', err))
+}
+
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
   let resData = {};
