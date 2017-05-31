@@ -11,7 +11,11 @@ const store = configureStore({
     userData: {}
   },
   sendingPhoto: false,
-  addingHabit: false
+  addingHabit: false,
+  friends: {
+    allUsers: [],
+    friends: []
+  }
 });
 
 const App = () => (

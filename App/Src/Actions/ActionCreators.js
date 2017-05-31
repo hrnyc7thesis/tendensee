@@ -3,6 +3,7 @@ import * as PhotoActions from './PhotoActions';
 import * as HabitActions from './HabitActions';
 import * as ModalActions from './ModalActions';
 import * as AuthActions from './AuthActions';
+import * as FriendActions from './FriendActions';
 
 export const ActionCreators = Object.assign({},
   UserActions,
@@ -10,4 +11,5 @@ export const ActionCreators = Object.assign({},
   HabitActions,
   AuthActions,
   ModalActions,
+  FriendActions
 );

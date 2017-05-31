@@ -14,6 +14,7 @@ const createPromise = Promise.promisify(dbHelpers.create);
 const retrievePromise = Promise.promisify(dbHelpers.retrieve);
 const updatePromise = Promise.promisify(dbHelpers.update);
 const deletePromise = Promise.promisify(dbHelpers.delete);
+const deleteFriendPromise = Promise.promisify(dbHelpers.deleteFriendRelationship);
 
 exports.retrieve = retrievePromise;
 exports.create = createPromise;
@@ -24,8 +25,8 @@ const getUserData = (userId) => {
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
     console.log('user:', user)
-    let { id, username, email, facebook } = user[0];
-    resData['user'] = { id, username, email, facebook }
+    let { id, username, email, facebook, tagline } = user[0];
+    resData['user'] = { id, username, email, facebook, tagline }
     return retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
     .then(habits => {
       if(habits.length) {
@@ -185,3 +186,75 @@ exports.addDate = (req, res) => {
     }
   })
 }
+
+//id username tagline photo email
+// FRIENDS -------------------------------------------->
+exports.getAllOtherUsers = (req, res) => {
+  let token = req.headers['x-custom-header'];
+  let user = jwt.decode(token, config.tokenSecret);
+  let userId = user.id;
+  let resData = {allUsers: []};
+  console.log('GETTING FRIENDS');
+  return retrievePromise(dbHelpers.query('retrieveAllOtherUsers', userId))
+  .then(users => {
+    console.log(users);
+    users.forEach((user) => {
+      console.log('resdata',resData);
+      resData.allUsers.push({
+        id: user.id,
+        username: user.username,
+        tagline: user.tagline,
+        photo: user.photo,
+        email: user.email
+      })
+    });
+    return retrievePromise(dbHelpers.query('retrieveFriends', userId))
+    .then((friends) => {
+      resData.friends = friends.map(friend => friend.id_followee);
+      console.log('resData',resData);
+      res.status(200).json(resData);
+    })
+    .catch(err => {
+      console.log('error getting friends');
+      console.error(err);
+    })
+  })
+  .catch(err => {
+    console.log('error getting other users');
+    console.error(err);
+  })
+}
+
+exports.addFriends = (req, res) => {
+  console.log('ADDING FRIEND IN DATABASE');
+  let token = req.headers['x-custom-header'];
+  let user = jwt.decode(token, config.tokenSecret);
+  let id_follower = user.id;
+  req.body.data.forEach(id_followee => {
+    createPromise({id_follower, id_followee}, 'friends')
+    .then((data) => {
+      res.status(201).json(data);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500);
+    })
+  })
+}
+
+exports.deleteFriend = (req, res) => {
+  console.log('DELETING FRIEND IN DATABASE');
+  let token = req.headers['x-custom-header'];
+  let user = jwt.decode(token, config.tokenSecret);
+  let id_follower = user.id;
+  let id_followee = req.body.data;
+  console.log('follower',id_follower,'followee',id_followee);
+  deleteFriendPromise(id_follower, id_followee)
+  .then((data) => {
+    res.status(201).json(data);
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500);
+  })
+};
