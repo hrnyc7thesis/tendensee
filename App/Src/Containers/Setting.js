@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Button, Image, StyleSheet, Switch, TextInput } from 'react-native';
+import { ScrollView, Text, Alert, View, Button, Image, StyleSheet, Switch, TextInput, TouchableOpacity } from 'react-native';
 // import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox } from 'native-base';
 import { Container, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+var ImagePicker = require('react-native-image-picker');
+
+// More info on all the options is below in the README...just some common use cases shown here
+var options = {
+  title: 'Select Avatar',
+  customButtons: [
+    {name: 'fb', title: 'Choose Photo from Facebook'},
+  ],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
 
 const dummyUserData = {
     "user": {
@@ -82,7 +95,9 @@ export default class UserSettings extends Component {
             <View style={styles.container}>
               <Text style={styles.headingText}>Setting</Text>
               <View style={styles.habitWrap}>
-                <Thumbnail style={{alignSelf: 'center', marginBottom: 20}} size={80} source={{uri: 'https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg'}} />
+                <TouchableOpacity onPress={this.show.bind(this)}>
+                  <Thumbnail style={{alignSelf: 'center', marginBottom: 20}} size={80} source={{uri: 'https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg'}} />
+                </TouchableOpacity>
                 <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
                 <View style={styles.habitProp}>
             {/* need to stylet all these text component with one style */}
@@ -120,6 +135,31 @@ export default class UserSettings extends Component {
             </View>
           </View>
         );
+    }
+    show() {
+      ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
     }
 }
 

@@ -21,13 +21,13 @@ class AppRouter extends Component {
     return (
       <ReduxRouter>
         <Scene key='root'>
-          <Scene key='landing' component={Landing} title='Landing' passProps={true} hideNavBar={true} />
-          <Scene key='auth' component={Auth} title='Signup' passProps={true} hideNavBar={true} />
+          {/* <Scene key='landing' component={Landing} title='Landing' passProps={true} hideNavBar={true} /> */}
+          {/* <Scene key='auth' component={Auth} title='Signup' passProps={true} hideNavBar={true} />
           <Scene key='camera' titleProps={{order:1}} component={Camera} title='Capture Your Habit' passProps={true} hideNavBar={true}/>
           <Scene key='habits' titleProps={{order:2}} component={Habits} title='Your Habits!' passProps={true} />
-          <Scene key='images' titleProps={{order:4}} component={Images} title='Images Page' passProps={true} animation='leftToRight'/>
+          <Scene key='images' titleProps={{order:4}} component={Images} title='Images Page' passProps={true} animation='leftToRight'/> */}
           <Scene key='setting' titleProps={{order:3}} component={Setting} title='Setting Page' passProps={true} />
-          <Scene key='individualHabit' component={IndividualHabit} title='Habit Page' passProps={true} hideNavBar={true} />
+          {/* <Scene key='individualHabit' component={IndividualHabit} title='Habit Page' passProps={true} hideNavBar={true} /> */}
         </Scene>
       </ReduxRouter>
     )
