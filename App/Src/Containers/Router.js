@@ -8,7 +8,6 @@ import Camera from './Camera';
 import Habits from './Habits';
 import IndividualHabit from './IndividualHabit';
 import Auth from './Auth';
-import UserProfile from '../Components/UserProfile';
 import Setting from './Setting';
 import Landing from './Landing';
 import Images from './Images';
