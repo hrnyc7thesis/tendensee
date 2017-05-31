@@ -50,10 +50,10 @@ routes.route('/api/dates')
 // routes.route('/api/register')
 //   .post(controllers.register);
 
-// routes.route('/api/friends')
-//   .get(controllers.getFriends)
-//   .post(controllers.addFriend)
+routes.route('/api/friends')
+  .get(controllers.getAllOtherUsers)
+  .post(controllers.addFriends)
+  .delete(controllers.deleteFriend);
 //   .put(controllers.challengeFriend)
-//   .delete(controllers.deleteFriend);
 
 module.exports = routes;
