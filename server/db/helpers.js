@@ -53,7 +53,7 @@ module.exports = {
     let queries = {
       retrieveUser: `select * from users where users.id = "${id}"`,
       retrieveUserHabits: `select habits.* from users, habits where users.id = "${id}" AND habits.id_users = users.id`,
-      retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id`,
+      retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id ORDER BY date DESC`,
     }
     return queries[q]
   }

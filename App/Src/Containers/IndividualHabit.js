@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Switch, Text, ScrollView, View, StyleSheet } from 'react-native';
+import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
@@ -9,6 +9,7 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
+import Chart from './../Components/Chart.js';
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
@@ -21,14 +22,37 @@ class IndividualHabit extends Component {
       isModalVisible: false,
       isModalTransparent: false,
       // Habit
-      habitName: 'Habit Name',
-      habitType: 'Habit Type',
-      isReminderChecked: false,
-      reminderTime: null,
+      habitName: this.props.habitProps.name,
+      habitType: this.props.habitProps.type,
+      isReminderChecked: this.props.habitProps.notification ? true : false,
+      reminderTime: this.props.habitProps.notification,
+      private: this.props.habitProps.private,
 
     }
   }
 
+
+  _openModal = () => {
+    this.setState({ isModalVisible: true });
+  }
+
+  _updateHabit = (time) => {
+    this._handleTimePicked(time);
+    if(time === null) this._removeReminder();
+    let habit = {
+      id: this.props.habitProps.id,
+      name: this.state.habitName,
+      type: this.state.habitCategory,
+      notification: time,
+      private: this.state.private
+    };
+    this.props.updateHabit(this.props.user, habit);
+    // this._closeModal();
+  }
+
+  _closeModal = () => {
+    this.setState({ isModalVisible: false });
+  }
 
   _showTimePicker = () => {
     this.setState({ isTimePickerVisible: true });
@@ -47,59 +71,140 @@ class IndividualHabit extends Component {
     this.setState({ isReminderChecked: false, reminderTime: null });
   }
 
+  getDates = (startDate, stopDate) => {
+    let dates = [];
+    let curDate = startDate;
+    while (curDate <= stopDate) {
+      dates.push([moment(curDate).format('YYYY-MM-DD'),0])
+      curDate = moment(curDate).add(1, 'days');
+    }
+    return dates;
+  }
+
   render() {
+    console.log('dates:', this.props.habitProps.dates)
+    let dateStrings = this.props.habitProps.dates.map(d => moment(d.date).format('YYYY-MM-DD'))
+    let startDate = new moment(this.props.habitProps.start_date);
+    let today = new moment();
+    let totalDays = today.diff(startDate, 'days');
+    console.log('startd, today, totald', startDate, today, totalDays);
+
+    let allDates = this.getDates(startDate, today);
+    allDates = allDates.map(d=> {
+      if(dateStrings.includes(d[0].toString())) {
+        return [d[0], 1]
+      } else {
+        return d
+      }
+    });
+    console.log(allDates);
+    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7);
+    let longestStreak = 0;
+    let habitScore = 0;
+    let thisStreak = allDates.reduce((acc, d, idx) => {
+        if((acc + d[1]) > longestStreak) {
+          longestStreak = acc + d[1];
+        }
+        d[1] === 0 ? habitScore-- : habitScore++;
+        habitScore = habitScore<0 ? 0 : habitScore;
+        d[1] === 0 ? d.push(0) : d.push(acc + d[1]);
+        d.push(habitScore);
+        return d[1] === 0 ? 0 : acc + d[1]; 
+    }, 0)
+
+    // Add day or days depending on if its one day or not
+    let currentStreak = allDates[allDates.length-1][2] > allDates[allDates.length-2][2] ? allDates[allDates.length-1][2] : allDates[allDates.length-2][2];
+    currentStreak = currentStreak === 1 ? currentStreak + ' day' : currentStreak + ' days';
+    longestStreak = longestStreak === 1 ? longestStreak + ' day' : longestStreak + ' days';
+    weeklyAvg = weeklyAvg === 1 ? weeklyAvg + ' day' : weeklyAvg + ' days';
+
+    //ALL DATES NOW INCLUDES CURRENT STREAK AT ANY DAY (at index 2) & habit score (at index 3)
+    console.log('ad', allDates);
+    let streakChartData = allDates.map(d=> {
+      return { "x": moment(d[0]).format('DD'), "y": d[2] }
+    })
+    let habitScoreChartData = allDates.map(d=> {
+      return { "x": moment(d[0]).format('DD'), "y": d[3] }
+    })
+    let chartData = [streakChartData, habitScoreChartData];
+    console.log('charstata', chartData)
+
+    let images = this.props.habitProps.dates ? this.props.habitProps.dates.map(d=> d.picture): ['No Pictures Yet']
+    if(images.length>6){
+      images = images.slice(0,9);
+      showButton = {display:'flex'}
+    } else {showButton = {display:'none'}}
 
     return (
+    <ScrollView>
       <View style={styles.container}>
-        <View style={[styles.header, {paddingTop:30}]}>
-          <H3>{this.state.habitName}</H3>
+        <View style={[styles.header, {paddingTop:20}]}>
+          <H1>{this.state.habitName}</H1>
         </View>
         <View style={styles.header}>
-          <Text>{this.state.habitType}</Text>
+          <H3>{this.state.habitType}</H3>
         </View>
         <View style={styles.reminder}>
-          <View style={styles.reminder}>
-            <H3>Reminder: </H3>
-            <Button info onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}}>
-              <Text>{this.state.reminderTime ? moment(this.state.reminderTime).format("h:mmA") : 'Inactive' }</Text>
-            </Button>
+          <Text></Text>
+          <Text></Text>
+          <View style={styles.reminderIcon}>
+            <Icon name='notifications'/>
+            <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._updateHabit(null) : this._showTimePicker()}} />
           </View>
           <View>
-            <Text>Private:</Text>
-            <Switch value={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
+            <Text onPress={() => { this.state.isReminderChecked ? '' : this._showTimePicker()}} style={{backgroundColor:'#ADD8E6', padding:6}}>{this.state.reminderTime ? moment(new moment(this.state.reminderTime,'HH:mm:ss')).format("h:mmA") : 'Activate?' }</Text>
           </View>
+          <Text></Text>
+          <Text></Text>
         </View>
         <Card>
           <View style={[styles.stats, {paddingTop:10}]}>
             <Text>Success Rate: </Text>
-            <Text>7/10 (70%)</Text>
+            <Text>{this.props.habitProps.dates.length}/{totalDays} ({Math.floor(this.props.habitProps.dates.length/totalDays*100)}%)</Text>
           </View>
           <View style={styles.stats}>
             <Text>Average Per Week: </Text>
-            <Text>5 days</Text>
+            <Text>{weeklyAvg}</Text>
           </View>
           <View style={styles.stats}>
             <Text>Current Streak: </Text>
-            <Text>0 days</Text>
+            <Text>{currentStreak}</Text>
           </View>
           <View style={styles.stats}>
             <Text>Longest Streak: </Text>
-            <Text>0 days</Text>
+            <Text>{longestStreak}</Text>
           </View>
-
+          <View style={styles.container}>
+            <View style={styles.habitImages}>
+            {images.map((image, idx) => {
+              return (
+                  <Image key={idx} source={{uri: image}} style={styles.habitImage}/>
+              );
+            })}
+            </View>
+          </View>
+          <Button light block style={showButton}>
+            <Text>All {this.state.habitName} Images</Text>
+          </Button>
         </Card>
+        <View style={styles.header}>
+          <H3>Habit Chart</H3>
+        </View>
+        <Chart data={chartData} />
         <DateTimePicker
           isVisible={this.state.isTimePickerVisible}
-          onConfirm={this._handleTimePicked}
+          onConfirm={this._updateHabit}
           onCancel={this._hideTimePicker}
           mode={'time'}
           titleIOS={'Daiy Reminder Time'}
         />
       </View>
+    </ScrollView>
     )
   }
 }
-
+const { width } = Dimensions.get('window');
+const photoWidth = (width - 2 * 10 - 2 * 2 - 4 * 5) / 3;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -108,13 +213,21 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     alignSelf: 'stretch',
-    backgroundColor: 'grey',
+    backgroundColor: '#fffbf8',
   },
   reminder: {
     flexDirection: 'row',
+    height:30,
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: 'seashell',
+  },
+  reminderIcon: {
+    flexDirection: 'row',
+    height:30,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
   stats: {
     flexDirection: 'row',
@@ -124,11 +237,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  habitImages: {
+    borderColor: '#f0f0f5',
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  habitImage: {
+    width: photoWidth,
+    height: photoWidth,
+    marginTop: 5,
+    marginLeft: 5,
+    marginBottom: 5,
+    borderRadius: 3,
+  },
 })
 
-const mapStateToProps = (state) => {
-  return {
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    user: state.user.userData
   }
 }
 

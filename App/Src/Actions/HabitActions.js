@@ -23,6 +23,51 @@ export const habitFail = (err) => {
   }
 };
 
+export const updateHabitInit = () => {
+  return {
+    type: 'UPDATE_HABIT_INIT'
+  }
+};
+
+export const updateHabitSuccess = (data) => {
+  return {
+    type: 'UPDATE_HABIT_SUCCESS',
+    response: data
+  }
+};
+
+export const updateHabitFail = (err) => {
+  return {
+    type: 'UPDATE_HABIT_FAIL',
+    response: err
+  }
+};
+
+export const updateHabit = (userData, habit) => {
+  return dispatch => {
+    dispatch (updateHabitInit());
+    console.log('in update habit, ud then habit:', userData, habit)
+    let postData = Object.assign({}, userData, {data: habit}); // WILL EVENTUALLY HAVE A HABIT TYPE!!!
+
+    return fetch(`http://${MY_IP}:8080/api/habits`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "x-custom-header": userData.token
+      },
+      body: JSON.stringify(postData)
+    })
+    .then(data => {
+      return data.json()
+      .then(data => {
+        dispatch(habitSuccess(data));
+      })
+    })
+    .catch((err)=> dispatch(habitFail(err)));
+  }
+}
+
 export const addHabit = (userData, habit) => {
   return dispatch => {
     dispatch (habitInit());
@@ -33,7 +78,8 @@ export const addHabit = (userData, habit) => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "x-custom-header": userData.token
       },
       body: JSON.stringify(postData)
     })
