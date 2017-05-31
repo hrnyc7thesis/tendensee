@@ -85,7 +85,7 @@ class Habits extends Component {
   }
 
   onSwipeLeft() {
-    Actions.individualHabit();
+    // Actions.individualHabit();
   }
 
   render() {

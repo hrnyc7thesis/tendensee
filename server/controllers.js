@@ -121,6 +121,8 @@ exports.addHabit = (req, res) => {
   newHabit.id_users = req.body.user.id;
   newHabit.start_date = new Date().toMysqlFormat(); // LATER - ability to set date?
 
+  newHabit.notification = newHabit.notification ? new Date(newHabit.notification).toMysqlFormat() : null;
+
   let resData = {};
   resData.token = req.body.token;
   resData.user = req.body.user;
@@ -141,6 +143,9 @@ exports.addHabit = (req, res) => {
 
 // HASNT BEEN TESTED... 
 exports.updateHabit = (req, res) => {
+  console.log('UPDATE HABIT DATA', req.body.data)
+  req.body.data.notification = req.body.data.notification ? new Date(req.body.data.notification).toMysqlFormat() : null;
+
   updatePromise(req.body.data, 'habits', req.body.data.id)
   .then(habit => {
     console.log('updated habit:', habit);
@@ -173,7 +178,7 @@ exports.addDate = (req, res) => {
       createPromise(newDate, 'dates')
       .then(date => {
         newDate.id = date.insertId;
-        resData.habits[0].dates.push(newDate);
+        resData.habits[0].dates.unshift(newDate);
         res.status(201).json(resData);
       })
       .catch(err => console.error('Error adding date to DB:', err))
@@ -186,7 +191,7 @@ exports.addDate = (req, res) => {
           createPromise(newDate, 'dates')
           .then(date => {
             newDate.id = date.insertId;
-            resData.habits[habit.index].dates.push(newDate);
+            resData.habits[habit.index].dates.unshift(newDate);
             res.status(201).json(resData);
           })
           .catch(err => console.error('Error adding date to DB:', err))
