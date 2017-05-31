@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch } from 'react-native';
-import { Container } from 'native-base';
+import { ScrollView, Text, Alert, View, Button, Image, StyleSheet, Switch, TextInput } from 'react-native';
+// import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox } from 'native-base';
+import { Container, Thumbnail } from 'native-base';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 const dummyUserData = {
     "user": {
@@ -56,21 +58,22 @@ const onButtonPress = () =>{
   Alert.alert("button pressed")
 }
 
-
-
 //key={habit.id} habit={habit}
 
 export default class UserSettings extends Component {
   state = {
     notification: true,
     allPrivate: false,
-
+    email: dummyUserData.user.email,
   };
   _toggleNotification = () => {
     this.setState({notification: !this.state.notification});
   };
   _toggleAllPrivate = () => {
     this.setState({allPrivate: !this.state.allPrivate});
+  };
+  _editEmail = () => {
+    Alert.alert("Yapp  :::::")
   };
 
     render() {
@@ -79,19 +82,22 @@ export default class UserSettings extends Component {
             <View style={styles.container}>
               <Text style={styles.headingText}>Setting</Text>
               <View style={styles.habitWrap}>
-                <Text style={styles.habitSetting}>Profile Setting:</Text>
+                <Thumbnail style={{alignSelf: 'center', marginBottom: 20}} size={80} source={{uri: 'https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg'}} />
+                <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
                 <View style={styles.habitProp}>
-            {/* I need to stylet this text with one style */}
+            {/* need to stylet all these text component with one style */}
                   <Text style={styles.textst}>User Name: {dummyUserData.user.username}</Text>
-                  <Text style={styles.textst}>Email: {dummyUserData.user.email}</Text>
+                  <Text style={styles.textst}> Email: {this.state.email}
+                    <Icon onPress = {() => this._editEmail()} name='pencil' style={{fontSize: 15, color: 'red'}}/>
+                  </Text>
                   <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
                   <Text style={styles.textst}>Full Name: {dummyUserData.user.fullname}</Text>
                 </View>
               </View>
               <View style={styles.habitWrap}>
-                <Text style={styles.habitSetting}>Habit Setting:</Text>
+                <Text style={styles.subHeadingSetting}>Habit Setting:</Text>
                 <View style={styles.habitProp}>
-                  <View style={styles.row}>
+                  <View style={styles.habitRow}>
                     <Text style={styles.textst}>Notification For All Habits:   </Text>
                     <Switch value={this.state.notification} onValueChange={this._toggleNotification}
                       onTintColor="#00ff00"
@@ -100,7 +106,7 @@ export default class UserSettings extends Component {
                       tintColor="#ff0000"
                     />
                   </View>
-                  <View style={styles.row}>
+                  <View style={styles.habitRow}>
                     <Text style={styles.textst}>Make All Habit Private:         </Text>
                     <Switch value={this.state.allPrivate} onValueChange={this._toggleAllPrivate}
                       onTintColor="#00ff00"
@@ -126,15 +132,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
-    // flex: 1,
-    // flexDirection: 'column',
     justifyContent: 'center',
-    // flexDirection: 'row',
-    // margin: 100,
     marginTop: 10,
     padding:20,
-    // borderRadius: 10,
-    // alignSelf: 'center',
   },
   headingText: {
     fontFamily: 'Cochin',
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf:'center'
   },
-  habitSetting: {
+  subHeadingSetting: {
     borderRadius: 2,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
@@ -161,9 +161,8 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-around',
   },
-  row: {
+  habitRow: {
   alignItems: 'center',
-  // flex: 1,
   flexDirection: 'row',
   marginBottom: 20,
   },
@@ -173,7 +172,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   switchSt: {
-    marginBottom: 10,
     transform: [{scaleX: .75}, {scaleY: .75}],
   }
 });
