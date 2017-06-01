@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { Text, View, StyleSheet } from 'react-native';
 import RecentDays from './RecentDays.js'
 
-const HabitBlock = ({habit, onPressItem, onPressHabit}) => {
+const HabitBlock = ({habit, allHabits, onPressItem, onPressHabit}) => {
   const habitProps = habit;
 
   console.log('habitprops', habitProps);
@@ -12,7 +12,7 @@ const HabitBlock = ({habit, onPressItem, onPressHabit}) => {
       <View style={styles.habitName}>
         <Text onPress={() => onPressHabit(habitProps)} style={styles.habitNameTitle}>{habit.name}</Text>
       </View>
-      <RecentDays dates={habit.dates} habitProps={habitProps} onPressItem={onPressItem}/>
+      <RecentDays allHabits={allHabits} dates={habit.dates} habitProps={habitProps} onPressItem={onPressItem}/>
     </View>
   )
 }
