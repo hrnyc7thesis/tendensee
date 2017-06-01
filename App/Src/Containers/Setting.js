@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { ScrollView, Text, Alert, View, Button, Image, StyleSheet, Switch, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
 import { Container, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-var ImagePicker = require('react-native-image-picker');
+const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
 
 
-var options = {
+const options = {
   title: 'Select Photo',
   customButtons: [
     {name: 'fb', title: 'Choose Photo from Facebook'},
@@ -25,7 +25,7 @@ const dummyUserData = {
       "username": "Deb123",
       "email": "debasishbd@outlook.com",
       "facebook": "dave mozumder",
-      "profileImg": "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwi-1pDPlJvUAhXJ2xoKHQx8Dy0QjRwIBw&url=http%3A%2F%2Fenadcity.org%2Fcg-leaders-profile%2F&psig=AFQjCNEX99KVyfv5WTGi0pTZufq2xza6iQ&ust=1496355405013384"
+      "profileImg": ""
     },
     "habits": [
       {
@@ -91,63 +91,71 @@ export default class UserSettings extends Component {
       duration: Snackbar.LENGTH_SHORT,
     });
   };
-  _saveResponse = (promptValue) => {
-    this.setState({ email: promptValue });
+  // _saveResponse = (promptValue) => {
+  //   this.setState({ email: promptValue });
+  // };
+  _validateAndSaveEmail = (promptValue) => {
+    var email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (email.test(promptValue)) {
+      this.setState({ email: promptValue });
+    } else {
+      Alert.alert("Please make sure your email is valid! Try Again!")
+    }
+
   };
 
-    render() {
-      // let profileImg = this.state.avatarSource === null ? null :
-        return (
-          <View style= {styles.pageView}>
-            <View style={styles.container}>
-              <Text style={styles.headingText}>Setting</Text>
-              <View style={styles.habitWrap}>
-                <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }}onPress={this.ImageShow.bind(this)}>
-                   <Image
-                      source={{uri: this.state.avatarSource}}
-                      style={{borderRadius: 30, height: 100, width: 100}}
-                    />
-                </TouchableOpacity>
-                <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
-                <View style={styles.habitProp}>
-                  <Text style={styles.textst}>User Name: {dummyUserData.user.username}</Text>
-                  <Text style={styles.textst}> Email: {this.state.email}
-                    <Icon onPress={() => AlertIOS.prompt('Type Your Email', null, this._saveResponse)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
-                  </Text>
-                  <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
-                  <Text style={styles.textst}>Full Name: {dummyUserData.user.fullname}</Text>
-                </View>
+  render() {
+      return (
+        <View style= {styles.pageView}>
+          <View style={styles.container}>
+            <Text style={styles.headingText}>Setting</Text>
+            <View style={styles.habitWrap}>
+              <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }}onPress={this.ImageShow.bind(this)}>
+                 <Image
+                    source={{uri: this.state.avatarSource}}
+                    style={{borderRadius: 30, height: 100, width: 100}}
+                  />
+              </TouchableOpacity>
+              <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
+              <View style={styles.habitProp}>
+                <Text style={styles.textst}>User Name: {dummyUserData.user.username}</Text>
+                <Text style={styles.textst}> Email: {this.state.email}
+                  <Icon onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
+                </Text>
+                <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
+                <Text style={styles.textst}>Full Name: {dummyUserData.user.fullname}</Text>
               </View>
-              <View style={styles.habitWrap}>
-                <Text style={styles.subHeadingSetting}>Habit Setting:</Text>
-                <View style={styles.habitProp}>
-                  <View style={styles.habitRow}>
-                    <Text style={styles.textst}>Notification For All Habits:   </Text>
-                    <Switch value={this.state.notification} onValueChange={this._toggleNotification}
-                      onTintColor="#00ff00"
-                      style={styles.switchSt}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                    />
-                  </View>
-                  <View style={styles.habitRow}>
-                    <Text style={styles.textst}>Make All Habit Private:         </Text>
-                    <Switch value={this.state.allPrivate} onValueChange={this._toggleAllPrivate}
-                      onTintColor="#00ff00"
-                      style={styles.switchSt}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                    />
-                  </View>
+            </View>
+            <View style={styles.habitWrap}>
+              <Text style={styles.subHeadingSetting}>Habit Setting:</Text>
+              <View style={styles.habitProp}>
+                <View style={styles.habitRow}>
+                  <Text style={styles.textst}>Notification For All Habits:   </Text>
+                  <Switch value={this.state.notification} onValueChange={this._toggleNotification}
+                    onTintColor="#00ff00"
+                    style={styles.switchSt}
+                    thumbTintColor="#0000ff"
+                    tintColor="#ff0000"
+                  />
+                </View>
+                <View style={styles.habitRow}>
+                  <Text style={styles.textst}>Make All Habit Private:         </Text>
+                  <Switch value={this.state.allPrivate} onValueChange={this._toggleAllPrivate}
+                    onTintColor="#00ff00"
+                    style={styles.switchSt}
+                    thumbTintColor="#0000ff"
+                    tintColor="#ff0000"
+                  />
                 </View>
               </View>
             </View>
           </View>
-        );
-    }
-    //the following codes are for profile Image functionality
-    ImageShow() {
-      ImagePicker.showImagePicker(options, (response) => {
+        </View>
+      );
+  }
+
+  ImageShow() {
+    ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       }
@@ -163,7 +171,7 @@ export default class UserSettings extends Component {
         });
       }
     });
-    }
+  }
 }
 
 const styles = StyleSheet.create({
