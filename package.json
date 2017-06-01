@@ -36,6 +36,7 @@
     "path": "^0.12.7",
     "promise-mysql": "^3.0.1",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
+    "react-native-image-picker": "^0.26.3",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
     "s3-upload-stream": "^1.0.7",
