@@ -5,13 +5,19 @@ import { incrementPhotoCount } from './../Actions/PhotoActions';
 
 const Day = ({day, habitProps, onPressItem}) => {
   console.log('day habits', habitProps)
+
+  let image;
+  if (day.id === 0) {
+    image = <Image style={[styles.dayContainerImage, {opacity: 0.5}]} source={{uri: day.picture}} />
+  } else {
+    image = <Image style={[styles.dayContainerImage]} source={{uri: day.picture}} />
+  }
+
   return (
     <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(day, habitProps)}>
       <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd D")}</Text>
-      <Image
-        style={styles.dayContainerImage}
-        source={{uri: day.picture}}
-      />
+      {image}
+      {/* <Image style={styles.dayContainerImage} source={{uri: day.picture}} /> */}
     </TouchableOpacity>
   )
 }
@@ -25,6 +31,14 @@ const styles = StyleSheet.create({
   },
 
   dayContainerImage: {
+    // backgroundColor: 'transparent',
+    width: 100,
+    height: 100,
+    // opacity: 0.5,
+    // tintColor: 'rgba(220, 116, 116, 0.5)',
+  },
+
+  ContainerImage: {
     width: 100,
     height: 100,
   },

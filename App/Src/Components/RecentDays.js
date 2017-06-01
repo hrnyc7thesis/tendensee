@@ -15,20 +15,6 @@ const getDates = (startDate, stopDate) => {
 
 const RecentDays = ({dates, habitProps, onPressItem}) => {
   // TODO: Refactor so not sorting everytime, save it beforehand
-  // let descendingDates = [];
-  // if (dates.length) {
-  //
-  // } else {
-  //   descendingDates.push('<Text>""</Text>');
-  // }
-  // dates.length ? dates.sort((a,b) => new Date(b.date) - new Date(a.date))
-  //
-  // return(
-  //   <ScrollView horizontal style={styles.recentDaysContainer}>
-  //     {descendingDates.forEach(day)}
-  //   </ScrollView>
-  // )
-
   let dateStrings = habitProps.dates.map(d => [moment(d.date).format('YYYY-MM-DD'), d])
   let startDate = new moment(habitProps.start_date);
   let today = new moment();
@@ -60,7 +46,6 @@ const RecentDays = ({dates, habitProps, onPressItem}) => {
         picture: 'https://thumb1.shutterstock.com/display_pic_with_logo/162265/276671360/stock-photo-motivational-quote-to-create-future-on-nature-abstract-background-276671360.jpg',
       }
       return <Day day={day} habitProps={habitProps} onPressItem={onPressItem}/>
-
     }
   });
 
