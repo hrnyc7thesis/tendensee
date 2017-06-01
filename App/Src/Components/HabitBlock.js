@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import RecentDays from './RecentDays.js'
 
 const HabitBlock = ({habit, onPressItem, onPressHabit}) => {
@@ -17,6 +17,7 @@ const HabitBlock = ({habit, onPressItem, onPressHabit}) => {
   )
 }
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   habitBlock: {
     flexDirection: 'column',
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
   habitName: {
     alignItems: 'center',
     backgroundColor: 'salmon',
+    width: width,
   },
 
   habitNameTitle: {
