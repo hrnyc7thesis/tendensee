@@ -6,12 +6,15 @@ import { incrementPhotoCount } from './../Actions/PhotoActions';
 const Day = ({day, habitProps, onPressItem}) => {
   console.log('day habits', habitProps)
 
-  let image;
-  if (day.id === 0) {
-    image = <Image style={[styles.dayContainerImage, {opacity: 0.5}]} source={{uri: day.picture}} />
-  } else {
-    image = <Image style={[styles.dayContainerImage]} source={{uri: day.picture}} />
-  }
+  // let image;
+  // if (day.id === 0) {
+  //   image = <Image style={[styles.dayContainerImage, {opacity: 0.5}]} source={{uri: day.picture}} />
+  // } else {
+  //   image = <Image style={[styles.dayContainerImage]} source={{uri: day.picture}} />
+  // }
+
+  let image = day.id === 0 ? <Image style={[styles.dayContainerImage, {opacity: 0.5}]} source={{uri: day.picture}} /> :
+    <Image style={[styles.dayContainerImage]} source={{uri: day.picture}} />
 
   return (
     <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(day, habitProps)}>
