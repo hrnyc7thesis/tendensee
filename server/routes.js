@@ -44,11 +44,10 @@ routes.route('/api/habits')
 
 routes.route('/api/dates')
   // .get(controllers.getDate)
-  .post(controllers.addDate);
-  // .delete(controllers.deleteDate);
+  .post(controllers.addDate)
+  .put(controllers.updateDate)
+  .delete(controllers.deleteDate);
 
-// routes.route('/api/register')
-//   .post(controllers.register);
 
 routes.route('/api/friends')
   .get(controllers.getAllOtherUsers)

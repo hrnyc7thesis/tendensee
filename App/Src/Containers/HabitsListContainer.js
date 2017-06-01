@@ -23,8 +23,8 @@ const mapDispatchToProps = (dispatch) => {
     onPressHabit: (habitProps) => {
       Actions.individualHabit({habitProps})
     },
-    test: (day, habitProps) => {
-      dispatch(editHabitDayType(day, habitProps))
+    test: (day, allHabits, habitProps) => {
+      dispatch(editHabitDayType(day, allHabits, habitProps))
     }
   }
 }
