@@ -2,6 +2,7 @@ const Clarifai = require('clarifai');
 const config = require('./config.js');
 const imageRec = new Clarifai.App(config.imageId, config.imageSecret)
 const dbHelpers = require('./db/helpers.js');
+const moment = require('moment');
 
 
 const habitTypes = ['Fitness', 'Diet', 'Study', 'Time', 'Sleeping', 'Hygiene', 'timeManagement'];
@@ -27,7 +28,8 @@ module.exports = (picture, habits) => {
     let uncheckedHabits = [];
     console.log('habit efore foreach', habits)
     habits.forEach((habit, idx) => {
-      if(habit.dates && new Date().toMysqlFormat() != habit.dates[habit.dates.length-1]) {
+      if(habit.dates.length && (moment(new Date()).format('YYYY-MM-DD') != moment(habit.dates[habit.dates.length-1].date).format('YYYY-MM-DD'))) {
+        console.log('in imageREC date1, date2', moment(new Date()).format('YYYY-MM-DD'), moment(habit.dates[habit.dates.length-1].date).format('YYYY-MM-DD'))
         console.log('habit name & type', habit.name, habit.type);
         uncheckedHabits.push(habit);
         console.log('keywords arr', keywords[habit.type]);

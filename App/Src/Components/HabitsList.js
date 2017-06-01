@@ -6,7 +6,7 @@ import ModalRoot from './ModalRoot.js'
 const HabitsList = ({habits, test, onPressHabit}) => (
   <View>
     {habits ? habits.map(habit => {
-      return <HabitBlock key={habit.id} habit={habit} onPressHabit={onPressHabit} onPressItem={test}/>
+      return <HabitBlock key={habit.id} allHabits={habits} habit={habit} onPressHabit={onPressHabit} onPressItem={test}/>
     }):<Text>''</Text>}
     <ModalRoot />
   </View>

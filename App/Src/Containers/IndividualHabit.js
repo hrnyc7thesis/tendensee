@@ -9,7 +9,6 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
-import Chart from './../Components/Chart.js';
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
@@ -101,7 +100,7 @@ class IndividualHabit extends Component {
     let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7);
     let longestStreak = 0;
     let habitScore = 0;
-    let thisStreak = allDates.reduce((acc, d, idx) => {
+    allDates.reduce((acc, d, idx) => {
         if((acc + d[1]) > longestStreak) {
           longestStreak = acc + d[1];
         }
@@ -190,7 +189,6 @@ class IndividualHabit extends Component {
         <View style={styles.header}>
           <H3>Habit Chart</H3>
         </View>
-        <Chart data={chartData} />
         <DateTimePicker
           isVisible={this.state.isTimePickerVisible}
           onConfirm={this._updateHabit}

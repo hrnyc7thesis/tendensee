@@ -24,7 +24,6 @@ const getUserData = (userId) => {
   let resData = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
-    console.log('user:', user)
     let { id, username, email, facebook, tagline } = user[0];
     resData['user'] = { id, username, email, facebook, tagline }
     return retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
@@ -35,15 +34,14 @@ const getUserData = (userId) => {
           habit.private = habit.private.lastIndexOf(1) !== -1;
           habit.dates = [];
         })
-        console.log('habits:', habits)
         resData['habits'] = habits;
         // DOES THIS WORK FOR WHEN THERE ARE NO DATES PER HABIT?
         datePromises = resData.habits.map(habit => {
           return retrievePromise(dbHelpers.query('retrieveDatesFromHabit', habit.id))
           .then(dates => {
             dates.forEach(day => {
-              let { id, date, picture } = day;
-              habit.dates.push({ id, date, picture });
+              let { id, date, picture, id_habits, id_users } = day;
+              habit.dates.push({ id, date, picture, id_habits, id_users });
               return day;
             })
           })
@@ -54,7 +52,7 @@ const getUserData = (userId) => {
           return resData;
         })
       } else {
-          console.log('no habits', resData)
+        console.log('no habits', resData)
         resData['habits'] = [];
         return resData;
       }
@@ -69,8 +67,6 @@ exports.getUserData = getUserData;
 exports.getUser = (req, res) => {
   console.log('x-custom?', req.headers['x-custom-header'])
 
-  console.log('gu req.headers', req.headers['x-custom-header']);
-  console.log('gu req.cookies', req.cookies);
   // let username = req.session.passport.user;
   let token = req.headers['x-custom-header'];
   let user = jwt.decode(token, config.tokenSecret);
@@ -170,7 +166,6 @@ exports.addDate = (req, res) => {
   let imageRecData;
 
   uploadS3(req.body.data.data, pic => {
-    console.log('in s3 cb');
     newDate.picture = pic.Location;
     if(newDate.id_habits.length === 1) {
       newDate.id_habits = newDate.id_habits[0];
@@ -200,6 +195,52 @@ exports.addDate = (req, res) => {
 
     }
   })
+}
+
+exports.updateDate = (req, res) => {
+  console.log('UPDATE DATE DATA', req.body.data)
+  let updateData = {
+
+  }
+  // Swap if there is a picture there already...
+  if(req.body.data.swap) {
+    let placeHolder = new Date();
+    placeHolder.setDate(placeHolder.getDate() + 3);
+    placeHolder = placeHolder.toMysqlFormat();
+
+    updatePromise({date: placeHolder}, 'dates', req.body.data.swap.id)
+    .then(date => {
+      updatePromise({id_habits: req.body.data.id_habits}, 'dates', req.body.data.id)
+      .then(date => {
+        updatePromise({date: req.body.data.swap.date, id_habits: req.body.data.swap.id_habits }, 'dates', req.body.data.swap.id)
+        .then(date => {
+          console.log('updated date:', date);
+          res.status(200).json(date);
+        })
+        .catch(err => console.error('Error updating date in DB (1):', err))
+      })
+      .catch(err => console.error('Error updating date in DB (2):', err))
+    })
+    .catch(err => console.error('Error updating date in DB (3):', err))
+  } else {
+    updatePromise(req.body.data, 'dates', req.body.data.id)
+    .then(date => {
+      console.log('updated date:', date);
+      res.status(200).json(date);
+    })
+    .catch(err => console.error('Error updating date in DB:', err))
+  }
+}
+
+exports.deleteDate = (req, res) => {
+  console.log('DELETE DATE DATA', req.body.data)
+
+  deletePromise(req.body.data.id, 'dates')
+  .then(date => {
+    console.log('deleted date:', date);
+    res.status(200).json(date);
+  })
+  .catch(err => console.error('Error deleting date in DB:', err))
 }
 
 //id username tagline photo email
