@@ -19,14 +19,15 @@ const HabitBlock = ({habit, onPressItem, onPressHabit}) => {
 
 const styles = StyleSheet.create({
   habitBlock: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'skyblue',
+    marginBottom: 10,
   },
 
   habitName: {
-    width: 70,
     alignItems: 'center',
+    backgroundColor: 'salmon',
   },
 
   habitNameTitle: {

@@ -7,7 +7,7 @@ const Day = ({day, habitProps, onPressItem}) => {
   console.log('day habits', habitProps)
   return (
     <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(day, habitProps)}>
-      <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd")}</Text>
+      <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd D")}</Text>
       <Image
         style={styles.dayContainerImage}
         source={{uri: day.picture}}
@@ -19,14 +19,14 @@ const Day = ({day, habitProps, onPressItem}) => {
 const styles = StyleSheet.create({
   dayContainer: {
     backgroundColor: '#ecf0f1',
-    width: 70,
+    width: 102,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   dayContainerImage: {
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 100,
   },
 })
 
