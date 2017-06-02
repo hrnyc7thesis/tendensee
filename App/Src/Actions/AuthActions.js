@@ -1,6 +1,8 @@
 import { MY_IP } from './../myip';
 import { fetchUserSuccess } from './UserActions.js'
 import { Actions, ActionConst } from 'react-native-router-flux';
+import { AsyncStorage } from 'react-native'
+
 
 export const authInit = () => {
   return {
@@ -103,6 +105,7 @@ export const auth = (username, password, email, route) => {
     .then(data => {
       return data.json()
       .then(data => {
+        AsyncStorage.setItem('token', data.token);
         console.log('data in authact:', data);
         dispatch(authSuccess())
         dispatch(fetchUserSuccess(data))

@@ -1,4 +1,5 @@
 import { MY_IP } from './../myip';
+import { AsyncStorage } from 'react-native'
 
 export const fetchUserInit = () => {
   return {
@@ -22,28 +23,61 @@ export const fetchUserFail = () => {
 
 export const fetchUser = (token) => {
   return (dispatch) => {
-    //Start loading animation
-    dispatch(fetchUserInit());
-    //Begin fetching
-    console.log('token', token);
+    token || AsyncStorage.getItem('token')
+    .then(asyncToken => {
+      dispatch(fetchUserInit());
+      //Begin fetching
+      console.log('token', token);
 
-    return fetch(`http://${MY_IP}:8080/api/users`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "x-custom-header": token
-      }
-    })
-    .then(data => {
-      data.json()
-      .then(data => dispatch(fetchUserSuccess(data)))
+      return fetch(`http://${MY_IP}:8080/api/users`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "x-custom-header": asyncToken
+        }
+      })
+      .then(data => {
+        data.json()
+        .then(data => {
+          AsyncStorage.setItem('token', data.token);
+          dispatch(fetchUserSuccess(data))
+        })
+        .catch(() => {
+          dispatch(fetchUserFail());
+        })
+      })
       .catch(() => {
         dispatch(fetchUserFail());
-      })
+      });
     })
-    .catch(() => {
-      dispatch(fetchUserFail());
-    });
+    if(token) {
+      //Start loading animation
+      dispatch(fetchUserInit());
+      //Begin fetching
+      console.log('token', token);
+
+      return fetch(`http://${MY_IP}:8080/api/users`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "x-custom-header": token
+        }
+      })
+      .then(data => {
+        data.json()
+        .then(data => {
+          AsyncStorage.setItem('token', data.token);
+          dispatch(fetchUserSuccess(data))
+        })
+        .catch(() => {
+          dispatch(fetchUserFail());
+        })
+      })
+      .catch(() => {
+        dispatch(fetchUserFail());
+      });
+    }
   }
 }

@@ -1,4 +1,7 @@
 import { MY_IP } from './../myip';
+import { fetchUser } from './UserActions';
+import { AsyncStorage } from 'react-native'
+
 
 
 export const deleteDayInit = () => {
@@ -43,48 +46,58 @@ export const updateDayFail = (err) => {
 
 export const updateDay = (day) => {
   return dispatch => {
-    dispatch (updateDayInit());
-    console.log('in update day:', day)
-    let putData = Object.assign({}, {data: day});
+    AsyncStorage.getItem('token')
+    .then(asyncToken => {
+      dispatch (updateDayInit());
+      console.log('in update day:', day)
+      let putData = Object.assign({}, {data: day});
 
-    return fetch(`http://${MY_IP}:8080/api/dates`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(putData)
-    })
-    .then(data => {
-      return data.json()
-      .then(data => {
-        dispatch(updateDaySuccess(data));
+      return fetch(`http://${MY_IP}:8080/api/dates`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'x-custom-header': asyncToken
+        },
+        body: JSON.stringify(putData)
       })
+      .then(data => {
+        return data.json()
+        .then(data => {
+          dispatch(updateDaySuccess(data));
+          dispatch(fetchUser())
+        })
+      })
+      .catch((err)=> dispatch(updateDayFail(err)));
     })
-    .catch((err)=> dispatch(updateDayFail(err)));
   }
 }
 
 export const deleteDay = (day) => {
   return dispatch => {
-    dispatch (deleteDayInit());
-    console.log('in delete day:', day)
-    let deleteData = Object.assign({}, {data: day});
+    AsyncStorage.getItem('token')
+    .then(asyncToken => {
+      dispatch (deleteDayInit());
+      console.log('in delete day:', day)
+      let deleteData = Object.assign({}, {data: day});
 
-    return fetch(`http://${MY_IP}:8080/api/dates`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(deleteData)
-    })
-    .then(data => {
-      return data.json()
-      .then(data => {
-        dispatch(deleteDaySuccess(data));
+      return fetch(`http://${MY_IP}:8080/api/dates`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'x-custom-header': asyncToken
+        },
+        body: JSON.stringify(deleteData)
       })
+      .then(data => {
+        return data.json()
+        .then(data => {
+          dispatch(deleteDaySuccess(data));
+          dispatch(fetchUser())
+        })
+      })
+      .catch((err)=> dispatch(deleteDayFail(err)));
     })
-    .catch((err)=> dispatch(deleteDayFail(err)));
   }
 }
