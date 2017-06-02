@@ -28,9 +28,7 @@ export const sendPhotoFail = () => {
 
 export const sendPhoto = (data) => {
   return (dispatch) => {
-    //Start loading animation
     dispatch(sendPhotoInit());
-    //Begin fetching
     return fetch(`http://${MY_IP}:8080/api/dates`, {
       method: 'POST',
       headers: {

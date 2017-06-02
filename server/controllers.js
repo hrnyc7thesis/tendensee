@@ -230,7 +230,6 @@ exports.addDate = (req, res) => {
           .catch(err => console.error('Error adding date to DB:', err))
         }
       })
-
     }
   })
 }
