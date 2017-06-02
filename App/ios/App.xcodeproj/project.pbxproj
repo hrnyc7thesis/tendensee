@@ -339,6 +339,13 @@
 			remoteGlobalIDString = 4114DC4C1C187C3A003CD988;
 			remoteInfo = RNSnackbar;
 		};
+		F1F1D7CB1EE1DA8700E4D656 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5C2A9D9983F94F75A5B86798 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = RNSVG;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -804,6 +811,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F1F1D7AC1EE1DA8700E4D656 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F1F1D7CC1EE1DA8700E4D656 /* libRNSVG.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -976,6 +991,7 @@
 				},
 				{
 					ProductGroup = D92EC0821EE19EA000EF538F /* Products */;
+					ProductGroup = F1F1D7AC1EE1DA8700E4D656 /* Products */;
 					ProjectRef = 5C2A9D9983F94F75A5B86798 /* RNSVG.xcodeproj */;
 				},
 				{
@@ -1224,6 +1240,13 @@
 			fileType = archive.ar;
 			path = libRNSnackbar.a;
 			remoteRef = F1DF19FF1EDF6DA0007EB254 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F1F1D7CC1EE1DA8700E4D656 /* libRNSVG.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSVG.a;
+			remoteRef = F1F1D7CB1EE1DA8700E4D656 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
