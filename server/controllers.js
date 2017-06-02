@@ -26,56 +26,94 @@ const getUserData = (userId) => {
   .then(user => {
     let { id, username, email, facebook, tagline } = user[0];
     resData['user'] = { id, username, email, facebook, tagline }
-    return retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
-    .then(habits => {
-      if(habits.length) {
-        habits.forEach(habit => {
-          habit.has_pictures = habit.has_pictures.lastIndexOf(1) !== -1;
-          habit.private = habit.private.lastIndexOf(1) !== -1;
-          habit.dates = [];
+
+    //ADDED BELOW TO GET FRIENDS AND ALL OTHER USERS - DUNCAN
+    resData['allUsers'] = [];
+    resData['friends'] = [];
+    return retrievePromise(dbHelpers.query('retrieveAllOtherUsers', userId))
+    .then(users => {
+      users.forEach((user) => {
+        resData['allUsers'].push({
+          id: user.id,
+          username: user.username,
+          tagline: user.tagline,
+          photo: user.photo,
+          email: user.email
         })
-        resData['habits'] = habits;
-        // DOES THIS WORK FOR WHEN THERE ARE NO DATES PER HABIT?
-        datePromises = resData.habits.map(habit => {
-          return retrievePromise(dbHelpers.query('retrieveDatesFromHabit', habit.id))
-          .then(dates => {
-            dates.forEach(day => {
-              let { id, date, picture, id_habits, id_users } = day;
-              habit.dates.push({ id, date, picture, id_habits, id_users });
-              return day;
+      });
+      return retrievePromise(dbHelpers.query('retrieveFriends', userId))
+      .then((friends) => {
+        resData['friends'] = friends.map(friend => friend.id_followee);
+      //BELOW FOLLOWS THE CODE THAT WAS EXISTING BEFORE - DUNCAN
+      return retrievePromise(dbHelpers.query('retrieveUserHabits', userId))
+      .then(habits => {
+        if(habits.length) {
+          habits.forEach(habit => {
+            habit.has_pictures = habit.has_pictures.lastIndexOf(1) !== -1;
+            habit.private = habit.private.lastIndexOf(1) !== -1;
+            habit.dates = [];
+          })
+          resData['habits'] = habits;
+          // DOES THIS WORK FOR WHEN THERE ARE NO DATES PER HABIT?
+          datePromises = resData.habits.map(habit => {
+            return retrievePromise(dbHelpers.query('retrieveDatesFromHabit', habit.id))
+            .then(dates => {
+              dates.forEach(day => {
+                let { id, date, picture } = day;
+                habit.dates.push({ id, date, picture });
+                return day;
+              })
             })
           })
-        })
-        return Promise.all(datePromises)
-        .then(() => {
-          console.log('pormiseall', resData)
+          return Promise.all(datePromises)
+          .then(() => {
+            return resData;
+          })
+        } else {
+          console.log('no habits', resData);
+          resData['habits'] = [];
           return resData;
-        })
-      } else {
-        console.log('no habits', resData)
-        resData['habits'] = [];
-        return resData;
-      }
+        }
+      })
+      .catch(err => console.log('Error getting user data from DB:', err))
     })
-    .catch(err => console.log('Error getting user data from DB:', err))
-  })
+      })
+      .catch(err => {
+        console.error(err);
+      })
+    })
+    .catch(err => {
+      console.error(err);
+    })
 }
 
 exports.getUserData = getUserData;
 
 // USERS -------------------------------->
 exports.getUser = (req, res) => {
-  console.log('x-custom?', req.headers['x-custom-header'])
-
-  // let username = req.session.passport.user;
-  let token = req.headers['x-custom-header'];
-  let user = jwt.decode(token, config.tokenSecret);
-  getUserData(user.id)
-  .then(data => {
-    data.token = token;
-    res.status(200).json(data);
-  })
-  .catch(err => console.error('Error getting user data from DB:', err))
+  //ADDED THE FIRST IF STATEMENT TO ACCOUNT FOR CLICKING ON ANOTHER
+  //USERS PROFILE. LEFT ELSE BLOCK UNCHANGED - DUNCAN
+  if (req.params.user) {
+    let user = {id: req.params.user};
+    getUserData(user.id)
+    .then(data => {
+      res.status(200).json(data);
+    })
+  } else {
+    // console.log('x-custom?', req.headers['x-custom-header'])
+    //
+    // console.log('gu req.headers', req.headers['x-custom-header']);
+    // console.log('gu req.cookies', req.cookies);
+    // let username = req.session.passport.user;
+    let token = req.headers['x-custom-header'];
+    let user = jwt.decode(token, config.tokenSecret);
+    getUserData(user.id)
+    .then(data => {
+      data.token = token;
+      res.status(200).json(data);
+    })
+    .catch(err => console.error('Error getting user data from DB:', err))
+  }
 }
 
 exports.addUser = (req, res) => {
@@ -87,7 +125,7 @@ exports.addUser = (req, res) => {
   .then(user => {
     resData.user.id = user.insertId;
 
-    console.log('adduser return obj', data)
+    // console.log('adduser return obj', data)
     res.status(201).json(resData);
   })
   .catch(err => console.error('Error adding user to DB:', err))
@@ -103,8 +141,8 @@ exports.patchUser = (req, res) => {
 
   updatePromise(req.body.data, 'users', req.body.user.id)
   .then(user => {
-    console.log('User Updated:', user)
-    console.log('resData', resData)
+    // console.log('User Updated:', user)
+    // console.log('resData', resData)
     res.status(201).json(resData);
   })
   .catch(err => console.error('Error updating user in DB:', err))
@@ -124,27 +162,27 @@ exports.addHabit = (req, res) => {
   resData.user = req.body.user;
   resData.habits = req.body.habits;
 
-  console.log('add habit newHabit', newHabit)
+  // console.log('add habit newHabit', newHabit)
   createPromise(newHabit, 'habits')
   .then(habit => {
-    console.log('habit after put in', habit);
+    // console.log('habit after put in', habit);
     newHabit.id = habit.insertId;
     newHabit.dates = [];
     resData.habits.push(newHabit);
-    console.log('resData in addHabit', resData)
+    // console.log('resData in addHabit', resData)
     res.status(201).json(resData);
   })
   .catch(err => console.error('Error adding habit to DB:', err))
 }
 
-// HASNT BEEN TESTED... 
+// HASNT BEEN TESTED...
 exports.updateHabit = (req, res) => {
   console.log('UPDATE HABIT DATA', req.body.data)
   req.body.data.notification = req.body.data.notification ? new Date(req.body.data.notification).toMysqlFormat() : null;
 
   updatePromise(req.body.data, 'habits', req.body.data.id)
   .then(habit => {
-    console.log('updated habit:', habit);
+    // console.log('updated habit:', habit);
     res.status(200).json(habit);
   })
   .catch(err => console.error('Error updating habit in DB:', err))
@@ -243,46 +281,9 @@ exports.deleteDate = (req, res) => {
   .catch(err => console.error('Error deleting date in DB:', err))
 }
 
-//id username tagline photo email
 // FRIENDS -------------------------------------------->
-exports.getAllOtherUsers = (req, res) => {
-  let token = req.headers['x-custom-header'];
-  let user = jwt.decode(token, config.tokenSecret);
-  let userId = user.id;
-  let resData = {allUsers: []};
-  console.log('GETTING FRIENDS');
-  return retrievePromise(dbHelpers.query('retrieveAllOtherUsers', userId))
-  .then(users => {
-    console.log(users);
-    users.forEach((user) => {
-      console.log('resdata',resData);
-      resData.allUsers.push({
-        id: user.id,
-        username: user.username,
-        tagline: user.tagline,
-        photo: user.photo,
-        email: user.email
-      })
-    });
-    return retrievePromise(dbHelpers.query('retrieveFriends', userId))
-    .then((friends) => {
-      resData.friends = friends.map(friend => friend.id_followee);
-      console.log('resData',resData);
-      res.status(200).json(resData);
-    })
-    .catch(err => {
-      console.log('error getting friends');
-      console.error(err);
-    })
-  })
-  .catch(err => {
-    console.log('error getting other users');
-    console.error(err);
-  })
-}
 
 exports.addFriends = (req, res) => {
-  console.log('ADDING FRIEND IN DATABASE');
   let token = req.headers['x-custom-header'];
   let user = jwt.decode(token, config.tokenSecret);
   let id_follower = user.id;
@@ -299,12 +300,10 @@ exports.addFriends = (req, res) => {
 }
 
 exports.deleteFriend = (req, res) => {
-  console.log('DELETING FRIEND IN DATABASE');
   let token = req.headers['x-custom-header'];
   let user = jwt.decode(token, config.tokenSecret);
   let id_follower = user.id;
   let id_followee = req.body.data;
-  console.log('follower',id_follower,'followee',id_followee);
   deleteFriendPromise(id_follower, id_followee)
   .then((data) => {
     res.status(201).json(data);
