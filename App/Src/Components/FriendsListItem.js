@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { Card, CheckBox, Button, Icon } from 'native-base';
 
 class Friend extends Component {
@@ -15,46 +15,55 @@ class Friend extends Component {
       isFriendChecked: !this.state.isFriendChecked
     });
     if (!this.state.isFriendChecked) {
-      this.props._addFriendToList(this.props.user.id);
+      this.props.addFriendToList(this.props.user.id);
     } else {
-      this.props._removeFriendFromList(this.props.user.id);
+      this.props.removeFriendFromList(this.props.user.id);
     }
   }
 
   _deleteFriend = () => {
-    console.log('deleting friend, id: ',this.props.user.id);
     this.props.deleteFriend(this.props.user.id);
   }
 
+  _changeVisibleUser = () => {
+    this.props.closeModal();
+    this.props.changeVisibleUser(this.props.user.id);
+  }
+
   render() {
-    console.log('this.props.isModalVisible',this.props.isModalVisible);
     return (
       <View style={styles.friendCard}>
         <View style={styles.photo}>
-          <Image style={styles.image} source={
-            this.props.user.photo === 'NO_PHOTO' ?
-              {uri: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}
-              : {uri: this.props.user.photo}
-          } />
+          <TouchableHighlight style={styles.touchableOpacity} underlayColor="blue" onPress={() => {this._changeVisibleUser()}}>
+            <Image style={styles.image}
+              source={
+                this.props.user.photo === 'NO_PHOTO' ?
+                  {uri: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}
+                 :
+                  {uri: this.props.user.photo}
+              }
+            />
+          </TouchableHighlight>
         </View>
         <View style={styles.userInfo}>
           <View style={styles.usernameContainer}>
             <Text style={styles.username}>{this.props.user.username}</Text>
           </View>
           <View>
-            <Text style={styles.quote}>{
-              this.props.user.tagline === 'NO_TAGLINE' ?
+            <Text style={styles.quote}>
+              {this.props.user.tagline === 'NO_TAGLINE' ? (
                 `I'm not very inventive!`
-                : this.props.user.tagline
-            }</Text>
+              ) : (
+                this.props.user.tagline
+              )}
+            </Text>
           </View>
         </View>
         <View style={styles.friendCheckbox}>
-          {this.props.isModalVisible ? (
+          {this.props.isModalVisible ?
             <CheckBox checked={this.state.isFriendChecked} onPress={() => {this._toggleFriendChecked()}} />
-          ) : (
-              <Icon style={{fontSize: 30, color: 'red', flex: 1}} name="close" onPress={() => {this._deleteFriend()}}/>
-          )
+           :
+            <Icon style={{flex: 1, fontSize: 30, color: 'red'}} name="close" onPress={() => {this._deleteFriend()}}/>
           }
         </View>
       </View>
@@ -77,13 +86,16 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    // backgroundColor: '#e5f2ff'
   },
   photo: {
     flex: 1,
     margin: 'auto',
     alignSelf: 'center',
     paddingRight: 10
+  },
+  touchableOpacity: {
+    flex: 1,
+    borderRadius: 5
   },
   image: {
     flex: 1,
@@ -109,7 +121,8 @@ const styles = StyleSheet.create({
   friendCheckbox: {
     justifyContent: 'center',
     flex: 1,
-  }
+    alignItems: 'center',
+  },
 });
 
 export default Friend;

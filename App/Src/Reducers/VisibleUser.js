@@ -1,36 +1,36 @@
 const user = (state = {
   isFetching: false,
-  userData: {},
+  visibleUserData: {},
 }, action) => {
   switch (action.type) {
-    case ('FETCH_USER_INIT'):
+    case ('GET_VISIBLE_USER_INIT'):
       return Object.assign({}, state, {
         isFetching: true
       });
-    case ('FETCH_USER_SUCCESS'):
+    case ('GET_VISIBLE_USER_SUCCESS'):
       return Object.assign({}, state, {
         isFetching: false,
-        userData: action.response
+        visibleUserData: action.response
       });
-    case ('FETCH_USER_FAIL'):
+    case ('GET_VISIBLE_USER_FAIL'):
       return Object.assign({}, state, {
         isFetching: false
       });
     case ('ADD_FRIENDS'):
-      let addFriends = state.userData.friends.concat(action.data);
+      let addFriends = state.visibleUserData.friends.concat(action.data);
       return Object.assign({}, state, {
-        userData: {
-          ...state.userData,
+        visibleUserData: {
+          ...state.visibleUserData,
           friends: addFriends
         }
       });
     case ('DELETE_FRIEND'):
-      let deleteFriends = state.userData.friends.filter(friend => {
+      let deleteFriends = state.visibleUserData.friends.filter(friend => {
         return friend !== action.data;
       });
       return Object.assign({}, state, {
-        userData: {
-          ...state.userData,
+        visibleUserData: {
+          ...state.visibleUserData,
           friends: deleteFriends
         }
       });

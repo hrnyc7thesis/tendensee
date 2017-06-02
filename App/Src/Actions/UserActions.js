@@ -1,4 +1,5 @@
 import { MY_IP } from './../myip';
+import * as FriendActions from './FriendActions';
 
 export const fetchUserInit = () => {
   return {
@@ -13,10 +14,10 @@ export const fetchUserSuccess = (data) => {
   }
 };
 
-export const fetchUserFail = () => {
+export const fetchUserFail = (err) => {
   return {
     type: 'FETCH_USER_FAIL',
-    response: 'Error Fetching User'
+    response: err
   }
 };
 
@@ -25,7 +26,7 @@ export const fetchUser = (token) => {
     //Start loading animation
     dispatch(fetchUserInit());
     //Begin fetching
-    console.log('token', token);
+    console.log('fetching user');
 
     return fetch(`http://${MY_IP}:8080/api/users`, {
       method: 'GET',
@@ -37,13 +38,16 @@ export const fetchUser = (token) => {
     })
     .then(data => {
       data.json()
-      .then(data => dispatch(fetchUserSuccess(data)))
-      .catch(() => {
-        dispatch(fetchUserFail());
+      .then((data) => {
+        dispatch(fetchUserSuccess(data));
+        dispatch(FriendActions.getVisibleUserSuccess(data));
+      })
+      .catch((err) => {
+        dispatch(fetchUserFail(err));
       })
     })
-    .catch(() => {
-      dispatch(fetchUserFail());
+    .catch((err) => {
+      dispatch(fetchUserFail(err));
     });
   }
 }
