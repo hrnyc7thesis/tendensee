@@ -1,22 +1,13 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Button, Image, StyleSheet, Switch, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, AlertIOS } from 'react-native';
 import { Container, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
+import {ActionCreators} from '../Actions/ActionCreators';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
-
-const options = {
-  title: 'Select Photo',
-  customButtons: [
-    {name: 'fb', title: 'Choose Photo from Facebook'},
-    {name:'instagram', title: 'Choose Photo from Instagram'}
-  ],
-  storageOptions: {
-    skipBackup: false,
-    path: 'images'
-  }
-};
 
 const dummyUserData = {
     "user": {
@@ -24,7 +15,7 @@ const dummyUserData = {
       "id": 101,
       "username": "Deb123",
       "email": "debasishbd@outlook.com",
-      "facebook": "dave mozumder",
+      "facebook": "",
       "profileImg": ""
     },
     "habits": [
@@ -68,13 +59,28 @@ const dummyUserData = {
     ]
 }
 
-export default class UserSettings extends Component {
-  state = {
+const options = {
+  title: 'Select Photo',
+  customButtons: [
+    {name: 'fb', title: 'Choose Photo from Facebook'},
+    {name:'instagram', title: 'Choose Photo from Instagram'}
+  ],
+  storageOptions: {
+    skipBackup: false,
+    path: 'images'
+  }
+};
+
+class UserSettings extends Component {
+  constructor(props){
+  super(props);
+  this.state = {
     notification: true,
     allPrivate: false,
     email: dummyUserData.user.email,
-    avatarSource: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-  };
+    avatarSource: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png',
+  }
+}
   _toggleNotification = () => {
     this.setState({notification: !this.state.notification});
     Snackbar.show({
@@ -101,12 +107,13 @@ export default class UserSettings extends Component {
 
   };
   render() {
+    console.log(this.props.user);
       return (
         <View style= {styles.pageView}>
           <View style={styles.container}>
             <Text style={styles.headingText}>Setting</Text>
             <View style={styles.habitWrap}>
-              <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }}onPress={this.ImageShow.bind(this)}>
+              <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }} onPress={this.ImageShow.bind(this)}>
                  <Image
                     source={{uri: this.state.avatarSource}}
                     style={{borderRadius: 30, height: 100, width: 100}}
@@ -114,12 +121,11 @@ export default class UserSettings extends Component {
               </TouchableOpacity>
               <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
               <View style={styles.habitProp}>
-                <Text style={styles.textst}>User Name: {dummyUserData.user.username}</Text>
-                <Text style={styles.textst}> Email: {this.state.email}
-                  <Icon onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
+                <Text style={styles.textst}> User Name: {this.props.user.user.username}</Text>
+                <Text style={styles.textst}> Email: {this.props.user.user.email}
+                  <Icon iconCenter onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
                 </Text>
                 <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
-                <Text style={styles.textst}>Full Name: {dummyUserData.user.fullname}</Text>
               </View>
             </View>
             <View style={styles.habitWrap}>
@@ -222,3 +228,11 @@ const styles = StyleSheet.create({
     transform: [{scaleX: .75}, {scaleY: .75}],
   }
 });
+
+const mapStateToProps = (state) =>{
+  return {
+    user: state.user.userData,
+  }
+};
+
+export default connect(mapStateToProps)(UserSettings);

@@ -25,7 +25,7 @@ class AppRouter extends Component {
           <Scene key='auth' component={Auth} hideNavBar={true} title='Signup' passProps={true} />
           <Scene key='camera' component={Camera} title='Capture Your Habit' passProps={true} navigationBarStyle={styles.navBar} titleOpacity={0} />
           <Scene key='habits' component={Habits} title='Your Habits!' passProps={true} navigationBarStyle={styles.navBar} titleOpacity={0} />
-          <Scene key='images' component={Images} title='Images Page' passProps={true} navigationBarStyle={styles.navBar} titleOpacity={0} animation='leftToRight'/>
+          <Scene key='images' component={Images} title='Images Page' passProps={true} navigationBarStyle={styles.navBar} hideNavBar={true} titleOpacity={0} animation='leftToRight'/>
           <Scene key='setting' component={Setting} title='Setting Page' passProps={true} navigationBarStyle={styles.navBar} titleOpacity={0} />
           <Scene key='individualHabit' component={IndividualHabit} title='Habit Page' passProps={true} navigationBarStyle={styles.navBar} titleOpacity={0} />
         </Scene>
