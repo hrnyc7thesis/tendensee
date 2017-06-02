@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux';
-import { Picker, ActionSheetIOS, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Right, Body } from 'native-base';
+import { Alert, Picker, ActionSheetIOS, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Right, Body, H3 } from 'native-base';
 import { editHabitDayType, hideModal } from './../Actions/ModalActions';
 import { updateDay, deleteDay } from './../Actions/DayActions';
 import Modal from 'react-native-modal';
@@ -35,6 +35,9 @@ const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
       <Card>
         <View style={styles.card}>
           <View style={{flexDirection: 'column', alignItems: 'center'}}>
+            <View style={{marginTop: 10, marginBottom: 10}}>
+              <H3> Edit Habit Date </H3>
+            </View>
             <Text>{moment(day.date).format("dddd, MMMM Do")}</Text>
             <Text>{habitProps.name}</Text>
             <Image source={{uri: day.picture}} style={{height: 400, width: 400}} resizeMode='contain'/>
@@ -44,15 +47,20 @@ const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
                   options: BUTTONS,
                   cancelButtonIndex: CANCEL_INDEX,
                   destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                  title: 'Edit Picture Details'
+                  title: 'Edit Habit Date Details'
                 },
                 (buttonIndex) => {
                   if(buttonIndex === DESTRUCTIVE_INDEX) {
                     dispatch(deleteDay(day))
+                    Alert.alert(`Photo Deleted from ${BUTTONS[buttonIndex]}`,'', [{ text: "OK", onPress: () => dispatch(hideModal())}]);
                   } else if(buttonIndex !== CANCEL_INDEX) {
-                    dispatch(updateDay({id: day.id, id_habits:habitIds[buttonIndex], swap:swapDate(buttonIndex)}))
+                    let swap = swapDate(buttonIndex)
+                    dispatch(updateDay({id: day.id, id_habits:habitIds[buttonIndex], swap, }))
+                    let alertTitle = swap ? `Photo swapped from ${habitProps.name} to ${BUTTONS[buttonIndex]}!` : `Photo moved to ${BUTTONS[buttonIndex]}!`;
+                    Alert.alert(alertTitle,'', [{ text: "OK", onPress: () => dispatch(hideModal())}])
+                  } else {
+                    dispatch(hideModal());
                   }
-                  dispatch(hideModal())
                 }
                 )}>
                 <Text>{habitProps.name}</Text>
