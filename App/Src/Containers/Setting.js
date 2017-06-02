@@ -54,35 +54,34 @@ class UserSettings extends Component {
     if (email.test(promptValue)) {
       this.setState({ email: promptValue });
       console.log("inside validateEmail function")
-      this._updateEmail(promptValue);
+      this.props.updateEmail(promptValue, this.props.user, this.props.habits);
 
     } else {
       Alert.alert("Make sure your email is valid! Try Again!")
     }
   };
-  _updateEmail = (newEmail) =>{
-    console.log("inside updateEmail function")
-    let putData = Object.assign({}, {data: {email: newEmail}, user: this.props.user, habits: this.props.habit});
-
-    fetch(`http://${MY_IP}:8080/api/users/:${this.props.user.id}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        // 'x-custom-header': asyncToken
-      },
-      body: JSON.stringify(putData)
-    })
-    .then(data => {
-      console.log("update user Email successful!")
-    })
-    .catch((err)=> {
-      console.log("update user Email Failed!")
-    })
-  }
+  // _updateEmail = (newEmail) => {
+  //   console.log("inside updateEmail function")
+  //   let putData = Object.assign({}, {data: {email: newEmail}, user: this.props.user, habits: this.props.habit});
+  //
+  //   fetch(`http://${MY_IP}:8080/api/users/:${this.props.user.id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(putData)
+  //   })
+  //   .then(data => {
+  //     console.log("update user Email successful!")
+  //   })
+  //   .catch((err)=> {
+  //     console.log("update user Email Failed!")
+  //   })
+  // }
 
   render() {
-    // console.log(this.props.user);
+    console.log(this.props.user)
       return (
         <View style= {styles.pageView}>
           <View style={styles.container}>
@@ -97,7 +96,7 @@ class UserSettings extends Component {
               <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
               <View style={styles.habitProp}>
                 <Text style={styles.textst}> User Name: {this.props.user.username}</Text>
-                <Text style={styles.textst}> Email: {this.props.user.email}
+                <Text style={styles.textst}> Email: {this.state.email}
                   <Icon iconCenter onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
                 </Text>
                 <Text style={styles.textst}>Facebook: {this.props.user.facebook}</Text>
@@ -214,7 +213,6 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 };
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);

@@ -8,6 +8,7 @@ import habit from './Habit';
 import day from './Day';
 import modal from './Modal';
 import visibleUser from './VisibleUser';
+import settings from './Settings'
 
 const rootReducer = combineReducers({
   routes,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   sendingPhoto,
   habit,
   modal,
-  visibleUser
+  visibleUser,
+  settings,
 });
 
 export default rootReducer;
