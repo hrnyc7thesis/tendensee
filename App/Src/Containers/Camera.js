@@ -52,6 +52,11 @@ class Cam extends Component {
               </Button>
             </View>
           </Camera>
+
+          <View>
+            <PhotoCalculatingModal />
+          </View>
+
         </GestureRecognizer>
     );
   }
@@ -65,7 +70,10 @@ class Cam extends Component {
         data: data
       });
       this.props.sendPhoto(sendData);
-    })
+      this.props.showPhotoCalculatingModal();
+      setTimeout(() => {
+        this.props.hidePhotoCalculatingModal()
+      }, 3000);
     .catch(err => console.error(err));
   }
 

@@ -48,4 +48,24 @@ export const sendPhoto = (data) => {
       dispatch(sendPhotoFail());
     });
   }
+};
+
+export const showPhotoCalculatingModal = () => {
+  return {
+    type: 'SHOW_PHOTO_CALCULATING_MODAL'
+  }
+}
+
+export const hidePhotoCalculatingModal = () => {
+  return {
+    type: 'HIDE_PHOTO_CALCULATING_MODAL'
+  }
+}
+
+export const showImageRecSuccessModal = () => {
+
+}
+
+export const hideImageRecSuccessModal = () => {
+
 }
