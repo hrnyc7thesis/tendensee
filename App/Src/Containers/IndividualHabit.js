@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux';
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
-  
+
   constructor (props) {
     super (props);
     this.state = {
@@ -108,7 +108,7 @@ class IndividualHabit extends Component {
         habitScore = habitScore<0 ? 0 : habitScore;
         d[1] === 0 ? d.push(0) : d.push(acc + d[1]);
         d.push(habitScore);
-        return d[1] === 0 ? 0 : acc + d[1]; 
+        return d[1] === 0 ? 0 : acc + d[1];
     }, 0)
 
     // Add day or days depending on if its one day or not
