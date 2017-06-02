@@ -9,56 +9,6 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 
-const dummyUserData = {
-    "user": {
-      "fullname": "Yet!",
-      "id": 101,
-      "username": "Deb123",
-      "email": "debasishbd@outlook.com",
-      "facebook": "",
-      "profileImg": ""
-    },
-    "habits": [
-      {
-        "id": 12,
-        "name": "Exercise",
-        "description": "I will workout every other day for next one month, wish me good luck fellas",
-        "type": "gym",
-        "habitPic": "https://media-cdn.tripadvisor.com/media/photo-s/04/b9/12/9a/fairfield-inn-suite-rdu.jpg",
-        "start_date": "0000-00-00 00:00:00",
-        "notification": null, // would be time of day if set
-        "private": false,
-        "has_picture": true,
-        "id_users": 101,
-        "dates": [
-          {
-            "id": 2,
-            "date": "0000-00-00",
-            "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
-          }
-        ]
-      },
-      {
-        "id": 16,
-        "name": "Study",
-        "description": "I will read every other day for next one month, wish me good luck fellas",
-        "type": "book",
-        "start_date": "0000-00-00 00:00:00",
-        "notification": 1,
-        "private": false,
-        "has_picture": true,
-        "id_users": 101,
-        "dates": [
-          {
-            "id": 1,
-            "date": "0000-00-00",
-            "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
-          }
-        ]
-      }
-    ]
-}
-
 const options = {
   title: 'Select Photo',
   customButtons: [
@@ -77,7 +27,7 @@ class UserSettings extends Component {
   this.state = {
     notification: true,
     allPrivate: false,
-    email: dummyUserData.user.email,
+    email: this.props.user.email,
     avatarSource: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png',
   }
 }
@@ -102,7 +52,7 @@ class UserSettings extends Component {
     if (email.test(promptValue)) {
       this.setState({ email: promptValue });
     } else {
-      Alert.alert("Please make sure your email is valid! Try Again!")
+      Alert.alert("Make sure your email is valid! Try Again!")
     }
 
   };
@@ -121,11 +71,11 @@ class UserSettings extends Component {
               </TouchableOpacity>
               <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
               <View style={styles.habitProp}>
-                <Text style={styles.textst}> User Name: {this.props.user.user.username}</Text>
-                <Text style={styles.textst}> Email: {this.props.user.user.email}
+                <Text style={styles.textst}> User Name: {this.props.user.username}</Text>
+                <Text style={styles.textst}> Email: {this.props.user.email}
                   <Icon iconCenter onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
                 </Text>
-                <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
+                <Text style={styles.textst}>Facebook: {this.props.user.facebook}</Text>
               </View>
             </View>
             <View style={styles.habitWrap}>
@@ -231,8 +181,65 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) =>{
   return {
-    user: state.user.userData,
+    user: state.user.userData.user,
+    habits:state.user.userData.user,
   }
 };
 
-export default connect(mapStateToProps)(UserSettings);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);
+
+
+// const dummyUserData = {
+//     "user": {
+//       "fullname": "Yet!",
+//       "id": 101,
+//       "username": "Deb123",
+//       "email": "debasishbd@outlook.com",
+//       "facebook": "",
+//       "profileImg": ""
+//     },
+//     "habits": [
+//       {
+//         "id": 12,
+//         "name": "Exercise",
+//         "description": "I will workout every other day for next one month, wish me good luck fellas",
+//         "type": "gym",
+//         "habitPic": "https://media-cdn.tripadvisor.com/media/photo-s/04/b9/12/9a/fairfield-inn-suite-rdu.jpg",
+//         "start_date": "0000-00-00 00:00:00",
+//         "notification": null, // would be time of day if set
+//         "private": false,
+//         "has_picture": true,
+//         "id_users": 101,
+//         "dates": [
+//           {
+//             "id": 2,
+//             "date": "0000-00-00",
+//             "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
+//           }
+//         ]
+//       },
+//       {
+//         "id": 16,
+//         "name": "Study",
+//         "description": "I will read every other day for next one month, wish me good luck fellas",
+//         "type": "book",
+//         "start_date": "0000-00-00 00:00:00",
+//         "notification": 1,
+//         "private": false,
+//         "has_picture": true,
+//         "id_users": 101,
+//         "dates": [
+//           {
+//             "id": 1,
+//             "date": "0000-00-00",
+//             "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
+//           }
+//         ]
+//       }
+//     ]
+// }
