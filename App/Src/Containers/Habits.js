@@ -243,7 +243,9 @@ const styles = StyleSheet.create({
   container: {
     flex: -1,
     justifyContent: 'center',
-    padding: 20
+    paddingTop: 30,
+    marginBottom: 10,
+    height: 600,
   },
   addHabitButtonContainer: {
     flex: -1,
