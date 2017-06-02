@@ -1,5 +1,4 @@
 import { MY_IP } from './../myip';
-import * as FriendActions from './FriendActions';
 
 export const fetchUserInit = () => {
   return {
@@ -40,7 +39,6 @@ export const fetchUser = (token) => {
       data.json()
       .then((data) => {
         dispatch(fetchUserSuccess(data));
-        dispatch(FriendActions.getVisibleUserSuccess(data));
       })
       .catch((err) => {
         dispatch(fetchUserFail(err));

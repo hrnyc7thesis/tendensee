@@ -23,7 +23,7 @@ class Images extends Component {
   }
 
   componentWillMount () {
-    this.props.fetchUser(this.props.user.token);
+    this.props.getVisibleUser(this.props.user);
   }
 
   _changeVisibleUser = (id) => {
