@@ -3,14 +3,13 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 var moment = require('moment');
 import { incrementPhotoCount } from './../Actions/PhotoActions';
 
-const Day = ({day, allHabits, habitProps, onPressItem}) => {
-  console.log('day habits', habitProps)
+const Day = ({day, habitProps, allHabits, onPressItem}) => {
 
   let image = day.id === 0 ? <Image style={[styles.dayContainerImage, {opacity: 0.5}]} source={{uri: day.picture}} /> :
     <Image style={[styles.dayContainerImage]} source={{uri: day.picture}} />
 
   return (
-    <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(day, allHabits, habitProps)}>
+    <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(day, habitProps, allHabits)}>
       <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd D")}</Text>
       {image}
       {/* <Image style={styles.dayContainerImage} source={{uri: day.picture}} /> */}

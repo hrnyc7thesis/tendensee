@@ -11,6 +11,11 @@ import { Actions } from 'react-native-router-flux';
 
 class Cam extends Component {
 
+
+  componentWillMount() {
+    this.props.fetchUser(this.props.user.token);
+  }
+
   onSwipeLeft() {
     Actions.habits();
   }
@@ -24,6 +29,7 @@ class Cam extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
+    console.log('in cam - day, habit', this.props.day, this.props.habitProps)
 
     return (
         <GestureRecognizer
@@ -65,8 +71,7 @@ class Cam extends Component {
       let sendData = Object.assign({}, this.props.user, {
         data: data
       });
-
-      this.props.sendPhoto(sendData);
+      this.props.sendPhoto(sendData, this.props.day, this.props.habitProps);
 
       this.props.incrementPhotoCount();
       console.log('sendData: ', sendData);

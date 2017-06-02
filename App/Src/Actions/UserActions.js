@@ -33,7 +33,8 @@ const fetchWithToken = (dispatch, tokenArg) => {
   .then(data => {
     data.json()
     .then(data => {
-      AsyncStorage.setItem('token', data.token);
+      AsyncStorage.setItem('user', JSON.stringify(data));
+      data.token ? AsyncStorage.setItem('token', data.token) : '';
       dispatch(fetchUserSuccess(data))
     })
     .catch(() => {
