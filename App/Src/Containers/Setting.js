@@ -7,6 +7,8 @@ import Snackbar from 'react-native-snackbar';
 import {ActionCreators} from '../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { MY_IP } from './../myip';
 
 
 const options = {
@@ -51,13 +53,36 @@ class UserSettings extends Component {
     var email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.test(promptValue)) {
       this.setState({ email: promptValue });
+      console.log("inside validateEmail function")
+      this._updateEmail(promptValue);
+
     } else {
       Alert.alert("Make sure your email is valid! Try Again!")
     }
-
   };
+  _updateEmail = (newEmail) =>{
+    console.log("inside updateEmail function")
+    let putData = Object.assign({}, {data: {email: newEmail}, user: this.props.user, habits: this.props.habit});
+
+    fetch(`http://${MY_IP}:8080/api/users/:${this.props.user.id}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        // 'x-custom-header': asyncToken
+      },
+      body: JSON.stringify(putData)
+    })
+    .then(data => {
+      console.log("update user Email successful!")
+    })
+    .catch((err)=> {
+      console.log("update user Email Failed!")
+    })
+  }
+
   render() {
-    console.log(this.props.user);
+    // console.log(this.props.user);
       return (
         <View style= {styles.pageView}>
           <View style={styles.container}>
@@ -182,7 +207,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) =>{
   return {
     user: state.user.userData.user,
-    habits:state.user.userData.user,
+    habits:state.user.userData.habit,
   }
 };
 
@@ -191,55 +216,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
+
 export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);
-
-
-// const dummyUserData = {
-//     "user": {
-//       "fullname": "Yet!",
-//       "id": 101,
-//       "username": "Deb123",
-//       "email": "debasishbd@outlook.com",
-//       "facebook": "",
-//       "profileImg": ""
-//     },
-//     "habits": [
-//       {
-//         "id": 12,
-//         "name": "Exercise",
-//         "description": "I will workout every other day for next one month, wish me good luck fellas",
-//         "type": "gym",
-//         "habitPic": "https://media-cdn.tripadvisor.com/media/photo-s/04/b9/12/9a/fairfield-inn-suite-rdu.jpg",
-//         "start_date": "0000-00-00 00:00:00",
-//         "notification": null, // would be time of day if set
-//         "private": false,
-//         "has_picture": true,
-//         "id_users": 101,
-//         "dates": [
-//           {
-//             "id": 2,
-//             "date": "0000-00-00",
-//             "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
-//           }
-//         ]
-//       },
-//       {
-//         "id": 16,
-//         "name": "Study",
-//         "description": "I will read every other day for next one month, wish me good luck fellas",
-//         "type": "book",
-//         "start_date": "0000-00-00 00:00:00",
-//         "notification": 1,
-//         "private": false,
-//         "has_picture": true,
-//         "id_users": 101,
-//         "dates": [
-//           {
-//             "id": 1,
-//             "date": "0000-00-00",
-//             "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
-//           }
-//         ]
-//       }
-//     ]
-// }

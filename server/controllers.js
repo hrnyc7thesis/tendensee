@@ -132,6 +132,7 @@ exports.addUser = (req, res) => {
 }
 
 exports.patchUser = (req, res) => {
+  console.log("inside patchUser in server side controller function")
   let resData = {};
   resData.user = req.body.user;
   for(let key in req.body.data) {
