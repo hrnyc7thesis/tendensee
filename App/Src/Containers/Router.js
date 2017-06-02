@@ -22,7 +22,6 @@ class AppRouter extends Component {
     return (
       <ReduxRouter>
         <Scene key='root'>
-<<<<<<< HEAD
           <Scene
           key='landing'
           component={Landing}
