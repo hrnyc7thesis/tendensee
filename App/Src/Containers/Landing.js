@@ -14,7 +14,6 @@ class Landing extends Component {
     };
 
     setTimeout(this.noPersistTimeout.bind(this), 1000);
-
   }
 
   componentDidUpdate() {

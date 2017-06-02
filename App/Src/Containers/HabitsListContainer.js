@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsList from './../Components/HabitsList.js';
 import { incrementPhotoCount } from './../Actions/PhotoActions';
-import { editHabitDayType } from './../Actions/ModalActions';
+import { editHabitDayType, editPastDay } from './../Actions/ModalActions';
 import { Actions } from 'react-native-router-flux';
 
 const getHabits = (habits) => {
@@ -23,8 +23,11 @@ const mapDispatchToProps = (dispatch) => {
     onPressHabit: (habitProps) => {
       Actions.individualHabit({habitProps})
     },
-    test: (day, allHabits, habitProps) => {
-      dispatch(editHabitDayType(day, allHabits, habitProps))
+    editHabitDay: (day, habitProps, allHabits) => {
+      dispatch(editHabitDayType(day, habitProps, allHabits))
+    },
+    editPast: (day, habitProps) => {
+      dispatch(editPastDay(day, habitProps))
     }
   }
 }

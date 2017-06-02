@@ -1,5 +1,7 @@
 import * as UserActions from './UserActions';
 import { MY_IP } from './../myip';
+import { fetchUser, fetchUserSuccess } from './UserActions';
+
 
 export const incrementPhotoCount = () => {
   return {
@@ -13,24 +15,30 @@ export const sendPhotoInit = () => {
   }
 };
 
-export const sendPhotoSuccess = () => {
+export const sendPhotoSuccess = (data) => {
   return {
-    type: 'SEND_PHOTO_SUCCESS'
+    type: 'SEND_PHOTO_SUCCESS',
+    response: data
   }
 };
 
-export const sendPhotoFail = () => {
+export const sendPhotoFail = (err) => {
   return {
     type: 'SEND_PHOTO_FAIL',
-    response: 'Error Sending Photo'
+    response: err
   }
 };
 
-export const sendPhoto = (data) => {
+export const sendPhoto = (data, day, habit) => {
   return (dispatch) => {
-    //Start loading animation
     dispatch(sendPhotoInit());
-    //Begin fetching
+
+    console.log('photo action day habit', day, habit);
+
+    let sendData = data;
+    sendData.day = day;
+    sendData.picHabit = habit;
+
     return fetch(`http://${MY_IP}:8080/api/dates`, {
       method: 'POST',
       headers: {
@@ -42,12 +50,17 @@ export const sendPhoto = (data) => {
     })
     .then(data => {
       return data.json().then(data => {
-        dispatch(UserActions.fetchUserSuccess(data));
-        dispatch(sendPhotoSuccess());
+        if(data.habits && data.habits.length) {
+          dispatch(fetchUser());
+          dispatch(sendPhotoSuccess(data));
+        } else {
+          dispatch(fetchUser())
+          dispatch(sendPhotoSuccess(data));
+        }
       });
     })
-    .catch(() => {
-      dispatch(sendPhotoFail());
+    .catch(err => {
+      dispatch(sendPhotoFail(err));
     });
   }
 }
