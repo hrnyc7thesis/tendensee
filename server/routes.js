@@ -30,11 +30,14 @@ routes.post('/register', auth.register);
 routes.get('/signedin', auth.checkAuth);
 
 // OTHER ROUTES
-routes.route('/api/users')
+routes.route('/api/users/:user')
   .get(controllers.getUser)
   .post(controllers.addUser)
   .put(controllers.patchUser);
   // .delete(controllers.deleteUser);
+
+routes.route('/api/users')
+  .get(controllers.getUser);
 
 routes.route('/api/habits')
   // .get(controllers.getHabitData)
@@ -51,7 +54,6 @@ routes.route('/api/dates')
 //   .post(controllers.register);
 
 routes.route('/api/friends')
-  .get(controllers.getAllOtherUsers)
   .post(controllers.addFriends)
   .delete(controllers.deleteFriend);
 //   .put(controllers.challengeFriend)
