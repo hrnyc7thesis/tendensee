@@ -95,7 +95,7 @@ export const getVisibleUserFail = (err) => {
 };
 
 export const getVisibleUser = (user, clickedUserId) => {
-  if (clickedUserId === user.user.id) {
+  if (!clickedUserId) {
     return dispatch => {
       dispatch (getVisibleUserSuccess(user));
     }
