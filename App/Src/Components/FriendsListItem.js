@@ -63,7 +63,11 @@ class Friend extends Component {
           {this.props.isModalVisible ?
             <CheckBox checked={this.state.isFriendChecked} onPress={() => {this._toggleFriendChecked()}} />
            :
-            <Icon style={{flex: 1, fontSize: 30, color: 'red'}} name="close" onPress={() => {this._deleteFriend()}}/>
+            this.props.isSelf ? (
+              <Icon style={{flex: 1, fontSize: 30, color: 'red'}} name="close" onPress={() => {this._deleteFriend()}}/>
+            ) : (
+              null
+            )
           }
         </View>
       </View>
