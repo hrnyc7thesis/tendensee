@@ -66,7 +66,7 @@ class AppRouter extends Component {
           key='individualHabit'
           component={IndividualHabit}
           title='Habit Page'
-          hideNavBar={false}
+          hideNavBar={true}
           passProps={true}
           rightTitle='Edit'
           onRight={()=> {console.log('clicked header')}}

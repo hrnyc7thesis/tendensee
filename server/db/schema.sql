@@ -19,6 +19,8 @@ CREATE TABLE `users` (
   `facebook_name` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_AUTH',
   `facebook_friends` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_FRIENDS', -- SHOULD BE OWN SCHEMA ONCE UP...
   `photo` VARCHAR(255) NULL DEFAULT 'NO_PHOTO',
+  `notifications` bit NOT NULL DEFAULT 1,
+  `private` bit NOT NULL DEFAULT 0,
   `email` VARCHAR(255) NULL DEFAULT 'NO_EMAIL' CHECK (email like '%_@__%.__%'),
   `password` VARCHAR(128) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
