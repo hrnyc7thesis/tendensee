@@ -4,6 +4,7 @@ import * as HabitActions from './HabitActions';
 import * as ModalActions from './ModalActions';
 import * as AuthActions from './AuthActions';
 import * as FriendActions from './FriendActions';
+import * as SettingsActions from './SettingsActions';
 
 export const ActionCreators = Object.assign({},
   UserActions,
@@ -11,5 +12,6 @@ export const ActionCreators = Object.assign({},
   HabitActions,
   AuthActions,
   ModalActions,
-  FriendActions
+  FriendActions,
+  SettingsActions,
 );

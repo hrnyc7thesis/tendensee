@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Button, Image, StyleSheet, Switch, TextInput, TouchableOpacity, AlertIOS } from 'react-native';
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, AlertIOS } from 'react-native';
 import { Container, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
+import {ActionCreators} from '../Actions/ActionCreators';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { MY_IP } from './../myip';
 
 
 const options = {
@@ -18,63 +23,16 @@ const options = {
   }
 };
 
-const dummyUserData = {
-    "user": {
-      "fullname": "Yet!",
-      "id": 101,
-      "username": "Deb123",
-      "email": "debasishbd@outlook.com",
-      "facebook": "dave mozumder",
-      "profileImg": ""
-    },
-    "habits": [
-      {
-        "id": 12,
-        "name": "Exercise",
-        "description": "I will workout every other day for next one month, wish me good luck fellas",
-        "type": "gym",
-        "habitPic": "https://media-cdn.tripadvisor.com/media/photo-s/04/b9/12/9a/fairfield-inn-suite-rdu.jpg",
-        "start_date": "0000-00-00 00:00:00",
-        "notification": null, // would be time of day if set
-        "private": false,
-        "has_picture": true,
-        "id_users": 101,
-        "dates": [
-          {
-            "id": 2,
-            "date": "0000-00-00",
-            "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
-          }
-        ]
-      },
-      {
-        "id": 16,
-        "name": "Study",
-        "description": "I will read every other day for next one month, wish me good luck fellas",
-        "type": "book",
-        "start_date": "0000-00-00 00:00:00",
-        "notification": 1,
-        "private": false,
-        "has_picture": true,
-        "id_users": 101,
-        "dates": [
-          {
-            "id": 1,
-            "date": "0000-00-00",
-            "picture": "https://pbs.twimg.com/profile_images/714095884578000896/yvfrLbJL.jpg"
-          }
-        ]
-      }
-    ]
-}
-
-export default class UserSettings extends Component {
-  state = {
+class UserSettings extends Component {
+  constructor(props){
+  super(props);
+  this.state = {
     notification: true,
     allPrivate: false,
-    email: dummyUserData.user.email,
-    avatarSource: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-  };
+    email: this.props.user.email,
+    avatarSource: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png',
+  }
+}
   _toggleNotification = () => {
     this.setState({notification: !this.state.notification});
     Snackbar.show({
@@ -95,18 +53,41 @@ export default class UserSettings extends Component {
     var email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.test(promptValue)) {
       this.setState({ email: promptValue });
-    } else {
-      Alert.alert("Please make sure your email is valid! Try Again!")
-    }
+      console.log("inside validateEmail function")
+      this.props.updateEmail(promptValue, this.props.user, this.props.habits);
 
+    } else {
+      Alert.alert("Make sure your email is valid! Try Again!")
+    }
   };
+  // _updateEmail = (newEmail) => {
+  //   console.log("inside updateEmail function")
+  //   let putData = Object.assign({}, {data: {email: newEmail}, user: this.props.user, habits: this.props.habit});
+  //
+  //   fetch(`http://${MY_IP}:8080/api/users/:${this.props.user.id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(putData)
+  //   })
+  //   .then(data => {
+  //     console.log("update user Email successful!")
+  //   })
+  //   .catch((err)=> {
+  //     console.log("update user Email Failed!")
+  //   })
+  // }
+
   render() {
+    console.log(this.props.user)
       return (
         <View style= {styles.pageView}>
           <View style={styles.container}>
             <Text style={styles.headingText}>Setting</Text>
             <View style={styles.habitWrap}>
-              <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }}onPress={this.ImageShow.bind(this)}>
+              <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }} onPress={this.ImageShow.bind(this)}>
                  <Image
                     source={{uri: this.state.avatarSource}}
                     style={{borderRadius: 30, height: 100, width: 100}}
@@ -114,12 +95,11 @@ export default class UserSettings extends Component {
               </TouchableOpacity>
               <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
               <View style={styles.habitProp}>
-                <Text style={styles.textst}>User Name: {dummyUserData.user.username}</Text>
+                <Text style={styles.textst}> User Name: {this.props.user.username}</Text>
                 <Text style={styles.textst}> Email: {this.state.email}
-                  <Icon onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
+                  <Icon iconCenter onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
                 </Text>
-                <Text style={styles.textst}>Facebook: {dummyUserData.user.facebook}</Text>
-                <Text style={styles.textst}>Full Name: {dummyUserData.user.fullname}</Text>
+                <Text style={styles.textst}>Facebook: {this.props.user.facebook}</Text>
               </View>
             </View>
             <View style={styles.habitWrap}>
@@ -222,3 +202,17 @@ const styles = StyleSheet.create({
     transform: [{scaleX: .75}, {scaleY: .75}],
   }
 });
+
+const mapStateToProps = (state) =>{
+  return {
+    user: state.user.userData.user,
+    habits:state.user.userData.habit,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);
