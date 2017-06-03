@@ -7,7 +7,8 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import { Button, Icon } from 'native-base';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
-
+import PhotoCalculatingModal from './../Components/PhotoCalculatingModal';
+import GotPhotoModal from './../Components/GotPhotoModal';
 
 class Cam extends Component {
 
@@ -57,6 +58,10 @@ class Cam extends Component {
             <PhotoCalculatingModal />
           </View>
 
+          <View style={styles.gotPhotoModal}>
+            <GotPhotoModal />
+          </View>
+
         </GestureRecognizer>
     );
   }
@@ -65,15 +70,13 @@ class Cam extends Component {
     let options = {};
     this.camera.capture({metadata: options})
     .then((data) => {
-      Alert.alert('Got Photo!');
+      // Alert.alert('Got Photo!');
       let sendData = Object.assign({}, this.props.user, {
         data: data
       });
       this.props.sendPhoto(sendData);
-      this.props.showPhotoCalculatingModal();
-      setTimeout(() => {
-        this.props.hidePhotoCalculatingModal()
-      }, 3000);
+      this.props.showPhotoCalculatingWithTimeout();
+    })
     .catch(err => console.error(err));
   }
 
@@ -94,7 +97,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     marginBottom: 20,
-  }
+  },
+  gotPhotoModal: {
+    justifyContent: 'center'
+  },
 });
 
 const mapStateToProps = (state) => {

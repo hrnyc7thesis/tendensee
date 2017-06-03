@@ -42,6 +42,7 @@ export const sendPhoto = (data) => {
       return data.json().then(data => {
         dispatch(UserActions.fetchUserSuccess(data));
         dispatch(sendPhotoSuccess());
+        dispatch(showGotPhotoModal());
       });
     })
     .catch(() => {
@@ -54,18 +55,31 @@ export const showPhotoCalculatingModal = () => {
   return {
     type: 'SHOW_PHOTO_CALCULATING_MODAL'
   }
-}
+};
 
 export const hidePhotoCalculatingModal = () => {
   return {
     type: 'HIDE_PHOTO_CALCULATING_MODAL'
   }
-}
+};
 
-export const showImageRecSuccessModal = () => {
+export const showPhotoCalculatingWithTimeout = () => {
+  return (dispatch) => {
+    dispatch(showPhotoCalculatingModal());
+    setTimeout(() => {
+      dispatch(hidePhotoCalculatingModal());
+    }, 3000);
+  };
+};
 
-}
+export const showGotPhotoModal = () => {
+  return {
+    type: 'SHOW_GOT_PHOTO_MODAL'
+  }
+};
 
-export const hideImageRecSuccessModal = () => {
-
-}
+export const hideGotPhotoModal = () => {
+  return {
+    type: 'HIDE_GOT_PHOTO_MODAL'
+  }
+};

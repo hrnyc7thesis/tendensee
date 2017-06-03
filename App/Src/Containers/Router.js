@@ -22,47 +22,47 @@ class AppRouter extends Component {
     return (
       <ReduxRouter>
         <Scene key='root'>
-          <Scene 
+          <Scene
           key='landing'
           component={Landing}
           hideNavBar={true}
-          title='Landing' 
+          title='Landing'
           passProps={true}
-          initial={true} 
+          initial={true}
           titleOpacity={0} />
-          <Scene 
+          <Scene
           key='auth'
           component={Auth}
           hideNavBar={true}
-          title='Signup' 
+          title='Signup'
           passProps={true}
           />
-          <Scene 
+          <Scene
           key='camera'
           component={Camera}
           hideNavBar={true}
-          title='Capture Your Habit' 
+          title='Capture Your Habit'
           passProps={true} />
-          <Scene 
+          <Scene
           key='habits'
           component={Habits}
           hideNavBar={true}
-          title='Your Habits!' 
+          title='Your Habits!'
           passProps={true} />
-          <Scene 
+          <Scene
           key='images'
           component={Images}
           title='Images Page'
-          hideNavBar={true} 
+          hideNavBar={true}
           passProps={true}
           animation='leftToRight'/>
-          <Scene 
+          <Scene
           key='setting'
           component={Setting}
           title='Setting Page'
           hideNavBar={true}
           passProps={true} />
-          <Scene 
+          <Scene
           key='individualHabit'
           component={IndividualHabit}
           title='Habit Page'
