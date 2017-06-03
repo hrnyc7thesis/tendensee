@@ -51,8 +51,7 @@ export const sendPhoto = (data, day, habit) => {
     })
     .then(data => {
       return data.json().then(data => {
-        // console.log('DATA RETURNED FROM SEND PHOTO: ', data);
-        dispatch(fetchUser());
+        dispatch(fetchUser())
         dispatch(sendPhotoSuccess(data));
         dispatch(showGotPhotoModal());
       });
