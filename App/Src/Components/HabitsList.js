@@ -9,51 +9,37 @@ const HabitsList = ({habits, test, onPressHabit}) => {
   let alreadyCompleted = [];
 
   habits.forEach(habit => {
+    console.log('inside habits')
     let toCategorize = habit.dates.sort((a,b) => new Date(b.date) - new Date(a.date))
-    // let mostRecentDayIndex = toCategorize.dates.length - 2;
-    let mostRecentDay;
-    console.log('<<<', toCategorize);
+    let lastLoggedDay = toCategorize[0]
 
-    mostRecentDay = toCategorize[1]
-    console.log('###', mostRecentDay)
-    if (mostRecentDay) {
-      let recentDay = moment(mostRecentDay.date).format('YYYY-MM-DD');
-      let toMatch = moment().subtract(2, 'days').format('YYYY-MM-DD');
+    console.log('lastLoggedDay', lastLoggedDay, habit.name)
 
-      console.log('>>>', recentDay, toMatch);
-      if (recentDay === toMatch) {
+    if (lastLoggedDay) {
+      let lastLogged = moment(lastLoggedDay.date).format('YYYY-MM-DD');
+      let today = moment().format('YYYY-MM-DD');
+
+      if (lastLogged === today) {
         alreadyCompleted.push(habit);
       } else {
         toComplete.push(habit);
       }
+    } else {
+      toComplete.push(habit);
     }
-
   })
-
-  console.log('!!!', alreadyCompleted)
 
   return(
     <ScrollView>
-      <Text>alreadyCompleted</Text>
-      { alreadyCompleted.map(habit => {
+      { toComplete.map(habit => {
         return <HabitBlock key={habit.id} allHabits={habits} habit={habit} onPressHabit={onPressHabit} onPressItem={test}/>
       })}
-      <Text>toComplete</Text>
-      { toComplete.map(habit => {
+      { alreadyCompleted.map(habit => {
         return <HabitBlock key={habit.id} allHabits={habits} habit={habit} onPressHabit={onPressHabit} onPressItem={test}/>
       })}
       <ModalRoot />
     </ScrollView>
   )
-
-  // return(
-  //   <ScrollView>
-  //     {habits ? habits.map(habit => {
-  //       return <HabitBlock key={habit.id} allHabits={habits} habit={habit} onPressHabit={onPressHabit} onPressItem={test}/>
-  //     }):<Text>''</Text>}
-  //     <ModalRoot />
-  //   </ScrollView>
-  // )
 }
 
 export default HabitsList
