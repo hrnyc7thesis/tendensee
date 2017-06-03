@@ -50,13 +50,8 @@ export const sendPhoto = (data, day, habit) => {
     })
     .then(data => {
       return data.json().then(data => {
-        if(data.habits && data.habits.length) {
-          dispatch(fetchUser());
-          dispatch(sendPhotoSuccess(data));
-        } else {
           dispatch(fetchUser())
           dispatch(sendPhotoSuccess(data));
-        }
       });
     })
     .catch(err => {
