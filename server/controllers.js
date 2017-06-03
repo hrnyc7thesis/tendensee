@@ -208,7 +208,7 @@ exports.addDate = (req, res) => {
     h.index = idx;
     return h;
   })
-  
+
   // IF HABIT CHOSEN BY USER
   if(req.body.day && req.body.picHabit) {
     date = new Date(req.body.day.date).toMysqlFormat();

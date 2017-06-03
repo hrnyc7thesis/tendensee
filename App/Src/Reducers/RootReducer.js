@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import photoCount from './Photos';
+import photo from './Photos';
 import user from './FetchUser';
 import auth from './Auth';
 import routes from './Routes';
@@ -12,7 +12,7 @@ import settings from './Settings'
 
 const rootReducer = combineReducers({
   routes,
-  photoCount,
+  photo,
   auth,
   day,
   user,

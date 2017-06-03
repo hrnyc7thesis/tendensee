@@ -39,6 +39,7 @@ export const sendPhoto = (data, day, habit) => {
     sendData.day = day;
     sendData.picHabit = habit;
 
+
     return fetch(`http://${MY_IP}:8080/api/dates`, {
       method: 'POST',
       headers: {
@@ -50,17 +51,47 @@ export const sendPhoto = (data, day, habit) => {
     })
     .then(data => {
       return data.json().then(data => {
-        if(data.habits && data.habits.length) {
-          dispatch(fetchUser());
-          dispatch(sendPhotoSuccess(data));
-        } else {
-          dispatch(fetchUser())
-          dispatch(sendPhotoSuccess(data));
-        }
+
+        dispatch(fetchUser());
+        dispatch(sendPhotoSuccess(data));
+        dispatch(showGotPhotoModal());
       });
     })
     .catch(err => {
       dispatch(sendPhotoFail(err));
     });
   }
-}
+};
+
+export const showPhotoCalculatingModal = () => {
+  return {
+    type: 'SHOW_PHOTO_CALCULATING_MODAL'
+  }
+};
+
+export const hidePhotoCalculatingModal = () => {
+  return {
+    type: 'HIDE_PHOTO_CALCULATING_MODAL'
+  }
+};
+
+export const showPhotoCalculatingWithTimeout = () => {
+  return (dispatch) => {
+    dispatch(showPhotoCalculatingModal());
+    setTimeout(() => {
+      dispatch(hidePhotoCalculatingModal());
+    }, 3000);
+  };
+};
+
+export const showGotPhotoModal = () => {
+  return {
+    type: 'SHOW_GOT_PHOTO_MODAL'
+  }
+};
+
+export const hideGotPhotoModal = () => {
+  return {
+    type: 'HIDE_GOT_PHOTO_MODAL'
+  }
+};
