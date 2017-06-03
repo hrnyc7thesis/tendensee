@@ -106,6 +106,7 @@ export const auth = (username, password, email, route) => {
       return data.json()
       .then(data => {
         AsyncStorage.setItem('token', data.token);
+        AsyncStorage.setItem('user', JSON.stringify(data));
         console.log('data in authact:', data);
         dispatch(authSuccess())
         dispatch(fetchUserSuccess(data))

@@ -35,6 +35,6 @@ export default (initialState) => {
     )
   )
   // https://github.com/rt2zz/redux-persist
-  // persistStore(store, {storage: AsyncStorage, blacklist: ['routes', 'modal', 'habit', 'day', 'auth']});
+  persistStore(store, {storage: AsyncStorage, blacklist: ['routes', 'modal', 'habit', 'day', 'auth']})
   return store
 }

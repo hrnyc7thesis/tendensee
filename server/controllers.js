@@ -5,6 +5,7 @@ const dbHelpers = require('./db/helpers.js');
 const uploadS3 = require('./db/s3-config.js');
 const Promise = require('bluebird');
 const imageRec = require('./imageRec.js')
+const moment = require('moment');
 
 // const zlib = require('zlib'); // USE THIS TO COMPRESS?
 // const fs = require('fs');
@@ -191,37 +192,70 @@ exports.updateHabit = (req, res) => {
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
-  let resData = {};
-  resData.user = req.body.user;
-  resData.habits = req.body.habits;
-  resData.token = req.body.token;
-  // DEAL WITH DAY ALREADY IN THERE!!!!
+  console.log('add date req.body.habits', req.body.habits);
+  //RESPONSE DATA OBJECT
+  let resData = {
+    user: req.body.user,
+    habits: req.body.habits,
+    token: req.body.token,
+  };
   // DEAL WITH NO PICTURE INSTANCES?
   let id_users = req.body.user.id;
-  let id_habits = req.body.habits.map(h => h.id)
-  let newDate = { id_users, id_habits };
+  let id_habits, habits, date, imageRecData;
 
-  newDate.date = new Date().toMysqlFormat(); // LATER - ability to set date?
-  let imageRecData;
+  // USE TO GET HABIT INFORMATION FROM HABIT ID SENT IN REQ
+  let allHabits = req.body.habits.map((h, idx) => {
+    h.index = idx;
+    return h;
+  })
+  
+  // IF HABIT CHOSEN BY USER
+  if(req.body.day && req.body.picHabit) {
+    date = new Date(req.body.day.date).toMysqlFormat();
+    habits = [req.body.picHabit];
+  // IF USING IMAGE REC FOR PICTURE TODAY
+  } else {
+    date = new Date().toMysqlFormat();
+    habits = allHabits.filter(h => {
+      var today = moment(new Date()).format('YYYY-MM-DD');
+      var day = moment(h.dates[h.dates.length-1].date).format('YYYY-MM-DD')
+      return (h.dates && h.dates.length && (today != day))
+    })
+  }
 
-  uploadS3(req.body.data.data, pic => {
+  let newDate = { id_users, date};
+  console.log('req body day, habit', req.body.day, req.body.picHabit);
+  // DEAL WITH NO PICTURES INSTANCE
+  let picture = req.body.data ? req.body.data.data : 'No Photo';
+  uploadS3(picture, pic => {
     newDate.picture = pic.Location;
-    if(newDate.id_habits.length === 1) {
-      newDate.id_habits = newDate.id_habits[0];
+    if(req.body.habits.length && req.body.day && req.body.picHabit) {
+      let thisHabit = allHabits.filter(h => h.id === req.body.picHabit.id);
+      habits[0].index = thisHabit[0].index;
+    }
+    if((req.body.day && req.body.picHabit) || habits.length === 1) {
+      newDate.id_habits = habits.length ? habits[0].id : req.body.picHabit.id;
       // LATER: if ONLY 1 HABIT, TRAIN CLARIFAI!!!
+      console.log('pichabit', req.body.picHabit)
+      console.log('habit length 1 or edit - date to insert:', newDate)
       createPromise(newDate, 'dates')
       .then(date => {
         newDate.id = date.insertId;
-        resData.habits[0].dates.push(newDate);
-        res.status(201).json(resData);
+        if(req.body.habits.length) {
+          resData.habits[habits[0].index].dates.push(newDate)
+          res.status(201).json(resData);
+        } else {
+          res.status(201).json(newDate);
+        }
       })
       .catch(err => console.error('Error adding date to DB:', err))
-    } else if(newDate.id_habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID
-      imageRec(req.body.data.data, resData.habits)
+    } else if(!req.body.day && !req.body.picHabit && habits && habits.length > 1) { // NOT COMPLETE  - STILL NEED TO MATCH TO HABIT AND SET ID
+      imageRec(req.body.data.data, habits)
       .then(habit => {
         if(!habit) res.status(409).json('Already marked off habit for the day');
         else {
           newDate.id_habits = habit.id;
+          console.log('image rec newdate', newDate);
           createPromise(newDate, 'dates')
           .then(date => {
             newDate.id = date.insertId;
@@ -231,7 +265,7 @@ exports.addDate = (req, res) => {
           .catch(err => console.error('Error adding date to DB:', err))
         }
       })
-
+      .catch(err => console.error('Image Recognition Error:', err))
     }
   })
 }
