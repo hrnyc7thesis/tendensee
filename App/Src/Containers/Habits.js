@@ -202,8 +202,8 @@ class Habits extends Component {
               <CardItem>
                 <Text>Send reminders?</Text>
                 <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
-                <Text>Send reminders?</Text>
-                <CheckBox checked={this.state.isPrivate} onPress={() => !this.state.isPrivate} />
+                {/* <Text>Send reminders?</Text> */}
+                {/* <CheckBox checked={this.state.isPrivate} onPress={() => !this.state.isPrivate} /> */}
               </CardItem>
               <CardItem>
                 <View style={styles.successButton}>
