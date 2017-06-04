@@ -217,9 +217,13 @@ exports.addDate = (req, res) => {
   } else {
     date = new Date().toMysqlFormat();
     habits = allHabits.filter(h => {
-      var today = moment(new Date()).format('YYYY-MM-DD');
-      var day = moment(h.dates[h.dates.length-1].date).format('YYYY-MM-DD')
-      return (h.dates && h.dates.length && (today != day))
+      if (h.dates.length) {
+        var today = moment(new Date()).format('YYYY-MM-DD');
+        var day = moment(h.dates[h.dates.length-1].date).format('YYYY-MM-DD')
+        return (h.dates && h.dates.length && (today != day))
+      } else {
+        return true;
+      }
     })
   }
 
@@ -241,8 +245,10 @@ exports.addDate = (req, res) => {
       createPromise(newDate, 'dates')
       .then(date => {
         newDate.id = date.insertId;
+        /*inserted this line - Duncan*/
+        resData['currentDate'] = newDate;
         if(req.body.habits.length) {
-          resData.habits[habits[0].index].dates.push(newDate)
+          resData.habits[habits[0].index].dates.push(newDate);
           res.status(201).json(resData);
         } else {
           res.status(201).json(newDate);
@@ -259,6 +265,8 @@ exports.addDate = (req, res) => {
           createPromise(newDate, 'dates')
           .then(date => {
             newDate.id = date.insertId;
+            /*inserted this line - Duncan*/
+            resData['currentDate'] = newDate;
             resData.habits[habit.index].dates.push(newDate);
             res.status(201).json(resData);
           })

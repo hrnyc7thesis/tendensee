@@ -1,57 +1,98 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet, Image, Dimensions,  } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, Image, Dimensions, TouchableHighlight, ActionSheetIOS, CameraRoll, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { H1, H2, H3, Button } from 'native-base';
 import { ActionCreators } from './../Actions/ActionCreators';
+import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
+// import { Accelerometer, Gyroscope } from 'react-native-sensors';
 
 class GotPhotoModal extends Component {
   constructor(props) {
     super(props);
-  };
+    this.state = { x: 0, y: 0, z: 0 };
+  }
+
+  _redirectToHabits() {
+    this.props.hideGotPhotoModal();
+    Actions.habits();
+  }
+
+  _showActionSheet() {
+    BUTTONS = this.props.habits.filter(h => h.id !== this.props.currentPhoto.id_habits).map(h => h.name).concat(['Cancel']);
+    CANCEL_INDEX = BUTTONS.length - 1;
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: BUTTONS,
+      cancelButtonIndex: CANCEL_INDEX,
+      title: 'Sorry! Our systems are still in training!',
+      message: 'What is this a picture of?'
+    },
+    (buttonIndex) => {
+      if (buttonIndex !== CANCEL_INDEX) {
+        let newDate = Object.assign({}, this.props.currentPhoto, {
+          id_habits: this.props.habits.filter(h => h.name === BUTTONS[buttonIndex])[0].id
+        });
+        this.props.updateDay(newDate);
+        this.props.hideGotPhotoModal();
+        Actions.habits();
+      }
+    });
+  }
+
+  _saveToCameraRoll() {
+    CameraRoll.saveToCameraRoll(this.props.currentPhoto.picture)
+      .then(Alert.alert('Success', 'Photo added to camera roll!'))
+  }
+
+  _deleteDateAndCloseModal() {
+    this.props.deleteDay(this.props.currentPhoto);
+    this.props.hideGotPhotoModal();
+  }
+
   render () {
-    // const BUTTONS = this.props.habits.map(h => h.name).concat(['Cancel']);
-    // const CANCEL_INDEX = BUTTONS.length-1;
-
-
+    let matchedHabit;
+    if (this.props.currentPhoto) {
+      matchedHabit = this.props.habits.filter(h => h.id === this.props.currentPhoto.id_habits)[0];
+    }
 
     return (
       <Modal
-        isVisible={this.props.photo.showGotPhotoModal}
+        isVisible={this.props.sendPhotos.showGotPhotoModal}
+        // isVisible={true}
         animationType={'fade'}
-        transparent={false}
+        transparent={true}
         onRequestClose={() => {this._closeModal()}}
         style={styles.modal}>
         <View style={styles.headerContainer}>
           <H1 style={{fontWeight: 'bold'}}>Image Recognized!</H1>
         </View>
-        <View style={styles.shakeTextContainer}>
-          <Text style={styles.shakeText}>Shake to retake</Text>
-        </View>
+        <TouchableHighlight underlayColor='gray' style={styles.shakeTextContainer} onPress={() => this._deleteDateAndCloseModal()}>
+          <Text style={styles.shakeText}>Press to retake</Text>
+        </TouchableHighlight>
         <View style={styles.yourPhotoTextContainer}>
           <H3 style={{fontWeight: 'bold'}}>Your Photo:</H3>
         </View>
         <View style={styles.photoContainer}>
-          <Image style={styles.photo} source={{uri:'https://i.ytimg.com/vi/8ud6haTTfFY/maxresdefault.jpg'}} />
+          <Image style={styles.photo} source={{uri:this.props.currentPhoto.picture}} />
         </View>
-        <View style={styles.saveToDeviceLinkContainer}>
+        <TouchableHighlight underlayColor='gray' style={styles.saveToDeviceLinkContainer} onPress={() => this._saveToCameraRoll()}>
           <Text style={styles.saveToDeviceLink}>SAVE TO DEVICE</Text>
-        </View>
+        </TouchableHighlight>
         <View style={styles.youCompletedTextContainer}>
           <H3>You completed:</H3>
         </View>
         <View style={styles.completedHabitTextContainer}>
-          <H2 style={{fontWeight: 'bold'}}>Repeat the past</H2>
+          <H2 style={{fontWeight: 'bold'}}>{matchedHabit ? matchedHabit.name : null}</H2>
         </View>
         <View style={styles.notRightHabitTextContainer}>
           <Text style={styles.notRightHabitText}>Not the right habit?</Text>
         </View>
-        <View style={styles.selectNewLinkContainer}>
+        <TouchableHighlight underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
           <Text style={styles.selectNewLink}>Assign to another</Text>
-        </View>
+        </TouchableHighlight>
         <View style={styles.okButtonContainer}>
-          <Button block success style={{alignSelf: 'stretch'}}>
+          <Button block success style={{alignSelf: 'stretch'}} onPress={() => this._redirectToHabits()}>
             <Text style={styles.okButtonText}>Ok!</Text>
           </Button>
         </View>
@@ -142,8 +183,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    photo: state.photo,
-    habits: state.user.userData.habits
+    sendPhotos: state.sendPhotos,
+    habits: state.user.userData.habits,
+    currentPhoto: state.sendPhotos.currentPhoto,
   }
 };
 
