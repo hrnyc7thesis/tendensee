@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-import photo from './Photos';
 import user from './FetchUser';
 import auth from './Auth';
 import routes from './Routes';
-import sendingPhoto from './SendPhoto';
+import sendPhotos from './SendPhoto';
 import habit from './Habit';
 import day from './Day';
 import modal from './Modal';
@@ -12,11 +11,10 @@ import settings from './Settings'
 
 const rootReducer = combineReducers({
   routes,
-  photo,
   auth,
   day,
   user,
-  sendingPhoto,
+  sendPhotos,
   habit,
   modal,
   visibleUser,
