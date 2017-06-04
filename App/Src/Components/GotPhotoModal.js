@@ -96,9 +96,6 @@ class GotPhotoModal extends Component {
             <Text style={styles.okButtonText}>Ok!</Text>
           </Button>
         </View>
-
-
-      {/* on shake - dispatch(deleteDay(day)), dispatch(hideGotPhotoModal) */}
       </Modal>
     )
   }
