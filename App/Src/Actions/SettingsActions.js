@@ -1,4 +1,6 @@
   import { MY_IP } from './../myip';
+  import { fetchUser } from './UserActions.js'
+
 
 //NEXT THREE ARE FOR UPDATING PROFILE PHOTO
 
@@ -89,11 +91,10 @@ export const handlePrivateFail = (err) => {
 };
 
 export const updatePhoto = (imageData, userData, habit) => {
-  console.log("inside updatePhoto function")
   return dispatch => {
     dispatch(updateProfilePhotoInit());
     let putData = Object.assign({}, {data: {photo: imageData}, user: userData, habits: habit});
-    return fetch(`http://${MY_IP}:8080/api/users/:${userData.id}`, {
+    return fetch(`http://${MY_IP}:8080/api/users/`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -106,11 +107,11 @@ export const updatePhoto = (imageData, userData, habit) => {
       return data.json()
       .then(data => {
         dispatch(updateProfilePhotoSuccess(data));
+        dispatch(fetchUser());
       })
     })
     .catch(err => {
       dispatch(updateProfilePhotoFail(err));
-
     })
   }
 };
@@ -142,10 +143,7 @@ export const updateEmail = (newEmail, userData, habit) => {
 };
 
 export const handleNotification = (status, userData, habit) => {
-  console.log(status);
   var statusToBit = +status; //this converts a boolean into BIT integer
-  console.log(statusToBit);
-  console.log('!!!!!!!!!!!!!!!!!!!!', habit);
   return dispatch => {
     dispatch(handleNotificationInit());
     let putData = Object.assign({}, {data: {notifications: statusToBit}, user: userData, habits: habit});

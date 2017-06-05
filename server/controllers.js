@@ -24,8 +24,8 @@ const getUserData = (userId) => {
   let resData = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
-    let { id, username, email, notifications, private, tagline, facebook } = user[0];
-    resData['user'] = { id, username, email, notifications, private, tagline, facebook }
+    let { id, username, email, notifications, private, tagline, facebook, photo } = user[0];
+    resData['user'] = { id, username, email, notifications, private, tagline, facebook, photo }
 
     //ADDED BELOW TO GET FRIENDS AND ALL OTHER USERS - DUNCAN
     resData['allUsers'] = [];
@@ -133,31 +133,29 @@ exports.addUser = (req, res) => {
 
 
 exports.patchUser = (req, res) => {
-  // console.log('++++++++++++++++++', req.body);
+  console.log("inside patchUser in server side controller function")
   let resData = {};
-  resData.user = req.body.user;
-
-  for(let key in req.body.data) {
-    resData.user[key] = req.body.data[key];
-  }
-  resData.habits = req.body.habits;
-
-  if(req.body.data.photo){
+  let putData = {};
+  if(req.body.data.photo) {
     uploadS3(req.body.data.photo, pic => {
-      resData.user.photo = pic.Location;
-      req.body.data.photo = pic.Location;
-        // .then(date => {
-        //   res.status(201).json(resData);
-        // })
-        // .catch(err => console.error('Error adding photo to DB:', err))
+      putData.photo = pic.Location;
+      updatePromise(putData, 'users', req.body.user.id)
+      .then(user => {
+        // console.log('User Updated:', user)
+        // console.log('resData', resData)
+        res.status(201).json(resData);
+      })
+      .catch(err => console.error('Error updating user in DB:', err))
     })
+  } else{
+    updatePromise(req.body.data, 'users', req.body.user.id)
+    .then(user => {
+      // console.log('User Updated:', user)
+      // console.log('resData', resData)
+      res.status(201).json(resData);
+    })
+    .catch(err => console.error('Error updating user in DB:', err))
   }
-
-  updatePromise(req.body.data, 'users', req.body.user.id)
-  .then(user => {
-    res.status(201).json(resData);
-  })
-  .catch(err => console.error('Error updating user in DB:', err))
 }
 
 

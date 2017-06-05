@@ -37,7 +37,8 @@ routes.route('/api/users/:user')
   // .delete(controllers.deleteUser);
 
 routes.route('/api/users')
-  .get(controllers.getUser);
+  .get(controllers.getUser)
+  .put(controllers.patchUser);
 
 routes.route('/api/habits')
   // .get(controllers.getHabitData)
