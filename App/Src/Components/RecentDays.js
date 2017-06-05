@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { StyleSheet, ScrollView, Text } from 'react-native';
+import { StyleSheet, ScrollView, Text, Dimensions, View} from 'react-native';
 import Day from './Day.js';
 var moment = require('moment');
 
@@ -14,6 +14,7 @@ const getDates = (startDate, stopDate) => {
 }
 
 const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) => {
+
   // TODO: Refactor so not sorting everytime, save it beforehand
   let dateStrings = habitProps.dates.map(d => [moment(d.date).format('YYYY-MM-DD'), d])
   let startDate = new moment(habitProps.start_date);
@@ -33,7 +34,6 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
         date: dateStrings[indexDate][1].date,
         picture: dateStrings[indexDate][1].picture,//'https://thumb1.shutterstock.com/display_pic_with_logo/3679397/381480943/stock-photo-motivational-quote-on-glitter-abstract-background-381480943.jpg',
       }
-      // return <Day day={day} habitProps={habitProps} onPressItem={onPressItem}/>
     } else {
       day = {
         id: 0,
@@ -41,16 +41,19 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
         picture: 'https://thumb1.shutterstock.com/display_pic_with_logo/162265/276671360/stock-photo-motivational-quote-to-create-future-on-nature-abstract-background-276671360.jpg',
       }
       pic = false
-      // return <Day day={day} habitProps={habitProps} onPressItem={onPressItem}/>
     }
     return <Day day={day} allHabits={allHabits} habitProps={habitProps} onPressItem={pic ? onPressPic.bind({}) : onPressNoPic.bind({})}/>
   });
 
+  let days;
+  if (allHabits.length === 1) {
+    days = <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>{allDates}</View>
+  } else {
+    days = <ScrollView horizontal style={styles.recentDaysContainer}>{allDates}</ScrollView>
+  }
+
   return(
-    <ScrollView horizontal style={styles.recentDaysContainer}>
-      {/* {days} */}
-      { allDates }
-    </ScrollView>
+    days
   )
 }
 
