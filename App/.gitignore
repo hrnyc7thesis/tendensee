@@ -48,6 +48,14 @@ buck-out/
 # For more information about the recommended setup visit:
 # https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
+
+# Pod stuff
+App/ios/App.xcworkspace/
+App/ios/Podfile
+App/ios/Podfile.lock
+App/ios/Pods/
+
+  
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots

@@ -1,6 +1,7 @@
 const routes = require('express').Router();
 const controllers = require('./controllers.js');
 const auth = require('./auth/tokenAuth.js');
+const fbAuth = require('./auth/fbAuth.js');
 
 // LOG TIME OF EACH REQUEST
 routes.use(function timeLog (req, res, next) {
@@ -28,6 +29,7 @@ routes.use(function timeLog (req, res, next) {
 routes.post('/login', auth.login);
 routes.post('/register', auth.register);
 routes.get('/signedin', auth.checkAuth);
+routes.post('/facebook', fbAuth);
 
 // OTHER ROUTES
 routes.route('/api/users/:user')
@@ -37,7 +39,9 @@ routes.route('/api/users/:user')
   // .delete(controllers.deleteUser);
 
 routes.route('/api/users')
-  .get(controllers.getUser);
+  .get(controllers.getUser)
+  .put(controllers.patchUser);
+
 
 routes.route('/api/habits')
   // .get(controllers.getHabitData)

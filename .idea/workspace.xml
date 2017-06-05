@@ -2,23 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9fa1a12c-2016-4651-b6dd-23265916b2ce" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Actions/AuthActions.js" afterPath="$PROJECT_DIR$/App/Src/Actions/AuthActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Actions/ModalActions.js" afterPath="$PROJECT_DIR$/App/Src/Actions/ModalActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Actions/PhotoActions.js" afterPath="$PROJECT_DIR$/App/Src/Actions/PhotoActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Actions/UserActions.js" afterPath="$PROJECT_DIR$/App/Src/Actions/UserActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Components/Day.js" afterPath="$PROJECT_DIR$/App/Src/Components/Day.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Components/EditHabitDayTypeModal.js" afterPath="$PROJECT_DIR$/App/Src/Components/EditHabitDayTypeModal.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Components/HabitBlock.js" afterPath="$PROJECT_DIR$/App/Src/Components/HabitBlock.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Components/HabitsList.js" afterPath="$PROJECT_DIR$/App/Src/Components/HabitsList.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Components/ModalRoot.js" afterPath="$PROJECT_DIR$/App/Src/Components/ModalRoot.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Components/RecentDays.js" afterPath="$PROJECT_DIR$/App/Src/Components/RecentDays.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Containers/Camera.js" afterPath="$PROJECT_DIR$/App/Src/Containers/Camera.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Containers/HabitsListContainer.js" afterPath="$PROJECT_DIR$/App/Src/Containers/HabitsListContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Containers/Landing.js" afterPath="$PROJECT_DIR$/App/Src/Containers/Landing.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/.gitignore" afterPath="$PROJECT_DIR$/App/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Containers/Auth.js" afterPath="$PROJECT_DIR$/App/Src/Containers/Auth.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Src/Store/ConfigureStore.js" afterPath="$PROJECT_DIR$/App/Src/Store/ConfigureStore.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/controllers.js" afterPath="$PROJECT_DIR$/server/controllers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/db/s3-config.js" afterPath="$PROJECT_DIR$/server/db/s3-config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/imageRec.js" afterPath="$PROJECT_DIR$/server/imageRec.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/android/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/App/android/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainActivity.java" afterPath="$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainApplication.java" afterPath="$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/android/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/App/android/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/ios/App.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/App/ios/App.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/ios/App/AppDelegate.h" afterPath="$PROJECT_DIR$/App/ios/App/AppDelegate.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/ios/App/AppDelegate.m" afterPath="$PROJECT_DIR$/App/ios/App/AppDelegate.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/ios/App/Info.plist" afterPath="$PROJECT_DIR$/App/ios/App/Info.plist" />
     </list>
     <ignored path="Gigabyte-Gorillas.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,12 +33,57 @@
     <favorites_list name="Gigabyte-Gorillas" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="index.android.js" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="index.android.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/index.android.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="225">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainApplication.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-16">
+              <caret line="21" column="41" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="e#1007#1008#0" expanded="true" />
+                <element signature="e#1040#1041#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/android/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/App/android/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -58,8 +99,18 @@
       <projects_view />
     </option>
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainApplication.java" />
+        <option value="$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainActivity.java" />
+        <option value="$PROJECT_DIR$/App/android/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/App/android/app/src/main/AndroidManifest.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="27" />
+    <option name="x" value="10" />
     <option name="y" value="23" />
     <option name="width" value="1400" />
     <option name="height" value="856" />
@@ -92,8 +143,8 @@
       <pane id="AndroidView">
         <subPane />
       </pane>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
@@ -187,8 +238,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="27" y="23" width="1400" height="856" extended-state="0" />
-    <editor active="false" />
+    <frame x="10" y="23" width="1400" height="856" extended-state="1" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -198,7 +249,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24945612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24945612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24945612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -231,8 +282,53 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/App/index.android.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/index.android.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16">
+          <caret line="21" column="41" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#1007#1008#0" expanded="true" />
+            <element signature="e#1040#1041#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/android/app/src/main/java/com/app/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/android/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="50" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/android/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
           <folding />
         </state>
       </provider>
