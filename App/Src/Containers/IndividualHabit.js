@@ -89,7 +89,7 @@ class IndividualHabit extends Component {
     let dateStrings = this.props.habitProps.dates.map(d => moment(d.date).format('YYYY-MM-DD'))
     let startDate = new moment(this.props.habitProps.start_date);
     let today = new moment();
-    let totalDays = today.diff(startDate, 'days');
+    let totalDays = Math.max(today.diff(startDate, 'days'), this.props.habitProps.dates.length, 1);
     console.log('startd, today, totald', startDate, today, totalDays);
 
     let allDates = this.getDates(startDate, today);
@@ -101,7 +101,7 @@ class IndividualHabit extends Component {
       }
     });
     console.log(allDates);
-    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7);
+    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7) || 0;
     let longestStreak = 0;
     let habitScore = 0;
     allDates.reduce((acc, d, idx) => {
@@ -116,7 +116,12 @@ class IndividualHabit extends Component {
     }, 0)
 
     // Add day or days depending on if its one day or not
-    let currentStreak = allDates[allDates.length-1][2] > allDates[allDates.length-2][2] ? allDates[allDates.length-1][2] : allDates[allDates.length-2][2];
+    let currentStreak;
+    if(allDates[allDates.length-1] && allDates[allDates.length-2]){
+      currentStreak = allDates[allDates.length-1][2] > allDates[allDates.length-2][2] ? allDates[allDates.length-1][2] : allDates[allDates.length-2][2];
+    } else {
+      currentStreak = allDates[allDates.length-1][2];
+    }
     currentStreak = currentStreak === 1 ? currentStreak + ' day' : currentStreak + ' days';
     longestStreak = longestStreak === 1 ? longestStreak + ' day' : longestStreak + ' days';
     weeklyAvg = weeklyAvg === 1 ? weeklyAvg + ' day' : weeklyAvg + ' days';

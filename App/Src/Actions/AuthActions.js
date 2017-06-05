@@ -93,7 +93,7 @@ export const auth = (username, password, email, route) => {
     }
 
     const path = route === 'Login' ? 'login' : 'register'; // can add to end of path instead of users...
-
+    console.log(MY_IP)
     return fetch(`http://${MY_IP}:8080/` + path, {
       method: 'POST',
       headers: {
@@ -110,7 +110,6 @@ export const auth = (username, password, email, route) => {
         console.log('data in authact:', data);
         dispatch(authSuccess())
         dispatch(fetchUserSuccess(data))
-        // Actions.individualHabit(); // CHANGE THIS
         route === 'Login' && data.habits.length ? Actions.camera({type: ActionConst.RESET}) : Actions.habits({type: ActionConst.RESET});
       })
     })

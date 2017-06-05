@@ -11,7 +11,6 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const config = process.env.SECRET ? { secret: process.env.SECRET } : require('./config');
-const auth = require('./auth/simpleAuth.js');
 const db = require('./db/db-config.js');
 const sessionStore = new MySQLStore({}, db);
 

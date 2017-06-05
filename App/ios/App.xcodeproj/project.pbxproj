@@ -61,6 +61,10 @@
 		5E47F88E2F11420A90B20963 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B7C2545CB1546D386FF2C62 /* Roboto.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		610E5876D49B4F7183BCEF53 /* Times New Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDA42926F61A4B58B9EC1C4D /* Times New Roman.ttf */; };
+		65463CA91EE33FC400927B71 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65463CA81EE33FC400927B71 /* FBSDKCoreKit.framework */; };
+		65463CCC1EE33FDE00927B71 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65463CCB1EE33FDE00927B71 /* FBSDKLoginKit.framework */; };
+		65463CCE1EE33FF400927B71 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65463CCD1EE33FF400927B71 /* FBSDKShareKit.framework */; };
+		65463CD01EE34B8000927B71 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65463CCF1EE34B8000927B71 /* Bolts.framework */; };
 		67B99400A4ED43FCA78B1293 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DBCFA3D4558E49B8B94BF020 /* Octicons.ttf */; };
 		6BECDC5610D44FC8B2E9CC65 /* libRNSnackbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5FCD86AFC64E3182A7DB3D /* libRNSnackbar.a */; };
 		6F558D9607964831AC672CF8 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C88AB46B08C74851896B3032 /* MaterialIcons.ttf */; };
@@ -309,6 +313,7 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+<<<<<<< HEAD
 		D92D36871EE48AC50020F38F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4725A34670D14FBAB5AB05E7 /* RNSensors.xcodeproj */;
@@ -323,6 +328,8 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RCTCameraRoll;
 		};
+=======
+>>>>>>> facebook
 		D93194821ED71462006017DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1E40B8B585224C11AE30AE20 /* RNVectorIcons.xcodeproj */;
@@ -422,6 +429,10 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		61542EDE59E64717A88193D8 /* libRNSensors.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSensors.a; sourceTree = "<group>"; };
 		64CB92B06C054691B53DA337 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		65463CA81EE33FC400927B71 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../../Documents/FacebookSDK/FacebookSDKs-iOS-4.23.0/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		65463CCB1EE33FDE00927B71 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../../../../Documents/FacebookSDK/FacebookSDKs-iOS-4.23.0/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
+		65463CCD1EE33FF400927B71 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../../../../Documents/FacebookSDK/FacebookSDKs-iOS-4.23.0/FBSDKShareKit.framework"; sourceTree = "<group>"; };
+		65463CCF1EE34B8000927B71 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../../Documents/FacebookSDK/FacebookSDKs-iOS-4.23.0/Bolts.framework"; sourceTree = "<group>"; };
 		6B5FCD86AFC64E3182A7DB3D /* libRNSnackbar.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSnackbar.a; sourceTree = "<group>"; };
 		6D697F1CE34C4B0BAA4DC397 /* Rubik-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Rubik-BoldItalic.ttf"; path = "../node_modules/native-base/Fonts/Rubik-BoldItalic.ttf"; sourceTree = "<group>"; };
 		6EA7C0C1134A462E8DF37E09 /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-UI-Text-Regular.otf"; path = "../node_modules/native-base/Fonts/SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
@@ -469,9 +480,13 @@
 		EFCE0D69DCE54DE8B386882D /* SanFrancisco.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SanFrancisco.ttf; path = "../node_modules/native-base/Fonts/SanFrancisco.ttf"; sourceTree = "<group>"; };
 <<<<<<< HEAD
 		F1F1D79A1EE1D68400E4D656 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = App.entitlements; path = App/App.entitlements; sourceTree = "<group>"; };
+<<<<<<< HEAD
 =======
 		F69129D4D70B959143AF544B /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 >>>>>>> edit habit page
+=======
+		F69129D4D70B959143AF544B /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
+>>>>>>> facebook
 		FEB36181658C4553BB39299F /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		FF1FD08A831D419692DA2D4D /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -494,14 +509,18 @@
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				65463CA91EE33FC400927B71 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
+				65463CCE1EE33FF400927B71 /* FBSDKShareKit.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
+				65463CCC1EE33FDE00927B71 /* FBSDKLoginKit.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				FB202104CE0546D190F9FE1C /* libRCTCamera.a in Frameworks */,
+				65463CD01EE34B8000927B71 /* Bolts.framework in Frameworks */,
 				F7EE740CA9B64A0C8E69A78E /* libRNUploader.a in Frameworks */,
 				58D9440ADA644D09BABDB740 /* libRNVectorIcons.a in Frameworks */,
 				C2AE62D4974F4026A9A28C3C /* libRNVectorIcons.a in Frameworks */,
@@ -782,10 +801,14 @@
 				1622E14C78204687A3BEE2B0 /* RNImagePicker.xcodeproj */,
 				48E2121F1342413E9454E04B /* RNSnackbar.xcodeproj */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				4725A34670D14FBAB5AB05E7 /* RNSensors.xcodeproj */,
 =======
 				82EAB3F6021E47DD8E831CC4 /* RCTFBSDK.xcodeproj */,
 >>>>>>> edit habit page
+=======
+				82EAB3F6021E47DD8E831CC4 /* RCTFBSDK.xcodeproj */,
+>>>>>>> facebook
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -827,6 +850,7 @@
 			sourceTree = "<group>";
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		D92D36681EE48AC50020F38F /* Products */ = {
 =======
 		9ABFC0B0F7265FFC7C0E89C1 /* Frameworks */ = {
@@ -850,8 +874,17 @@
 			isa = PBXGroup;
 			children = (
 				D92EC0DF1EE46A1400EF538F /* libRCTCameraRoll.a */,
+=======
+		9ABFC0B0F7265FFC7C0E89C1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				65463CCF1EE34B8000927B71 /* Bolts.framework */,
+				65463CCD1EE33FF400927B71 /* FBSDKShareKit.framework */,
+				65463CCB1EE33FDE00927B71 /* FBSDKLoginKit.framework */,
+				65463CA81EE33FC400927B71 /* FBSDKCoreKit.framework */,
+>>>>>>> facebook
 			);
-			name = Products;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D93194641ED71461006017DB /* Products */ = {
@@ -1038,12 +1071,17 @@
 				},
 				{
 <<<<<<< HEAD
+<<<<<<< HEAD
 					ProductGroup = D92EC0DB1EE46A1400EF538F /* Products */;
 					ProjectRef = D92EC0DA1EE46A1400EF538F /* RCTCameraRoll.xcodeproj */;
 =======
 					ProductGroup = 65BF89BF1EE3369300A7C776 /* Products */;
 					ProjectRef = 82EAB3F6021E47DD8E831CC4 /* RCTFBSDK.xcodeproj */;
 >>>>>>> edit habit page
+=======
+					ProductGroup = 65BF89BF1EE3369300A7C776 /* Products */;
+					ProjectRef = 82EAB3F6021E47DD8E831CC4 /* RCTFBSDK.xcodeproj */;
+>>>>>>> facebook
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -1310,6 +1348,7 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+<<<<<<< HEAD
 		D92D36881EE48AC50020F38F /* libRNSensors.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1324,6 +1363,8 @@
 			remoteRef = D92EC0DE1EE46A1400EF538F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+=======
+>>>>>>> facebook
 		D93194831ED71462006017DB /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1613,10 +1654,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios",
 =======
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 >>>>>>> edit habit page
+=======
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+>>>>>>> facebook
 				);
 				INFOPLIST_FILE = AppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1653,10 +1698,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios",
 =======
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 >>>>>>> edit habit page
+=======
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+>>>>>>> facebook
 				);
 				INFOPLIST_FILE = AppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1697,10 +1746,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios",
 =======
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 >>>>>>> edit habit page
+=======
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+>>>>>>> facebook
 				);
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1735,10 +1788,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios",
 =======
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 >>>>>>> edit habit page
+=======
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+>>>>>>> facebook
 				);
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1777,10 +1834,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios",
 =======
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 >>>>>>> edit habit page
+=======
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+>>>>>>> facebook
 				);
 				INFOPLIST_FILE = "App-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1825,10 +1886,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-sensors/ios",
 =======
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 >>>>>>> edit habit page
+=======
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+>>>>>>> facebook
 				);
 				INFOPLIST_FILE = "App-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1936,6 +2001,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1981,6 +2047,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

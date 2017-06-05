@@ -23,11 +23,6 @@ class Cam extends Component {
     // }
   }
 
-
-  componentWillMount() {
-    this.props.fetchUser(this.props.user.token);
-  }
-
   onSwipeLeft() {
     Actions.habits();
   }
