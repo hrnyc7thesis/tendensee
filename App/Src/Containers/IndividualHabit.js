@@ -19,7 +19,7 @@ class IndividualHabit extends Component {
       //Modal
       animationType: 'slide',
       isModalVisible: false,
-      isModalTransparent: false,
+      isModalTransparent: true,
       // Habit
       habitName: this.props.habitProps.name,
       habitType: this.props.habitProps.type,
@@ -47,6 +47,10 @@ class IndividualHabit extends Component {
     };
     this.props.updateHabit(this.props.user, habit);
     // this._closeModal();
+  }
+
+  _setHabitName(text) {
+    this.setState({habitName: text});
   }
 
   _closeModal = () => {
@@ -85,7 +89,7 @@ class IndividualHabit extends Component {
     let dateStrings = this.props.habitProps.dates.map(d => moment(d.date).format('YYYY-MM-DD'))
     let startDate = new moment(this.props.habitProps.start_date);
     let today = new moment();
-    let totalDays = today.diff(startDate, 'days');
+    let totalDays = Math.max(today.diff(startDate, 'days'), this.props.habitProps.dates.length, 1);
     console.log('startd, today, totald', startDate, today, totalDays);
 
     let allDates = this.getDates(startDate, today);
@@ -97,7 +101,7 @@ class IndividualHabit extends Component {
       }
     });
     console.log(allDates);
-    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7);
+    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7) || 0;
     let longestStreak = 0;
     let habitScore = 0;
     allDates.reduce((acc, d, idx) => {
@@ -112,7 +116,12 @@ class IndividualHabit extends Component {
     }, 0)
 
     // Add day or days depending on if its one day or not
-    let currentStreak = allDates[allDates.length-1][2] > allDates[allDates.length-2][2] ? allDates[allDates.length-1][2] : allDates[allDates.length-2][2];
+    let currentStreak;
+    if(allDates[allDates.length-1] && allDates[allDates.length-2]){
+      currentStreak = allDates[allDates.length-1][2] > allDates[allDates.length-2][2] ? allDates[allDates.length-1][2] : allDates[allDates.length-2][2];
+    } else {
+      currentStreak = allDates[allDates.length-1][2];
+    }
     currentStreak = currentStreak === 1 ? currentStreak + ' day' : currentStreak + ' days';
     longestStreak = longestStreak === 1 ? longestStreak + ' day' : longestStreak + ' days';
     weeklyAvg = weeklyAvg === 1 ? weeklyAvg + ' day' : weeklyAvg + ' days';
@@ -137,7 +146,17 @@ class IndividualHabit extends Component {
     return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={[styles.header, {paddingTop:20}]}>
+        <View style={styles.topHeader}>
+          <View style={styles.topRowContainer}>
+            <Button dark transparent iconCenter onPress={() => {Actions.pop()}}>
+              <Icon name='arrow-back' />
+            </Button>
+            <Button style={{alignSelf: 'flex-end'}} dark transparent iconCenter onPress={() => {this._openModal()}}>
+              <Icon name='settings' />
+            </Button>
+          </View>
+        </View>
+        <View style={styles.header}>
           <H1>{this.state.habitName}</H1>
         </View>
         <View style={styles.header}>
@@ -196,6 +215,51 @@ class IndividualHabit extends Component {
           mode={'time'}
           titleIOS={'Daiy Reminder Time'}
         />
+        <Modal
+          animationType={this.state.animationType}
+          transparent={this.state.transparent}
+          visible={this.state.isModalVisible}
+          onRequestClose={() => {this._closeModal()}}>
+          <Card>
+            <View style={styles.card}>
+              <CardItem>
+                <H1>Edit Habit</H1>
+              </CardItem>
+              <CardItem>
+                <Body>
+                  <View style={styles.formContainer}>
+                    <Form>
+                      <Text>Habit Name</Text>
+                      <Item rounded>
+                        <Input value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
+                      </Item>
+                    </Form>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
+                      <Text>Private?</Text>
+                      <Switch value={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                      <Text style={{fontWeight: 'bold', color:'red'}}>Delete</Text>
+                      <Icon name='trash' onPress = {() => Alert.alert(
+                        'Delete Habit',
+                        'Are you sure you want to delete this Habit?',
+                        [
+                          {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
+                          {text: 'OK', onPress: () => console.log('CREATE HABIT DELETE ROUTE')},
+                        ]
+                      )} />
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                      <Button transparent onPress={() => this._closeModal()}>
+                        <Text>Cancel</Text>
+                      </Button>
+                    </View>
+                  </View>
+                </Body>
+              </CardItem>
+            </View>
+          </Card>
+        </Modal>
       </View>
     </ScrollView>
     )
@@ -208,10 +272,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
   },
+  formContainer: {
+    alignSelf: 'stretch',
+    margin: 10,
+    marginTop: 5
+  },
   header: {
     alignItems: 'center',
     alignSelf: 'stretch',
-    backgroundColor: '#fffbf8',
+    backgroundColor: '#F8F8F8',
+  },
+  topHeader: {
+    alignSelf: 'stretch',
+    backgroundColor: '#F8F8F8',
   },
   reminder: {
     flexDirection: 'row',
@@ -226,6 +299,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: 'transparent',
+  },
+  card: {
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
   stats: {
     flexDirection: 'row',
@@ -242,6 +319,12 @@ const styles = StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  topRowContainer: {
+    flexDirection: 'row',
+    margin: 10,
+    marginBottom: 0,
+    justifyContent: 'space-between',
   },
   habitImage: {
     width: photoWidth,

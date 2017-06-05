@@ -23,10 +23,15 @@ exports.update = updatePromise;
 
 const getUserData = (userId) => {
   let resData = {};
+  resData['user'] = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
-    let { id, username, email, facebook, tagline } = user[0];
-    resData['user'] = { id, username, email, facebook, tagline }
+    console.log('user0', user[0])
+    for(let prop in user[0]) {
+      resData.user[prop] = user[0][prop];
+    }
+    console.log("getdata resData['user']", resData['user'])
+    if(resData['user'].password) delete resData['user'].password;
 
     //ADDED BELOW TO GET FRIENDS AND ALL OTHER USERS - DUNCAN
     resData['allUsers'] = [];
@@ -135,24 +140,34 @@ exports.addUser = (req, res) => {
 exports.patchUser = (req, res) => {
   console.log("inside patchUser in server side controller function")
   let resData = {};
-  resData.user = req.body.user;
-  for(let key in req.body.data) {
-    resData.user[key] = req.body.data[key];
+  let putData = {};
+  if(req.body.data.photo) {
+    uploadS3(req.body.data.photo, pic => {
+      putData.photo = pic.Location;
+      updatePromise(putData, 'users', req.body.user.id)
+      .then(user => {
+        // console.log('User Updated:', user)
+        // console.log('resData', resData)
+        res.status(201).json(resData);
+      })
+      .catch(err => console.error('Error updating user in DB:', err))
+    })
+  } else{
+    updatePromise(req.body.data, 'users', req.body.user.id)
+    .then(user => {
+      // console.log('User Updated:', user)
+      // console.log('resData', resData)
+      res.status(201).json(resData);
+    })
+    .catch(err => console.error('Error updating user in DB:', err))
   }
-  resData.habits = req.body.habits;
 
-  updatePromise(req.body.data, 'users', req.body.user.id)
-  .then(user => {
-    // console.log('User Updated:', user)
-    // console.log('resData', resData)
-    res.status(201).json(resData);
-  })
-  .catch(err => console.error('Error updating user in DB:', err))
 }
 
 
 // HABITS -------------------------------->
 exports.addHabit = (req, res) => {
+  console.log('addhabit req.body', req.body)
   let newHabit = Object.assign({}, req.body.data);
   newHabit.id_users = req.body.user.id;
   newHabit.start_date = new Date().toMysqlFormat(); // LATER - ability to set date?
@@ -217,15 +232,17 @@ exports.addDate = (req, res) => {
   } else {
     date = new Date().toMysqlFormat();
     habits = allHabits.filter(h => {
-      if (h.dates.length) {
+
+      if(h.dates.length) {
         var today = moment(new Date()).format('YYYY-MM-DD');
         var day = moment(h.dates[h.dates.length-1].date).format('YYYY-MM-DD')
         return (h.dates && h.dates.length && (today != day))
       } else {
-        return true;
+        return true
       }
     })
   }
+  console.log('habits', habits)
 
   let newDate = { id_users, date};
   console.log('req body day, habit', req.body.day, req.body.picHabit);
