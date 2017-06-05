@@ -42,7 +42,6 @@ routes.route('/api/users')
   .get(controllers.getUser)
   .put(controllers.patchUser);
 
-
 routes.route('/api/habits')
   // .get(controllers.getHabitData)
   .post(controllers.addHabit)

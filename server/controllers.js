@@ -47,7 +47,7 @@ const getUserData = (userId) => {
           username: user.username,
           tagline: user.tagline,
           photo: user.photo,
-          email: user.email
+          email: user.email,
         })
       });
       return retrievePromise(dbHelpers.query('retrieveFriends', userId))
@@ -142,6 +142,7 @@ exports.addUser = (req, res) => {
   .catch(err => console.error('Error adding user to DB:', err))
 }
 
+
 exports.patchUser = (req, res) => {
   console.log("inside patchUser in server side controller function")
   let resData = {};
@@ -166,7 +167,10 @@ exports.patchUser = (req, res) => {
     })
     .catch(err => console.error('Error updating user in DB:', err))
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> settingNotifi
 }
 
 
