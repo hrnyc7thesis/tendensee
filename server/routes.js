@@ -30,30 +30,32 @@ routes.post('/register', auth.register);
 routes.get('/signedin', auth.checkAuth);
 
 // OTHER ROUTES
-routes.route('/api/users')
+routes.route('/api/users/:user')
   .get(controllers.getUser)
   .post(controllers.addUser)
   .put(controllers.patchUser);
   // .delete(controllers.deleteUser);
 
+routes.route('/api/users')
+  .get(controllers.getUser)
+  .put(controllers.patchUser);
+
 routes.route('/api/habits')
   // .get(controllers.getHabitData)
-  .post(controllers.addHabit);
-  // .put(controllers.updateHabit)
+  .post(controllers.addHabit)
+  .put(controllers.updateHabit);
   // .delete(controllers.deleteHabit);
 
 routes.route('/api/dates')
   // .get(controllers.getDate)
-  .post(controllers.addDate);
-  // .delete(controllers.deleteDate);
+  .post(controllers.addDate)
+  .put(controllers.updateDate)
+  .delete(controllers.deleteDate);
 
-// routes.route('/api/register')
-//   .post(controllers.register);
 
-// routes.route('/api/friends')
-//   .get(controllers.getFriends)
-//   .post(controllers.addFriend)
+routes.route('/api/friends')
+  .post(controllers.addFriends)
+  .delete(controllers.deleteFriend);
 //   .put(controllers.challengeFriend)
-//   .delete(controllers.deleteFriend);
 
 module.exports = routes;

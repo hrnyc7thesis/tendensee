@@ -6,11 +6,12 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../Actions/ActionCreators';
 import Camera from './Camera';
 import Habits from './Habits';
+import IndividualHabit from './IndividualHabit';
 import Auth from './Auth';
-import UserProfile from '../Components/UserProfile';
 import Setting from './Setting';
 import Landing from './Landing';
 import Images from './Images';
+import { Icon } from 'native-base';
 
 const ReduxRouter = connect()(Router);
 
@@ -21,17 +22,69 @@ class AppRouter extends Component {
     return (
       <ReduxRouter>
         <Scene key='root'>
-          <Scene key='landing' component={Landing} title='Landing' passProps={true} hideNavBar={true} />
-          <Scene key='auth' component={Auth} title='Signup' passProps={true} hideNavBar={true} />
-          <Scene key='camera' titleProps={{order:1}} component={Camera} title='Capture Your Habit' passProps={true} animation='leftToRight' />
-          <Scene key='habits' titleProps={{order:2}} component={Habits} title='Your Habits!' passProps={true} />
-          <Scene key='setting' titleProps={{order:3}} component={Setting} title='Setting Page' passProps={true} />
-          <Scene key='images' titleProps={{order:4}} component={Images} title='Images Page' passProps={true} />
+          <Scene
+          key='landing'
+          component={Landing}
+          hideNavBar={true}
+          title='Landing'
+          passProps={true}
+          initial={true}
+          titleOpacity={0} />
+          <Scene
+          key='auth'
+          component={Auth}
+          hideNavBar={true}
+          title='Signup'
+          passProps={true}
+          />
+          <Scene
+          key='camera'
+          component={Camera}
+          hideNavBar={true}
+          title='Capture Your Habit'
+          passProps={true} />
+          <Scene
+          key='habits'
+          component={Habits}
+          hideNavBar={true}
+          title='Your Habits!'
+          passProps={true} />
+          <Scene
+          key='images'
+          component={Images}
+          title='Images Page'
+          hideNavBar={true}
+          passProps={true}
+          animation='leftToRight'/>
+          <Scene
+          key='setting'
+          component={Setting}
+          title='Setting Page'
+          hideNavBar={true}
+          passProps={true} />
+          <Scene
+          key='individualHabit'
+          component={IndividualHabit}
+          title='Habit Page'
+          hideNavBar={false}
+          passProps={true}
+          rightTitle='Edit'
+          onRight={()=> {console.log('clicked header')}}
+          navigationBarStyle={styles.navBar}
+          titleOpacity={0} />
         </Scene>
       </ReduxRouter>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  navBar: {
+    backgroundColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderBottomWidth: 65
+  },
+});
 
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators(ActionCreators, dispatch)

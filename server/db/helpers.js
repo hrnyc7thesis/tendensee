@@ -20,7 +20,7 @@ module.exports = {
   create: (input, table, cb) => {
     db.query(`INSERT INTO ${table} SET ?`, input, (err, res) => {
       if(err) console.log(err);
-      console.log('inserted:', res);
+      // console.log('inserted:', res);
       cb(err, res)
     })
   },
@@ -28,7 +28,7 @@ module.exports = {
   retrieve: (query, cb) => {
     db.query(query, (err, res)=> {
       if(err) console.log(err);
-      console.log(res);
+      // console.log(res);
       cb(err, res)
     })
   },
@@ -49,11 +49,20 @@ module.exports = {
     })
   },
 
+  deleteFriendRelationship: (id_follower, id_followee, cb) => {
+    db.query(`DELETE FROM friends WHERE id_follower=? AND id_followee=?`, [id_follower, id_followee], (err, res) => {
+      if (err) console.error(err);
+      cb(err, res);
+    })
+  },
+
   query: function(q, id) {
     let queries = {
       retrieveUser: `select * from users where users.id = "${id}"`,
       retrieveUserHabits: `select habits.* from users, habits where users.id = "${id}" AND habits.id_users = users.id`,
       retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id`,
+      retrieveAllOtherUsers: `select * from users where users.id <> "${id}"`,
+      retrieveFriends: `select * from friends where id_follower = "${id}"`,
     }
     return queries[q]
   }

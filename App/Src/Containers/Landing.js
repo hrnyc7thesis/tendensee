@@ -35,9 +35,7 @@ class Landing extends Component {
       return
     } else if (this.props.routes.scene.title ==="Landing") {
       this.props.landingTimeout(this.props.user.token, this.props.routes.scene.title);
-    } /*else {
-      this.props.landingTimeout(this.props.user.token, this.props.routes.scene.title);
-    }*/
+    } 
   }
 
   render() {

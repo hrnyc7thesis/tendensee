@@ -24,7 +24,8 @@ class Habits extends Component {
       habitCategory: '',
       buttonOpacities: [.5, .5, .5, .5, .5, .5, .5, .5, .5],
       isReminderChecked: false,
-      reminderTime: null
+      reminderTime: null,
+      isPrivate: false
     }
   }
 
@@ -64,7 +65,7 @@ class Habits extends Component {
     let habit = {
       name: this.state.habitName,
       type: this.state.habitCategory,
-      notification: this.state.reminderTime
+      notification: this.state.reminderTime,
     };
     this.props.addHabit(this.props.user, habit);
     this._closeModal();
@@ -82,11 +83,10 @@ class Habits extends Component {
 
   onSwipeRight() {
     this.props.user.habits.length ? Actions.camera() : Alert.alert('Please Add a Habit to Access the Camera!');
-
   }
 
   onSwipeLeft() {
-    Actions.setting();
+    // Actions.individualHabit();
   }
 
   render() {
@@ -108,9 +108,9 @@ class Habits extends Component {
           onSwipeLeft={() => this.onSwipeLeft()}
           config={config}
         >
-        <Text style={[styles.noHabitText, noHabitStyle]}>
-          <H3>{noHabitText}</H3>
-        </Text>
+          <Text style={[styles.noHabitText, noHabitStyle]}>
+            <H3>{noHabitText}</H3>
+          </Text>
 
           <View style={styles.container}>
             <HabitsListContainer />
@@ -202,6 +202,8 @@ class Habits extends Component {
               <CardItem>
                 <Text>Send reminders?</Text>
                 <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
+                <Text>Send reminders?</Text>
+                <CheckBox checked={this.state.isPrivate} onPress={() => !this.state.isPrivate} />
               </CardItem>
               <CardItem>
                 <View style={styles.successButton}>
@@ -244,7 +246,9 @@ const styles = StyleSheet.create({
   container: {
     flex: -1,
     justifyContent: 'center',
-    padding: 20
+    paddingTop: 30,
+    marginBottom: 10,
+    height: 600,
   },
   addHabitButtonContainer: {
     flex: -1,

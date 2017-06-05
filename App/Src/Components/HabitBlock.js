@@ -1,36 +1,35 @@
 import React, { PropTypes } from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import RecentDays from './RecentDays.js'
 
-const HabitBlock = ({habit, onPressItem}) => {
-  const habitProps = {
-    name: habit.name,
-    description: habit.description,
-    type: habit.type,
-  }
+const HabitBlock = ({habit, allHabits, onPressItem, onPressHabit}) => {
+  const habitProps = habit;
 
   console.log('habitprops', habitProps);
 
   return (
     <View style={styles.habitBlock}>
       <View style={styles.habitName}>
-        <Text style={styles.habitNameTitle}>{habit.name}</Text>
+        <Text onPress={() => onPressHabit(habitProps)} style={styles.habitNameTitle}>{habit.name}</Text>
       </View>
-      <RecentDays dates={habit.dates} habitProps={habitProps} onPressItem={onPressItem}/>
+      <RecentDays allHabits={allHabits} dates={habit.dates} habitProps={habitProps} onPressItem={onPressItem}/>
     </View>
   )
 }
 
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   habitBlock: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'skyblue',
+    marginBottom: 10,
   },
 
   habitName: {
-    width: 70,
     alignItems: 'center',
+    backgroundColor: 'salmon',
+    width: width,
   },
 
   habitNameTitle: {

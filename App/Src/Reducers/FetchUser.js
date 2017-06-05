@@ -16,6 +16,24 @@ const user = (state = {
       return Object.assign({}, state, {
         isFetching: false
       });
+    case ('ADD_FRIENDS'):
+      let addFriends = state.userData.friends.concat(action.data);
+      return Object.assign({}, state, {
+        userData: {
+          ...state.userData,
+          friends: addFriends
+        }
+      });
+    case ('DELETE_FRIEND'):
+      let deleteFriends = state.userData.friends.filter(friend => {
+        return friend !== action.data;
+      });
+      return Object.assign({}, state, {
+        userData: {
+          ...state.userData,
+          friends: deleteFriends
+        }
+      });
     default:
       return state;
   }

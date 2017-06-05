@@ -1,4 +1,5 @@
 import { MY_IP } from './../myip';
+import { AsyncStorage } from 'react-native'
 
 export const fetchUserInit = () => {
   return {
@@ -13,37 +14,50 @@ export const fetchUserSuccess = (data) => {
   }
 };
 
-export const fetchUserFail = () => {
+export const fetchUserFail = (err) => {
   return {
     type: 'FETCH_USER_FAIL',
-    response: 'Error Fetching User'
+    response: err
   }
 };
 
-export const fetchUser = (token) => {
-  return (dispatch) => {
-    //Start loading animation
-    dispatch(fetchUserInit());
-    //Begin fetching
-    console.log('token', token);
 
-    return fetch(`http://${MY_IP}:8080/api/users`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "x-custom-header": token
-      }
-    })
+const fetchWithToken = (dispatch, tokenArg) => {
+  return fetch(`http://${MY_IP}:8080/api/users`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      "x-custom-header": tokenArg
+    }
+  })
+  .then(data => {
+    data.json()
     .then(data => {
-      data.json()
-      .then(data => dispatch(fetchUserSuccess(data)))
-      .catch(() => {
-        dispatch(fetchUserFail());
-      })
+      AsyncStorage.setItem('token', data.token);
+      dispatch(fetchUserSuccess(data))
     })
     .catch(() => {
       dispatch(fetchUserFail());
-    });
+    })
+  })
+  .catch(() => {
+    dispatch(fetchUserFail());
+  });
+}
+
+export const fetchUser = (token) => {
+  return (dispatch) => {
+    dispatch(fetchUserInit());
+    if(token) {
+      console.log('token', token);
+      fetchWithToken(dispatch, token);
+    } else {
+      AsyncStorage.getItem('token')
+      .then(asyncToken => {
+        console.log('asyncToken', asyncToken);
+        fetchWithToken(dispatch, asyncToken);
+      })
+    }
   }
 }

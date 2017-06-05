@@ -2,60 +2,68 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Image, ScrollView, TextInput, Dimensions } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { Button, Card, Form, Item, Input, H1, H2, H3, CardItem, Body, CheckBox, Icon, Header, Tab, Tabs, TabHeading, Container, Content } from 'native-base';
+import { Button, Card, Form, Item, Input, H1, H2, H3, CardItem, Body, CheckBox, Icon, Tab, Tabs, TabHeading, Container } from 'native-base';
 import Modal from 'react-native-modal';
 import { Actions } from 'react-native-router-flux';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { ActionCreators } from './../Actions/ActionCreators';
 import Friend from './../Components/FriendsListItem';
-
-const { width } = Dimensions.get('window');
-const photoWidth = (width - 2 * 10 - 2 * 2 - 4 * 5) / 3;
+import UserView from './../Components/UserView';
 
 class Images extends Component {
   constructor (props) {
     super (props);
-    console.log('rendering');
     this.state = {
-      //Modal
       animationType: 'slide',
       isModalVisible: false,
       isModalTransparent: false,
-      //Add friend
-      username: '',
+      searchedUsername: '',
       selectedFriends: [],
     }
+  }
+
+  componentWillMount () {
+    this.props.getVisibleUser(this.props.user);
+  }
+
+  _changeVisibleUser = (id) => {
+    this.props.getVisibleUser(this.props.user, id);
+  }
+
+  _deleteFriend = (id) => {
+    this.props.deleteFriendAndUpdate(this.props.user, id);
+    this.props.fetchUser(this.props.user.token);
   }
 
   _openModal = () => {
     this.setState({ isModalVisible: true });
   }
 
-
   _closeModal = () => {
+    if (this.state.selectedFriends.length > 0) {
+      this.props.addFriendsAndUpdate(this.props.user, this.state.selectedFriends);
+      this.props.fetchUser(this.props.user.token);
+    }
     this.setState({
-      username: '',
+      searchedUsername: '',
+      selectedFriends: [],
       isModalVisible: false
     });
   }
 
-  _setUsername(text) {
-    this.setState({ username: text });
+  _setSearchedUsername = (text) => {
+    this.setState({ searchedUsername: text });
   }
 
-  _addFriendToList(id) {
-    let tempSelectedFriends = this.state.selectedFriends;
-    tempSelectedFriends.push(id);
+  _addFriendToList = (id) => {
     this.setState({
-      selectedFriends: tempSelectedFriends
+      selectedFriends: this.state.selectedFriends.concat(id)
     });
   }
 
-  _removeFriendFromList(id) {
-    let tempSelectedFriends = this.state.selectedFriends;
-    tempSelectedFriends.splice(tempSelectedFriends.indexOf(id), 1);
+  _removeFriendFromList = (id) => {
     this.setState({
-      selectedFriends: tempSelectedFriends
+      selectedFriends: this.state.selectedFriends.filter((f) => f !== id)
     });
   }
 
@@ -65,10 +73,23 @@ class Images extends Component {
 
   render() {
 
+    let isSelf = false;
+    if (this.props.visibleUser.user) {
+      isSelf = (this.props.user.user.id === this.props.visibleUser.user.id) ? true : false;
+    }
+
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
     };
+
+    const images = this.props.visibleUser.habits ?
+    this.props.visibleUser.habits.reduce((acc, habit) => {
+      return acc.concat(habit.dates.reduce((acc, date) => {
+        return acc.concat(date.picture);
+      }, []));
+    }, [])
+    : [];
 
     return (
       // <GestureRecognizer
@@ -77,111 +98,66 @@ class Images extends Component {
       //   config={config}
       // >
         <Container>
-          <View style={styles.screenAboveTabs}>
-            <View style={styles.topRowContainer}>
-              <View>
-                <Button dark transparent iconCenter onPress={() => {Actions.camera()}}>
-                  <Icon name='arrow-back' />
-                </Button>
-              </View>
-              <View style={styles.userPictureContainer}>
-                <Image source={{uri: users[0].user.picture}} style={styles.userImage}/>
-              </View>
-              <View>
-                <Button dark transparent iconCenter>
-                  <Icon name='settings' />
-                </Button>
-              </View>
-            </View>
-            <View style={styles.usernameContainer}>
-              <Text style={styles.usernameText}>{users[0].user.username}</Text>
-            </View>
-            <View style={styles.taglineContainer}>
-              <Text style={styles.taglineText}>{users[0].user.quote}</Text>
-            </View>
-          </View>
-         <Tabs>
-           <Tab heading={ <TabHeading><Text>Photos</Text></TabHeading>}>
-            <ScrollView>
-              <View style={styles.habitImages}>
-              {sampleImages.map(image => {
-                return (
-                    <Image source={{uri: image}} style={styles.habitImage}/>
-                );
-              })}
-              </View>
-            </ScrollView>
-           </Tab>
-           <Tab heading={ <TabHeading><Text>Friends</Text></TabHeading>}>
-            <View style={styles.friendsTabContainer}>
-              <View style={styles.friendSearchFormAndButton}>
-                <View style={styles.friendSearchFormContainer}>
-                  <TextInput style={styles.textInput} placeholder='Search' value={this.state.searchFriendsForm} onChangeText={(text) => {this._setSearchFriendsText(text)}} />
-                </View>
-                <View style={styles.addFriendsButtonContainer}>
-                  <Button transparent info iconLeft onPress={this._openModal}>
-                    <Icon name='add-circle' />
-                  </Button>
-                </View>
-              </View>
-              <View style={styles.currentFriendsListContainer}>
-                {friends.length === 0 &&
-                  <View style={{alignItems: 'center', marginTop: 20}}>
-                    <H3 style={{color: '#cccccc'}}>No friends yet :(</H3>
-                  </View>
-                }
-              </View>
-              {/* <ScrollView style={styles.currentFriendsListContainer}>
-                {
-                  users
-                  .filter(user => {
-                    return user.user.username.toLowerCase().includes(this.state.username.toLowerCase());
-                  })
-                  .map(user => {
-                    return (
-                      <Friend key={user.id} user={user} _removeFriendFromList={this._removeFriendFromList.bind(this)} _addFriendToList={this._addFriendToList.bind(this)} />
-                    )
-                  })
-                }
-              </ScrollView> */}
-            </View>
-           </Tab>
-         </Tabs>
+          <UserView
+            isSelf={isSelf}
+            self={this.props.user}
+            user={this.props.visibleUser}
+            friends={this.props.visibleUserFriends}
+            allUsers={this.props.allUsers}
+            openModal={this._openModal.bind(this)}
+            deleteFriend={this._deleteFriend.bind(this)}
+            images={images}
+            changeVisibleUser={this._changeVisibleUser.bind(this)}
+            changeVisibleUser={this._changeVisibleUser.bind(this)}
+            closeModal={this._closeModal.bind(this)}
+          />
 
-         <View>
-           <Modal
+          <View>
+            <Modal
               animationType={this.state.animationType}
               transparent={this.state.transparent}
               visible={this.state.isModalVisible}
               onRequestClose={() => {this._closeModal()}}>
               <Card>
                 <View style={styles.card}>
-                  <View style={styles.addFriendsHeader}>
+                  <View>
                     <H1>Add Friends</H1>
                   </View>
                   <View style={styles.formContainer}>
                     <Form>
                       <Item rounded>
-                        <Input placeholder='Search..' value={this.state.username} onChangeText={(text) => {this._setUsername(text)}} />
+                        <Input placeholder='Search..' value={this.state.searchedUsername} onChangeText={(text) => {this._setSearchedUsername(text)}} />
                       </Item>
                     </Form>
                   </View>
                   <ScrollView style={styles.addFriendsListContainer}>
-                    {
-                      users
+                    {this.props.visibleUserFriends ? (
+                      this.props.allUsers
                       .filter(user => {
-                        return user.user.username.toLowerCase().includes(this.state.username.toLowerCase());
+                        return !this.props.visibleUserFriends.includes(user.id);
+                      })
+                      .filter(user => {
+                        return user.username.toLowerCase().includes(this.state.searchedUsername.toLowerCase());
                       })
                       .map(user => {
                         return (
-                          <Friend key={user.id} user={user} _removeFriendFromList={this._removeFriendFromList.bind(this)} _addFriendToList={this._addFriendToList.bind(this)} />
+                          <Friend key={user.id}
+                            isModalVisible={true}
+                            user={user}
+                            changeVisibleUser={this._changeVisibleUser.bind(this)}
+                            removeFriendFromList={this._removeFriendFromList.bind(this)}
+                            addFriendToList={this._addFriendToList.bind(this)}
+                            closeModal={this._closeModal.bind(this)}
+                          />
                         )
                       })
-                    }
+                    ) : (
+                      null
+                    )}
                   </ScrollView>
-                  <View style={styles.doneButtonContainer}>
-                    <Button transparent onPress={this._closeModal}>
-                      <Text style={{color: 'green'}}>DONE</Text>
+                  <View>
+                    <Button transparent onPress={() => {this._closeModal()}}>
+                      <Text style={styles.closeModalButton}>DONE</Text>
                     </Button>
                   </View>
                 </View>
@@ -195,83 +171,6 @@ class Images extends Component {
 };
 
 const styles = StyleSheet.create({
-  screenAboveTabs: {
-    backgroundColor: '#F8F8F8'
-  },
-  topRowContainer: {
-    flexDirection: 'row',
-    margin: 25,
-    marginBottom: 5,
-    justifyContent: 'space-between',
-  },
-  userPictureContainer: {
-    flex: 1,
-    height: 85,
-  },
-  userImage: {
-    flex: 1,
-    resizeMode: 'contain',
-    marginTop: 20
-  },
-  usernameContainer: {
-    alignSelf: 'center',
-  },
-  usernameText: {
-    fontWeight: 'bold',
-    fontSize: 20
-  },
-  taglineContainer: {
-    alignSelf: 'center',
-  },
-  taglineText: {
-    fontStyle: 'italic',
-    fontSize: 10
-  },
-  habitImages: {
-    borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
-    margin: 10,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  habitImage: {
-    width: photoWidth,
-    height: photoWidth,
-    marginTop: 5,
-    marginLeft: 5,
-    marginBottom: 5,
-    borderRadius: 3,
-  },
-  friendsTabContainer: {
-    flex: 1
-  },
-  friendSearchFormAndButton: {
-    flexDirection: 'row',
-  },
-  friendSearchFormContainer: {
-    borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 30,
-    margin: 15,
-    marginBottom: 0,
-    flex: 5,
-  },
-  textInput: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  addFriendsButtonContainer: {
-    marginLeft: -10,
-    marginTop: 15,
-  },
-  currentFriendsListContainer: {
-    flex: 8,
-    borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
-    margin: 15
-  },
   card: {
     flex: 1,
     alignItems: 'center',
@@ -288,108 +187,24 @@ const styles = StyleSheet.create({
     borderColor: '#f0f0f5',
     borderWidth: 2,
     borderRadius: 10,
+  },
+  closeModalButton: {
+    color: 'green',
   }
 });
 
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user.userData
+    user: state.user.userData,
+    visibleUser: state.visibleUser.visibleUserData,
+    visibleUserFriends: state.visibleUser.visibleUserData.friends,
+    allUsers: state.user.userData.allUsers,
   }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Images);
-
-const friends = [
-];
-
-const users = [
-  {
-    "user": {
-      "id": 1,
-      "username": "debnomite",
-      "quote": 'Boom!',
-      "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-    }
-  },
-  {
-    "user": {
-      "id": 2,
-      "username": "tcoc99",
-      "quote": 'Life is like a box of chocolates...',
-      "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-    }
-  },
-  {
-    "user": {
-      "id": 3,
-      "username": "gedyman",
-      "quote": 'Float like a butterfly sting like a bee.',
-      "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-    }
-  },
-  {
-      "user": {
-        "id": 4,
-        "username": "harv",
-        "quote": "I cannot pitch",
-        "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-      }
-  },
-  {
-      "user": {
-        "id": 5,
-        "username": "billyzane",
-        "quote": "I have a child!",
-        "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-      }
-  },
-  {
-      "user": {
-        "id": 6,
-        "username": "joeM",
-        "quote": "do you want to catch those hands?",
-        "picture": 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
-      }
-  }
-];
-
-const sampleImages = [
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-  'https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/citi_topv2.jpg',
-]
