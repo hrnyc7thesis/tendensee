@@ -1,6 +1,6 @@
 import { MY_IP } from './../myip';
 import * as UserActions from './UserActions';
-import { fetchUserSuccess } from './UserActions.js'
+import { fetchUser, fetchUserSuccess } from './UserActions.js'
 
 
 export const habitInit = () => {
@@ -62,6 +62,7 @@ export const updateHabit = (userData, habit) => {
       return data.json()
       .then(data => {
         dispatch(habitSuccess(data));
+        dispatch(fetchUser(userData.token))
       })
     })
     .catch((err)=> dispatch(habitFail(err)));

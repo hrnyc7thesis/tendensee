@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image } from 'react-native';
+import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image, TouchableHighlight } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
+import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H3, CardItem, Body, CheckBox, Icon, ActionSheet } from 'native-base';
 import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { ActionCreators } from './../Actions/ActionCreators';
@@ -82,6 +82,27 @@ class IndividualHabit extends Component {
       curDate = moment(curDate).add(1, 'days');
     }
     return dates;
+  }
+
+  _showActionSheet() {
+    BUTTONS = ['Fitness', 'Diet', 'Study', 'etc.'].concat(['Cancel']);
+    CANCEL_INDEX = BUTTONS.length - 1;
+    ActionSheet.show({
+      options: BUTTONS,
+      cancelButtonIndex: CANCEL_INDEX,
+      title: 'Edit Habit Type',
+    },
+    (buttonIndex) => {
+      if (buttonIndex !== CANCEL_INDEX) {
+        let putData = Object.assign({}, {id: this.props.habitProps.id}, {
+          type: BUTTONS[buttonIndex]
+        });
+        this.setState({habitType:BUTTONS[buttonIndex]})
+        console.log('old type, new type', putData)
+        this.props.updateHabit(this.props.user, putData);
+        this._closeModal();
+      }
+    });
   }
 
   render() {
@@ -215,51 +236,56 @@ class IndividualHabit extends Component {
           mode={'time'}
           titleIOS={'Daiy Reminder Time'}
         />
-        <Modal
-          animationType={this.state.animationType}
-          transparent={this.state.transparent}
-          visible={this.state.isModalVisible}
-          onRequestClose={() => {this._closeModal()}}>
-          <Card>
-            <View style={styles.card}>
-              <CardItem>
-                <H1>Edit Habit</H1>
-              </CardItem>
-              <CardItem>
-                <Body>
-                  <View style={styles.formContainer}>
-                    <Form>
-                      <Text>Habit Name</Text>
-                      <Item rounded>
-                        <Input value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
-                      </Item>
-                    </Form>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
-                      <Text>Private?</Text>
-                      <Switch value={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
+        <Container>
+          <Modal
+            animationType={this.state.animationType}
+            transparent={this.state.transparent}
+            visible={this.state.isModalVisible}
+            onRequestClose={() => {this._closeModal()}}>
+            <Card>
+              <View style={styles.card}>
+                <CardItem>
+                  <H1>Edit Habit</H1>
+                </CardItem>
+                <CardItem>
+                  <Body>
+                    <View style={styles.formContainer}>
+                      <Form>
+                        <Text>Habit Name</Text>
+                        <Item rounded>
+                          <Input value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
+                        </Item>
+                      </Form>
+                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
+                        <Text>Private?</Text>
+                        <Switch value={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
+                      </View>
+                      <TouchableHighlight underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
+                        <Text style={styles.selectNewLink}>Edit Habit Type</Text>
+                      </TouchableHighlight>
+                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={{fontWeight: 'bold', color:'red'}}>Delete</Text>
+                        <Icon name='trash' onPress = {() => Alert.alert(
+                          'Delete Habit',
+                          'Are you sure you want to delete this Habit?',
+                          [
+                            {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
+                            {text: 'OK', onPress: () => console.log('CREATE HABIT DELETE ROUTE')},
+                          ]
+                        )} />
+                      </View>
+                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <Button transparent onPress={() => this._closeModal()}>
+                          <Text>Cancel</Text>
+                        </Button>
+                      </View>
                     </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                      <Text style={{fontWeight: 'bold', color:'red'}}>Delete</Text>
-                      <Icon name='trash' onPress = {() => Alert.alert(
-                        'Delete Habit',
-                        'Are you sure you want to delete this Habit?',
-                        [
-                          {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
-                          {text: 'OK', onPress: () => console.log('CREATE HABIT DELETE ROUTE')},
-                        ]
-                      )} />
-                    </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                      <Button transparent onPress={() => this._closeModal()}>
-                        <Text>Cancel</Text>
-                      </Button>
-                    </View>
-                  </View>
-                </Body>
-              </CardItem>
-            </View>
-          </Card>
-        </Modal>
+                  </Body>
+                </CardItem>
+              </View>
+            </Card>
+          </Modal>
+        </Container>
       </View>
     </ScrollView>
     )
