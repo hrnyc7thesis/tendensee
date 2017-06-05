@@ -45,9 +45,11 @@ export const updateDayFail = (err) => {
 };
 
 export const updateDay = (day) => {
+  let token;
   return dispatch => {
     AsyncStorage.getItem('token')
     .then(asyncToken => {
+      token = asyncToken;
       dispatch (updateDayInit());
       console.log('in update day:', day)
       let putData = Object.assign({}, {data: day});
@@ -65,7 +67,7 @@ export const updateDay = (day) => {
         return data.json()
         .then(data => {
           dispatch(updateDaySuccess(data));
-          dispatch(fetchUser())
+          dispatch(fetchUser(token))
         })
       })
       .catch((err)=> dispatch(updateDayFail(err)));
@@ -74,9 +76,11 @@ export const updateDay = (day) => {
 }
 
 export const deleteDay = (day) => {
+  let token;
   return dispatch => {
     AsyncStorage.getItem('token')
     .then(asyncToken => {
+      token = asyncToken;
       dispatch (deleteDayInit());
       console.log('in delete day:', day)
       let deleteData = Object.assign({}, {data: day});
@@ -94,7 +98,7 @@ export const deleteDay = (day) => {
         return data.json()
         .then(data => {
           dispatch(deleteDaySuccess(data));
-          dispatch(fetchUser())
+          dispatch(fetchUser(token))
         })
       })
       .catch((err)=> dispatch(deleteDayFail(err)));
