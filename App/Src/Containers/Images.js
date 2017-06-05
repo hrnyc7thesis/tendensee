@@ -67,6 +67,10 @@ class Images extends Component {
     });
   }
 
+  _showUserHabitPhoto = (photo) => {
+    this.props.showUserHabitPhoto(photo);
+  }
+
   onSwipeLeft() {
     Actions.camera();
   }
@@ -91,6 +95,18 @@ class Images extends Component {
     }, [])
     : [];
 
+    let photos = [];
+    let habits = this.props.visibleUser.habits;
+    if (habits) {
+      habits.forEach(habit => {
+        habit.dates.forEach(day => {
+          photos.push({picture: day.picture, date: day.date, habitName: habit.name, habitType: habit.type})
+        })
+      })
+    } else {
+      photos = [];
+    }
+
     return (
       // <GestureRecognizer
       //   style={styles.gesture}
@@ -106,10 +122,12 @@ class Images extends Component {
             allUsers={this.props.allUsers}
             openModal={this._openModal.bind(this)}
             deleteFriend={this._deleteFriend.bind(this)}
-            images={images}
-            changeVisibleUser={this._changeVisibleUser.bind(this)}
+            images={photos}
+            // images={images}
+            // changeVisibleUser={this._changeVisibleUser.bind(this)}
             changeVisibleUser={this._changeVisibleUser.bind(this)}
             closeModal={this._closeModal.bind(this)}
+            onPressPhoto={this._showUserHabitPhoto.bind(this)}
           />
 
           <View>

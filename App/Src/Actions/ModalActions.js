@@ -23,6 +23,17 @@ export const editPastDay = (day, habitProps) => {
     }
 };
 
+export const showUserHabitPhoto = (photo) => {
+  console.log('INSIDE modal actions')
+  return {
+    type: 'SHOW_MODAL',
+    modalType: 'SHOW_USER_HABIT_PHOTO',
+    modalProps: {
+      photo: photo,
+    }
+  }
+}
+
 export const hideModal = () => {
   return {
     type: 'HIDE_MODAL'
