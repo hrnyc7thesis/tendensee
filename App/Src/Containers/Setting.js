@@ -27,14 +27,19 @@ class UserSettings extends Component {
   constructor(props){
   super(props);
   this.state = {
-    notification: true,
-    allPrivate: false,
+    notification: !!this.props.user.notifications,
+    allPrivate: !!this.props.user.private,
     email: this.props.user.email,
-    avatarSource: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png',
+    avatarSource: this.props.user.photo
   }
 }
+//"file:///Users/debmozumder/Library/Developer/CoreSimulator/Devices/55E2B615-E8C7-432B-8F8F-852FC8E1B396/data/Containers/Data/Application/BAE65C9E-902E-4694-AD4E-7C50C0E28BE0/Documents/images/5DDC141F-BA0A-4786-B1F1-B7F5162A6653.jpg" || 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'
+  _handlePhoto = (photo) => {
+    this.props.updatePhoto(photo, this.props.user, this.props.habits);
+  };
   _toggleNotification = () => {
     this.setState({notification: !this.state.notification});
+    this.props.handleNotification(this.state.notification, this.props.user, this.props.habits);
     Snackbar.show({
       backgroundColor: this.state.notification ? '#AD1457' : '#4CAF50',
       title: this.state.notification ? 'Notifications Turned OFF' : 'Notifications Turned ON',
@@ -43,6 +48,7 @@ class UserSettings extends Component {
   };
   _toggleAllPrivate = () => {
     this.setState({allPrivate: !this.state.allPrivate});
+    this.props.handlePrivate(this.state.allPrivate, this.props.user, this.props.habits);
     Snackbar.show({
       backgroundColor: this.state.allPrivate ? '#E91E63' : '#263238',
       title: this.state.allPrivate ? 'Private OFF' : 'All Habit Set To Private',
@@ -53,35 +59,13 @@ class UserSettings extends Component {
     var email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.test(promptValue)) {
       this.setState({ email: promptValue });
-      console.log("inside validateEmail function")
       this.props.updateEmail(promptValue, this.props.user, this.props.habits);
-
     } else {
       Alert.alert("Make sure your email is valid! Try Again!")
     }
   };
-  // _updateEmail = (newEmail) => {
-  //   console.log("inside updateEmail function")
-  //   let putData = Object.assign({}, {data: {email: newEmail}, user: this.props.user, habits: this.props.habit});
-  //
-  //   fetch(`http://${MY_IP}:8080/api/users/:${this.props.user.id}`, {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(putData)
-  //   })
-  //   .then(data => {
-  //     console.log("update user Email successful!")
-  //   })
-  //   .catch((err)=> {
-  //     console.log("update user Email Failed!")
-  //   })
-  // }
 
   render() {
-    console.log(this.props.user)
       return (
         <View style= {styles.pageView}>
           <View style={styles.container}>
@@ -145,6 +129,8 @@ class UserSettings extends Component {
         this.setState({
           avatarSource: response.uri
         });
+        // this._handlePhoto(response.data);
+        // console.log("_________________this the photo data", response.uri )
       }
     });
   }
@@ -204,9 +190,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) =>{
+  // console.log("@@@@@@@@@@@@@@@@@@", state)
   return {
     user: state.user.userData.user,
-    habits:state.user.userData.habit,
+    habits:state.user.userData.habits,
   }
 };
 

@@ -24,8 +24,8 @@ const getUserData = (userId) => {
   let resData = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
-    let { id, username, email, facebook, tagline } = user[0];
-    resData['user'] = { id, username, email, facebook, tagline }
+    let { id, username, email, notifications, private, tagline, facebook } = user[0];
+    resData['user'] = { id, username, email, notifications, private, tagline, facebook }
 
     //ADDED BELOW TO GET FRIENDS AND ALL OTHER USERS - DUNCAN
     resData['allUsers'] = [];
@@ -38,7 +38,7 @@ const getUserData = (userId) => {
           username: user.username,
           tagline: user.tagline,
           photo: user.photo,
-          email: user.email
+          email: user.email,
         })
       });
       return retrievePromise(dbHelpers.query('retrieveFriends', userId))
@@ -131,19 +131,30 @@ exports.addUser = (req, res) => {
   .catch(err => console.error('Error adding user to DB:', err))
 }
 
+
 exports.patchUser = (req, res) => {
-  console.log("inside patchUser in server side controller function")
+  // console.log('++++++++++++++++++', req.body);
   let resData = {};
   resData.user = req.body.user;
+
   for(let key in req.body.data) {
     resData.user[key] = req.body.data[key];
   }
   resData.habits = req.body.habits;
 
+  if(req.body.data.photo){
+    uploadS3(req.body.data.photo, pic => {
+      resData.user.photo = pic.Location;
+      req.body.data.photo = pic.Location;
+        // .then(date => {
+        //   res.status(201).json(resData);
+        // })
+        // .catch(err => console.error('Error adding photo to DB:', err))
+    })
+  }
+
   updatePromise(req.body.data, 'users', req.body.user.id)
   .then(user => {
-    // console.log('User Updated:', user)
-    // console.log('resData', resData)
     res.status(201).json(resData);
   })
   .catch(err => console.error('Error updating user in DB:', err))
