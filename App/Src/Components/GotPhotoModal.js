@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View, StyleSheet, Image, Dimensions, TouchableHighlight, ActionSheetIOS, CameraRoll, Alert } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, Image, Dimensions, TouchableHighlight, CameraRoll, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { H1, H2, H3, Button } from 'native-base';
+import { H1, H2, H3, Button, ActionSheet, Container } from 'native-base';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
@@ -22,7 +22,7 @@ class GotPhotoModal extends Component {
   _showActionSheet() {
     BUTTONS = this.props.habits.filter(h => h.id !== this.props.currentPhoto.id_habits).map(h => h.name).concat(['Cancel']);
     CANCEL_INDEX = BUTTONS.length - 1;
-    ActionSheetIOS.showActionSheetWithOptions({
+    ActionSheet.show({
       options: BUTTONS,
       cancelButtonIndex: CANCEL_INDEX,
       title: 'Sorry! Our systems are still in training!',
@@ -57,6 +57,7 @@ class GotPhotoModal extends Component {
     }
 
     return (
+    <Container>
       <Modal
         isVisible={this.props.sendPhotos.showGotPhotoModal}
         // isVisible={true}
@@ -97,6 +98,7 @@ class GotPhotoModal extends Component {
           </Button>
         </View>
       </Modal>
+    </Container>
     )
   }
 };
