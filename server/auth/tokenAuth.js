@@ -18,9 +18,9 @@ exports.login = (req, res) => {
       res.status(403).json('Wrong Password.');
     } else {
       user = rows[0];
-      let token = jwt.encode(user, secret);
       db.getUserData(user.id)
       .then(data => {
+        let token = jwt.encode(data, secret);
         data.token = token;
         console.log('login senddata', data)
         res.status(200).json(data)
@@ -53,9 +53,9 @@ exports.register = (req, res) => {
       .then(user => {
         newUser.id = user.insertId;
         delete newUser.password;
-        let token = jwt.encode(newUser, secret);  // rows obj right thing here?
         db.getUserData(newUser.id)
         .then(data => {
+          let token = jwt.encode(data, secret);  // rows obj right thing here?
           data.token = token;
           console.log('login senddata', data)
           res.status(200).json(data)

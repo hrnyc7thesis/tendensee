@@ -26,10 +26,13 @@ const getUserData = (userId) => {
   resData['user'] = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
-    console.log('user0', user[0])
+    console.log('user0,', user[0])
     for(let prop in user[0]) {
       resData.user[prop] = user[0][prop];
     }
+    resData.user.notifications = resData.user.notifications.lastIndexOf(1) !== -1;
+    resData.user.private = resData.user.private.lastIndexOf(1) !== -1;
+
     console.log("getdata resData['user']", resData['user'])
     if(resData['user'].password) delete resData['user'].password;
 
@@ -112,8 +115,10 @@ exports.getUser = (req, res) => {
     // console.log('gu req.cookies', req.cookies);
     // let username = req.session.passport.user;
     let token = req.headers['x-custom-header'];
+    console.log('in getuser - token', token)
     let user = jwt.decode(token, config.tokenSecret);
-    getUserData(user.id)
+    console.log('gu user', user)
+    getUserData(user.user.id)
     .then(data => {
       data.token = token;
       res.status(200).json(data);

@@ -22,9 +22,9 @@ module.exports = (req, res) => {
       db.create(newUser, 'users')
       .then(user => {
         newUser.id = user.insertId;
-        let token = jwt.encode(newUser, secret);  // rows obj right thing here?
         db.getUserData(newUser.id)
         .then(data => {
+          let token = jwt.encode(data, secret);  // rows obj right thing here?
           data.token = token;
           console.log('FBlogin senddata', data)
           res.status(200).json(data)
@@ -33,6 +33,8 @@ module.exports = (req, res) => {
     } else {
       db.getUserData(rows[0].id)
       .then(data => {
+        console.log(data);
+        console.log('secret', secret);
         let token = jwt.encode(data, secret);
         data.token = token;
         console.log('FBlogin senddata', data)

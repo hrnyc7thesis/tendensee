@@ -20,7 +20,7 @@ CREATE TABLE `users` (
   `facebook_friends` VARCHAR(255) NULL DEFAULT 'NO_FACEBOOK_FRIENDS', -- SHOULD BE OWN SCHEMA ONCE UP...
   `photo` VARCHAR(255) NULL DEFAULT 'NO_PHOTO',
   `notifications` bit NOT NULL DEFAULT 1,
-  `private_habits` bit NOT NULL DEFAULT 0,
+  `private` bit NOT NULL DEFAULT 0,
   `email` VARCHAR(255) NULL DEFAULT 'NO_EMAIL' CHECK (email like '%_@__%.__%'),
   `password` VARCHAR(128) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -40,7 +40,7 @@ CREATE TABLE `habits` (
   `type` VARCHAR(20) NOT NULL DEFAULT 'NULL',
   `start_date` DATE NULL DEFAULT NULL,
   `notification` TIME NULL DEFAULT NULL,
-  `private_habit` bit NOT NULL DEFAULT 0,
+  `private` bit NOT NULL DEFAULT 0,
   `has_pictures` bit NOT NULL DEFAULT 1,
   `id_users` INTEGER NOT NULL,
   PRIMARY KEY (`id`)

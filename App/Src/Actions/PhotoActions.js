@@ -47,7 +47,7 @@ export const sendPhoto = (data, day, habit) => {
         'Content-Type': 'application/json',
         "x-custom-header": data.token
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(sendData)
     })
     .then(data => {
       return data.json().then(data => {
