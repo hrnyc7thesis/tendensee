@@ -167,10 +167,6 @@ exports.patchUser = (req, res) => {
     })
     .catch(err => console.error('Error updating user in DB:', err))
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> settingNotifi
 }
 
 
