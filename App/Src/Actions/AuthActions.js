@@ -53,7 +53,7 @@ export const checkAuthFail = (bool) => {
 
 export const landingTimeout = (token, route) => {
   return dispatch => {
-    console.log('token & route in timeout', token, route)
+    // console.log('token & route in timeout', token, route)
     if(!token && route === 'Landing') {
       Actions.auth({type: ActionConst.RESET});
       dispatch(setLandingTimeout(true));
@@ -62,7 +62,7 @@ export const landingTimeout = (token, route) => {
 }
 
 export const checkAuth = (token) => {
-  console.log('in checkauth: token', token)
+  // console.log('in checkauth: token', token)
   return dispatch => {
     return fetch(`http://${MY_IP}:8080/signedin`, {
       method: 'GET',
@@ -73,8 +73,8 @@ export const checkAuth = (token) => {
       },
     })
     .then(bool => {
-      console.log('bool in checkauth', bool.ok)
-      console.log('checkauth action boolean?', bool.ok);
+      // console.log('bool in checkauth', bool.ok)
+      // console.log('checkauth action boolean?', bool.ok);
       bool.ok ? Actions.camera({type: ActionConst.RESET}) : Actions.auth({type: ActionConst.RESET});
       bool.ok ? dispatch(checkAuthSuccess(bool.ok)) : dispatch(checkAuthFail(bool.ok))
     })
@@ -93,7 +93,7 @@ export const auth = (username, password, email, route) => {
     }
 
     const path = route === 'Login' ? 'login' : 'register'; // can add to end of path instead of users...
-    console.log(MY_IP)
+    // console.log(MY_IP)
     return fetch(`http://${MY_IP}:8080/` + path, {
       method: 'POST',
       headers: {
@@ -107,7 +107,7 @@ export const auth = (username, password, email, route) => {
       .then(data => {
         AsyncStorage.setItem('token', data.token);
         AsyncStorage.setItem('user', JSON.stringify(data));
-        console.log('data in authact:', data);
+        // console.log('data in authact:', data);
         dispatch(authSuccess())
         dispatch(fetchUserSuccess(data))
         route === 'Login' && data.habits.length ? Actions.camera({type: ActionConst.RESET}) : Actions.habits({type: ActionConst.RESET});

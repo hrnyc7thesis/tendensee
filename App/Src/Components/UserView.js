@@ -25,6 +25,8 @@ class UserView extends Component {
   }
 
   render() {
+
+    // console.log('this.props.user',this.props.user);
     return (
       <Container>
         <View style={styles.screenAboveTabs}>
@@ -41,7 +43,7 @@ class UserView extends Component {
               )}
             </View>
             <View style={styles.userPictureContainer}>
-              <Image source={{uri: 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
+              <Image source={{uri: this.props.user.user ? this.props.user.user.photo : 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
             </View>
             <View style={styles.rightButtonContainer}>
               {this.props.isSelf ? (

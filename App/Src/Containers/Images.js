@@ -110,6 +110,19 @@ class Images extends Component {
             changeVisibleUser={this._changeVisibleUser.bind(this)}
             closeModal={this._closeModal.bind(this)}
           />
+          <View style={styles.buttonsContainer}>
+            <View style={{borderRadius: 25, borderBottomWidth: 2, borderBottomColor: '#4d4dff', paddingBottom: 2}}>
+              <Button transparent onPress={() => {Actions.images()}}>
+                <Icon style={{fontSize: 80, color: 'gray', opacity: 1}} name="person" />
+              </Button>
+            </View>
+            <Button transparent onPress={() => Actions.camera()}>
+              <Icon style={{fontSize: 60, color: 'white', marginLeft: -10}} name="radio-button-on" />
+            </Button>
+            <Button transparent onPress={() => {Actions.habits()}}>
+              <Icon style={{fontSize: 60, color: 'white'}} name="list" />
+            </Button>
+          </View>
 
           <View>
             <Modal
@@ -194,6 +207,19 @@ const styles = StyleSheet.create({
   gesture: {
     flex: 1,
     justifyContent: 'flex-start',
+  },
+  buttonsContainer: {
+    opacity: 1,
+    borderRadius: 25,
+    alignSelf: 'stretch',
+    backgroundColor: 'rgba(220, 220, 220, 0.8)',
+    padding: 0,
+    margin: 0,
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
   },
 });
 
