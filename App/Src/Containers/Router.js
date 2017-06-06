@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   navBar: {
     backgroundColor: 'transparent',
     borderBottomColor: 'transparent',
-    borderBottomWidth: 65
+    borderBottomWidth: 1,
   },
 });
 

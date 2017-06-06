@@ -6,7 +6,7 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 
 class Landing extends Component {
-  
+
   constructor (props) {
     super (props);
     this.state = {
@@ -34,7 +34,7 @@ class Landing extends Component {
       return
     } else if (this.props.routes.scene.title ==="Landing") {
       this.props.landingTimeout(this.props.user.token, this.props.routes.scene.title);
-    } 
+    }
   }
 
   render() {
