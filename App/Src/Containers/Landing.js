@@ -6,7 +6,7 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 
 class Landing extends Component {
-  
+
   constructor (props) {
     super (props);
     this.state = {

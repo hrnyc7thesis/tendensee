@@ -23,6 +23,14 @@ class Cam extends Component {
     // }
   }
 
+  componentWillMount() {
+    console.log('helloooo cameraaa', this.props.user);
+    let habits = this.props.habits.map(h => (
+      {id: h.id, name: h.name, notification: h.notification}
+    ));
+    console.log(habits);
+  }
+
   onSwipeLeft() {
     Actions.habits();
   }
@@ -73,13 +81,13 @@ class Cam extends Component {
             aspect={Camera.constants.Aspect.fill}>
             <View style={styles.buttonsContainer}>
               <Button transparent onPress={() => {Actions.images()}}>
-                <Icon style={{fontSize: 40, color: 'white'}} name="person" />
+                <Icon style={{fontSize: 60, color: 'white'}} name="person" />
               </Button>
               <Button transparent onPress={this.takePicture.bind(this)}>
-                <Icon style={{fontSize: 80, color: 'white', alignSelf: 'flex-end'}} name="radio-button-on" />
+                <Icon style={{fontSize: 80, color: 'blue', opacity: 0.5, marginLeft: -5}} name="radio-button-on" />
               </Button>
               <Button transparent onPress={() => {Actions.habits()}}>
-                <Icon style={{fontSize: 40, color: 'white'}} name="menu" />
+                <Icon style={{fontSize: 60, color: 'white'}} name="list" />
               </Button>
             </View>
           </Camera>
@@ -127,10 +135,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonsContainer: {
+    borderRadius: 25,
+    alignSelf: 'stretch',
+    backgroundColor: 'rgba(220, 220, 220, 0.3)',
+    padding: 0,
+    margin: 0,
+    flex: 0,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   gotPhotoModal: {
     justifyContent: 'center'
@@ -142,6 +156,7 @@ const mapStateToProps = (state) => {
     user: state.user.userData,
     auth: state.auth,
     currentPhoto: state.sendPhotos.currentPhoto,
+    habits: state.user.userData.habits,
   }
 };
 

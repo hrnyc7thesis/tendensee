@@ -75,7 +75,7 @@ class GotPhotoModal extends Component {
           <H3 style={{fontWeight: 'bold'}}>Your Photo:</H3>
         </View>
         <View style={styles.photoContainer}>
-          <Image style={styles.photo} source={{uri:this.props.currentPhoto.picture}} />
+          <Image style={styles.photo} source={{uri:this.props.currentPhoto ? this.props.currentPhoto.picture : ''}} />
         </View>
         <TouchableHighlight underlayColor='gray' style={styles.saveToDeviceLinkContainer} onPress={() => this._saveToCameraRoll()}>
           <Text style={styles.saveToDeviceLink}>SAVE TO DEVICE</Text>

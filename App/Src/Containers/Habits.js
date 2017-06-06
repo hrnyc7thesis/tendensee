@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Alert, Text, ScrollView, View, StyleSheet } from 'react-native';
+import { Alert, Text, ScrollView, View, StyleSheet, Dimensions } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
@@ -67,8 +67,13 @@ class Habits extends Component {
       type: this.state.habitCategory,
       notification: this.state.reminderTime,
     };
-    this.props.addHabit(this.props.user, habit);
-    this._closeModal();
+    if (habit.type) {
+      console.log('habit.type',habit.type)
+      this.props.addHabit(this.props.user, habit);
+      this._closeModal();
+    } else {
+      Alert.alert('Please select one category!')
+    }
   }
 
   _selectCategory(id, category) {
@@ -132,24 +137,21 @@ class Habits extends Component {
           <Card>
             <View style={styles.card}>
               <CardItem>
-                <H1>Add Habit</H1>
-              </CardItem>
-              <CardItem>
-                <H3>Name your habit:</H3>
+                <H1 style={{fontWeight: 'bold'}}>Add Habit</H1>
               </CardItem>
               <CardItem>
                 <Body>
                   <View style={styles.formContainer}>
                     <Form>
                       <Item rounded>
-                        <Input placeholder='Example: Eat veggies!' value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
+                        <Input placeholder='Name your habit!' style={{marginLeft: 10}} value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
                       </Item>
                     </Form>
                   </View>
                 </Body>
               </CardItem>
               <CardItem>
-                <H3>Classify your habit:</H3>
+                <H3 style={{fontWeight: 'bold'}}>Classify your habit:</H3>
               </CardItem>
               <CardItem>
                 <View style={styles.buttonGrid}>
@@ -200,7 +202,7 @@ class Habits extends Component {
                 </View>
               </CardItem>
               <CardItem>
-                <Text>Send reminders?</Text>
+                <Text style={styles.reminderText}>Send reminders?</Text>
                 <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
                 {/* <Text>Send reminders?</Text> */}
                 {/* <CheckBox checked={this.state.isPrivate} onPress={() => !this.state.isPrivate} /> */}
@@ -228,6 +230,20 @@ class Habits extends Component {
           </Card>
         </Modal>
 
+        <View style={styles.buttonsContainer}>
+          <Button transparent onPress={() => {Actions.images()}}>
+            <Icon style={{fontSize: 60, color: 'white'}} name="person" />
+          </Button>
+          <Button transparent onPress={() => Actions.camera()}>
+            <Icon style={{fontSize: 60, color: 'white'}} name="radio-button-on" />
+          </Button>
+          <View style={{borderRadius: 25, borderBottomWidth: 2, borderBottomColor: '#4d4dff'}}>
+            <Button transparent onPress={() => {Actions.habits()}}>
+              <Icon style={{fontSize: 80, color: 'gray', opacity: 1}} name="list" />
+            </Button>
+          </View>
+        </View>
+
       </View>
     );
   }
@@ -235,6 +251,16 @@ class Habits extends Component {
 
 
 const styles = StyleSheet.create({
+  buttonsContainer: {
+    borderRadius: 25,
+    alignSelf: 'stretch',
+    backgroundColor: 'rgba(220, 220, 220, 0.8)',
+    padding: 0,
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   gesture: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -255,6 +281,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   card: {
+    backgroundColor: '#80dfff',
     justifyContent: 'space-around',
     alignItems: 'center'
   },
@@ -276,7 +303,11 @@ const styles = StyleSheet.create({
     margin: 5
   },
   buttonText: {
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  reminderText: {
+    fontWeight: 'bold'
   },
   successButton: {
     flex: 1
