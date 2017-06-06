@@ -33,17 +33,19 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
         id: dateStrings[indexDate][1].id,
         date: dateStrings[indexDate][1].date,
         picture: dateStrings[indexDate][1].picture,
+        default: false,
       }
     } else {
       day = {
-        id: 0,
+        id: Math.floor(Math.random() * 20000) + 10000,
         date: d[0].toString(),
         picture: 'https://thumb1.shutterstock.com/display_pic_with_logo/162265/276671360/stock-photo-motivational-quote-to-create-future-on-nature-abstract-background-276671360.jpg',
+        default: true,
       }
       pic = false
     }
 
-    return <Day day={day} howMany={allDates.length} allHabits={allHabits} habitProps={habitProps} onPressItem={pic ? onPressPic.bind({}) : onPressNoPic.bind({})}/>
+    return <Day key={day.id} day={day} howMany={allDates.length} allHabits={allHabits} habitProps={habitProps} onPressItem={pic ? onPressPic.bind({}) : onPressNoPic.bind({})}/>
   });
 
   let days;

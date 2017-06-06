@@ -19,7 +19,7 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   }
 
   // To add red/green tint: style={{backgroundColor: 'lightpink', opacity: 0.75}}
-  let image = day.id === 0 ? <View style={{}}><Image style={[styles.dayContainerImage, {opacity: 0.5, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
+  let image = day.default === true ? <View style={{}}><Image style={[styles.dayContainerImage, {opacity: 0.5, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
     <Image style={[styles.dayContainerImage, {width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} />
 
   return (
@@ -32,7 +32,7 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
 
 const styles = StyleSheet.create({
   dayContainer: {
-    backgroundColor: '#ecf0f1',
+    // backgroundColor: '#ecf0f1',
     width: 100,
     alignItems: 'center',
     justifyContent: 'center',
@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
     width: 100,
     height: 100,
+    borderColor: '#f0f0f5',
+    borderWidth: 2,
+    borderRadius: 10,
     // opacity: 0.5,
     // tintColor: 'rgba(220, 116, 116, 0.5)',
   },
