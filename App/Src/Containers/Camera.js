@@ -21,6 +21,7 @@ class Cam extends Component {
     //   deleteActionRun: false,
     //   accelerationObservable: null,
     // }
+    console.log('camera constructor')
   }
 
   onSwipeLeft() {

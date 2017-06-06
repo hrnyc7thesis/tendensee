@@ -197,7 +197,6 @@ exports.addHabit = (req, res) => {
   .catch(err => console.error('Error adding habit to DB:', err))
 }
 
-// HASNT BEEN TESTED...
 exports.updateHabit = (req, res) => {
   console.log('UPDATE HABIT DATA', req.body.data)
   req.body.data.notification = req.body.data.notification ? new Date(req.body.data.notification).toMysqlFormat() : null;
@@ -208,6 +207,19 @@ exports.updateHabit = (req, res) => {
     res.status(200).json(habit);
   })
   .catch(err => console.error('Error updating habit in DB:', err))
+}
+
+exports.deleteHabit = (req, res) => {
+  console.log('DELETE HABIT DATA', req.body)
+  db.query(`DELETE FROM dates WHERE id_habits=?`, req.body.habitId, (error, result) => {
+    if(error) console.log(error);
+    console.log('deleted:', result.affectedRows, 'rows')
+    deletePromise(req.body.habitId, 'habits')
+    .then(habits => {
+      res.status(200).json(habits);
+    })
+    .catch(err => console.error('Error deleting habit from DB:', err))
+  })
 }
 
 // DATES ---------------------------------->

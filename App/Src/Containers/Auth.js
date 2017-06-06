@@ -53,66 +53,61 @@ class Auth extends Component {
 
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
+    let showLogin = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let emailMargin = { margin: this.state.route === 'Login' ? 0 : 6 };
     return (
       <View style={styles.container}>
-      <View style = {{ margin: 10 }} />
-        <Card>
-          <View style={styles.card}>
-            <CardItem>
-              <H1>{this.state.route}</H1>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <View style={styles.formContainer}>
-                  <Form>
-                    <Item rounded>
-                      <Input 
-                        placeholder='   Username'
-                        autoCapitalize='none'
-                        value={this.state.username}
-                        onChangeText={(text) => this.setState({ username: text })}
-                      />
-                    </Item>
-                    <View style = { emailMargin } />
-                    <Item rounded style={showEmail}>
-                      <Input
-                        placeholder='   E-mail'
-                        autoCapitalize='none'
-                        keyboardType='email-address'
-                        value={this.state.email}
-                        onChangeText={(text) => this.setState({ email: text })}
-                      />
-                    </Item>
-                    <View style = {{ margin: 6 }} />
-                    <Item rounded>
-                      <Input
-                        autoCapitalize='none'
-                        placeholder='   Password'
-                        value={this.state.password}
-                        onChangeText={(text) => this.setState({ password: text })}
-                      />
-                    </Item>
-                  </Form>
-                  <View style={styles.successButton}>
-                    <Button block success onPress={e => this.userLogin()}>
-                      <Text style={styles.buttonText}>{this.state.route}</Text>
-                    </Button>
-                  </View>
-                  <View style={styles.successButton}>
-                    <Button block warning onPress={e => this.toggleRoute()}>
-                      <Text style={styles.buttonText}>Rather {alt} than {this.state.route}?</Text>
-                    </Button>
-                  </View>
-                  <View>
-                  <Login {...this.props} onLoginPressed={this.onLoginPressed.bind(this)} />
-                  </View>
-                </View>
-              </Body>
-            </CardItem>
+        <View style={styles.card}>
+          <View>
+            <H1 style={{fontWeight:'bold'}}>tenden|see</H1>
           </View>
-        </Card>
+          <View style={styles.formContainer}>
+            <Form>
+              <Item>
+                <Input 
+                  placeholder='   Username'
+                  autoCapitalize='none'
+                  value={this.state.username}
+                  onChangeText={(text) => this.setState({ username: text })}
+                />
+              </Item>
+              <View style = { emailMargin } />
+              <Item style={showEmail}>
+                <Input
+                  placeholder='   E-mail'
+                  autoCapitalize='none'
+                  keyboardType='email-address'
+                  value={this.state.email}
+                  onChangeText={(text) => this.setState({ email: text })}
+                />
+              </Item>
+              <View style = {{ margin: 6 }} />
+              <Item>
+                <Input
+                  color='white'
+                  autoCapitalize='none'
+                  placeholder='   Password'
+                  value={this.state.password}
+                  onChangeText={(text) => this.setState({ password: text })}
+                />
+              </Item>
+            </Form>
+            <View style={styles.successButton}>
+              <Button block success onPress={e => this.userLogin()}>
+                <Text style={styles.buttonText}>{this.state.route}</Text>
+              </Button>
+            </View>
+            <View style={styles.successButton}>
+              <Login {...this.props} onLoginPressed={this.onLoginPressed.bind(this)} />
+            </View>
+            <View>
+              <Button transparent onPress={e => this.toggleRoute()}>
+                <Text style={[showLogin, {alignSelf: 'center', color:'white'}]}> Already Have an Account? Login</Text>
+              </Button>
+            </View>
+          </View>
+        </View>
       </View>
     )
   }
@@ -121,16 +116,18 @@ class Auth extends Component {
 const styles = StyleSheet.create({
   card: {
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#1fb7e9',
+    marginTop: 40
   },
   formContainer: {
     alignSelf: 'stretch',
-    margin: 10,
-    marginTop: 5
+    margin:30
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    backgroundColor: '#1fb7e9',
   },
   successButton: {
     marginTop: 12

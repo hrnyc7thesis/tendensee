@@ -32,7 +32,7 @@ class Login extends Component {
 
   render() {
     return(
-        <Button onPress={this.props.onLoginPressed}><Text> Login with facebook </Text></Button>
+        <Button block onPress={this.props.onLoginPressed}><Text> Login with Facebook </Text></Button>
     );
   }
 }

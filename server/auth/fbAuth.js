@@ -8,7 +8,6 @@ module.exports = (req, res) => {
   console.log('fb req.body.id', req.body.id)
   db.retrieve(`select * from users where users.facebook_id = "${req.body.id}"`) //
   .then(rows => {
-    console.log('rows', rows[0].id)
     if (!rows.length) {
       let newUser = {
         //later replace username with chosen username
