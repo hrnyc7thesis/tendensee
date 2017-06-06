@@ -43,6 +43,26 @@ export const updateHabitFail = (err) => {
   }
 };
 
+export const deleteHabitInit = () => {
+  return {
+    type: 'DELETE_HABIT_INIT'
+  }
+};
+
+export const deleteHabitSuccess = (data) => {
+  return {
+    type: 'DELETE_HABIT_SUCCESS',
+    response: data
+  }
+};
+
+export const deleteHabitFail = (err) => {
+  return {
+    type: 'DELETE_HABIT_FAIL',
+    response: err
+  }
+};
+
 export const updateHabit = (userData, habit) => {
   return dispatch => {
     dispatch (updateHabitInit());
@@ -61,11 +81,36 @@ export const updateHabit = (userData, habit) => {
     .then(data => {
       return data.json()
       .then(data => {
-        dispatch(habitSuccess(data));
+        dispatch(updateHabitSuccess(data));
         dispatch(fetchUser(userData.token))
       })
     })
-    .catch((err)=> dispatch(habitFail(err)));
+    .catch((err)=> dispatch(updateHabitFail(err)));
+  }
+}
+
+export const deleteHabit = (userData, habitId) => {
+  return dispatch => {
+    dispatch (deleteHabitInit());
+    let deleteData = {habitId}
+    console.log('in delete habit', deleteData)
+    return fetch(`http://${MY_IP}:8080/api/habits`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "x-custom-header": userData.token
+      },
+      body: JSON.stringify({habitId})
+    })
+    .then(data => {
+      return data.json()
+      .then(data => {
+        dispatch(deleteHabitSuccess(data));
+        dispatch(fetchUser(userData.token))
+      })
+    })
+    .catch((err)=> dispatch(deleteHabitFail(err)));
   }
 }
 

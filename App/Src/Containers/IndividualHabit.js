@@ -8,7 +8,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
@@ -26,7 +26,6 @@ class IndividualHabit extends Component {
       isReminderChecked: this.props.habitProps.notification ? true : false,
       reminderTime: this.props.habitProps.notification,
       private: this.props.habitProps.private,
-
     }
   }
 
@@ -49,8 +48,23 @@ class IndividualHabit extends Component {
     // this._closeModal();
   }
 
+  _updateHabitPrivate = (bool) => {
+    let habit = {
+      id: this.props.habitProps.id,
+      private: bool
+    };
+    this.props.updateHabit(this.props.user, habit);
+    // this._closeModal();
+  }
+
   _setHabitName(text) {
     this.setState({habitName: text});
+  }
+
+  _setPrivate() {
+    this._updateHabitPrivate(!this.state.private);
+    this.setState({private: !this.state.private});
+    console.log(this.state.private)
   }
 
   _closeModal = () => {
@@ -258,7 +272,7 @@ class IndividualHabit extends Component {
                       </Form>
                       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
                         <Text>Private?</Text>
-                        <Switch value={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
+                        <Switch value={this.state.private} onValueChange={() => {this._setPrivate()}} />
                       </View>
                       <TouchableHighlight underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
                         <Text style={styles.selectNewLink}>Edit Habit Type</Text>
@@ -270,7 +284,11 @@ class IndividualHabit extends Component {
                           'Are you sure you want to delete this Habit?',
                           [
                             {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
-                            {text: 'OK', onPress: () => console.log('CREATE HABIT DELETE ROUTE')},
+                            {text: 'OK', onPress: () => {
+                              this.props.deleteHabit(this.props.user, this.props.habitProps.id)
+                              this._closeModal();
+                              Actions.habits({type: ActionConst.RESET});
+                            }},
                           ]
                         )} />
                       </View>

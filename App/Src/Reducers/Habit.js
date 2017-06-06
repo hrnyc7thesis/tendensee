@@ -1,4 +1,4 @@
-const habit = (state ={addingHabit: false, updatingHabit:false}, action) => {
+const habit = (state ={addingHabit: false, updatingHabit:false, deletingHabit:false}, action) => {
   switch (action.type) {
     case ('HABIT_INIT'):
       return Object.assign({}, state, {
@@ -23,6 +23,18 @@ const habit = (state ={addingHabit: false, updatingHabit:false}, action) => {
     case ('UPDATE_HABIT_FAIL'):
       return Object.assign({}, state, {
         updatingHabit: false,
+      });
+    case ('DELETE_HABIT_INIT'):
+      return Object.assign({}, state, {
+        deletingHabit: true,
+      });
+    case ('DELETE_HABIT_SUCCESS'):
+      return Object.assign({}, state, {
+        deletingHabit: false,
+      });
+    case ('DELETE_HABIT_FAIL'):
+      return Object.assign({}, state, {
+        deletingHabit: false,
       });
     default:
       return state;

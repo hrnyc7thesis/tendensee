@@ -9,6 +9,9 @@ import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import { ActionCreators } from './../Actions/ActionCreators';
 import Friend from './../Components/FriendsListItem';
 import UserView from './../Components/UserView';
+import Camera from './Camera';
+import Swiper from 'react-native-swiper';
+
 
 class Images extends Component {
   constructor (props) {
@@ -92,11 +95,7 @@ class Images extends Component {
     : [];
 
     return (
-      // <GestureRecognizer
-      //   style={styles.gesture}
-      //   onSwipeLeft={() => this.onSwipeLeft()}
-      //   config={config}
-      // >
+      <Swiper loop={false} showsPagination={false} showsButtons={false}>
         <Container>
           <UserView
             isSelf={isSelf}
@@ -165,7 +164,8 @@ class Images extends Component {
             </Modal>
           </View>
         </Container>
-      // </GestureRecognizer>
+        <Camera />
+      </Swiper>
     );
   }
 };
@@ -190,7 +190,11 @@ const styles = StyleSheet.create({
   },
   closeModalButton: {
     color: 'green',
-  }
+  },
+  gesture: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
 });
 
 

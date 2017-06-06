@@ -22,10 +22,12 @@ const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
     let result;
     console.log('otherHabitDates', otherHabitDates)
     console.log('otherHabitDates[index]', otherHabitDates[index])
-    otherHabitDates[index].forEach((d, idx) => {
-      console.log('two dates:', d.date, day.date)
-      if(d.date === day.date) result = allHabits[index].dates[idx];
-    })
+    if (otherHabitDates[index]) {
+      otherHabitDates[index].forEach((d, idx) => {
+        console.log('two dates:', d.date, day.date)
+        if(d.date === day.date) result = allHabits[index].dates[idx];
+      })
+    }
     if (result) result.id_habits = habitProps.id;
     return result;
   }
@@ -50,10 +52,11 @@ const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
                   title: 'Edit Habit Date Details'
                 },
                 (buttonIndex) => {
-                  if(buttonIndex === DESTRUCTIVE_INDEX) {
+                  console.log('index and button', buttonIndex, BUTTONS[buttonIndex], DESTRUCTIVE_INDEX)
+                  if(buttonIndex == DESTRUCTIVE_INDEX) {
                     dispatch(deleteDay(day))
                     Alert.alert(`Photo Deleted from ${habitProps.name}`,'', [{ text: "OK", onPress: () => dispatch(hideModal())}]);
-                  } else if(buttonIndex !== CANCEL_INDEX) {
+                  } else if(buttonIndex != CANCEL_INDEX) {
                     let swap = swapDate(buttonIndex)
                     dispatch(updateDay({id: day.id, id_habits:habitIds[buttonIndex], swap, }))
                     let alertTitle = swap ? `Photo swapped from ${habitProps.name} to ${BUTTONS[buttonIndex]}!` : `Photo moved to ${BUTTONS[buttonIndex]}!`;
