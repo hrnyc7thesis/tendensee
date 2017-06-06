@@ -3,15 +3,13 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'rea
 var moment = require('moment');
 import { incrementPhotoCount } from './../Actions/PhotoActions';
 
-const Day = ({day, habitProps, allHabits, onPressItem}) => {
+const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   const { width } = Dimensions.get('window');
 
   let imageHeight;
   let imageWidth;
-  let onlyHabit = allHabits[0].dates;
-  console.log(onlyHabit)
-  if (allHabits.length === 1 && onlyHabit >= 1 && onlyHabit <= 3) {
-    let evenlySpaced = (width) / onlyHabit;
+  if (allHabits.length === 1 && howMany >= 1 && howMany <= 3) {
+    let evenlySpaced = (width) / howMany;
     imageHeight = evenlySpaced;
     imageWidth = evenlySpaced;
   } else {
@@ -50,15 +48,3 @@ const styles = StyleSheet.create({
 })
 
 export default Day
-
-// const mapStateToProps = (state) => ({
-//   day:
-// })
-//
-// const mapStateToProps = (state) => {
-//   return {
-//     habits: getHabits(state.user.userData.habits)
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Day)

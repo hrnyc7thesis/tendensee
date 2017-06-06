@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   habitBlock: {
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'skyblue',
+    backgroundColor: 'white',
     marginBottom: 10,
   },
 
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'salmon',
     width: width,
+    height: 20,
   },
 
   habitNameTitle: {

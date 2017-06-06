@@ -32,7 +32,7 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
       day = {
         id: dateStrings[indexDate][1].id,
         date: dateStrings[indexDate][1].date,
-        picture: dateStrings[indexDate][1].picture,//'https://thumb1.shutterstock.com/display_pic_with_logo/3679397/381480943/stock-photo-motivational-quote-on-glitter-abstract-background-381480943.jpg',
+        picture: dateStrings[indexDate][1].picture,
       }
     } else {
       day = {
@@ -42,12 +42,13 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
       }
       pic = false
     }
-    return <Day day={day} allHabits={allHabits} habitProps={habitProps} onPressItem={pic ? onPressPic.bind({}) : onPressNoPic.bind({})}/>
+
+    return <Day day={day} howMany={allDates.length} allHabits={allHabits} habitProps={habitProps} onPressItem={pic ? onPressPic.bind({}) : onPressNoPic.bind({})}/>
   });
 
   let days;
   if (allHabits.length === 1) {
-    days = <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>{allDates}</View>
+    days =  <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>{allDates}</View>
   } else {
     days = <ScrollView horizontal style={styles.recentDaysContainer}>{allDates}</ScrollView>
   }
