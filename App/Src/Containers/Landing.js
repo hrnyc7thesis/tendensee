@@ -17,6 +17,7 @@ class Landing extends Component {
   }
 
   componentDidUpdate() {
+    //like the airport
     console.log('cdu token', this.props.user.token)
     if(this.props.user.token) {
       this.props.checkAuth(this.props.user.token);
@@ -30,9 +31,9 @@ class Landing extends Component {
   noPersistTimeout() {
     if (!this.props) {
       setTimeout(this.noPersistTimeout.bind(this), 1000);
-    } else if(!this.props.routes.scene.title === "Landing") {
+    } else if(!this.props.routes.scene.sceneKey === "landing") {
       return
-    } else if (this.props.routes.scene.title ==="Landing") {
+    } else if (this.props.routes.scene.sceneKey ==="landing") {
       this.props.landingTimeout(this.props.user.token, this.props.routes.scene.title);
     } 
   }
@@ -40,7 +41,7 @@ class Landing extends Component {
   render() {
     console.log('landing render isloggedin', this.props.auth.isLoggedIn)
     return (
-        <View style={{flex:1, alignSelf:'stretch', backgroundColor: 'red'}} />
+        <View style={{flex:1, alignSelf:'stretch', backgroundColor: '#1fb7e9'}} />
     )
   }
 }

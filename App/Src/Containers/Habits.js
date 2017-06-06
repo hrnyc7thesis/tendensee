@@ -9,6 +9,10 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
+import Swiper from 'react-native-swiper';
+import Camera from './Camera';
+
+
 
 class Habits extends Component {
 
@@ -101,13 +105,10 @@ class Habits extends Component {
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
 
     return (
+      <Swiper index={1} loop={false} showsPagination={false} showsButtons={false}>
+      <Camera/>
       <View style={styles.habitsPageContainer}>
-        <GestureRecognizer
-          style={styles.container}
-          onSwipeRight={() => this.onSwipeRight()}
-          onSwipeLeft={() => this.onSwipeLeft()}
-          config={config}
-        >
+        <View style={{flex:1}}>
           <Text style={[styles.noHabitText, noHabitStyle]}>
             <H3>{noHabitText}</H3>
           </Text>
@@ -122,7 +123,8 @@ class Habits extends Component {
             </Button>
             <Text>(New habit)</Text>
           </View>
-        </GestureRecognizer>
+        </View>
+
 
         <Modal
           animationType={this.state.animationType}
@@ -229,6 +231,7 @@ class Habits extends Component {
         </Modal>
 
       </View>
+    </Swiper>
     );
   }
 };
@@ -291,7 +294,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.user.userData
+    user: state.user.userData,
+    routes: state.routes,
   }
 }
 

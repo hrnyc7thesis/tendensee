@@ -45,8 +45,8 @@ routes.route('/api/users')
 routes.route('/api/habits')
   // .get(controllers.getHabitData)
   .post(controllers.addHabit)
-  .put(controllers.updateHabit);
-  // .delete(controllers.deleteHabit);
+  .put(controllers.updateHabit)
+  .delete(controllers.deleteHabit);
 
 routes.route('/api/dates')
   // .get(controllers.getDate)

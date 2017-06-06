@@ -6,12 +6,18 @@ import { H1, H2, H3, Button, ActionSheet, Container } from 'native-base';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
+import FBSDK, { ShareDialog } from 'react-native-fbsdk';
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
+
 
 class GotPhotoModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { x: 0, y: 0, z: 0 };
+    this.state = { 
+      x: 0,
+      y: 0,
+      z: 0, 
+    }
   }
 
   _redirectToHabits() {
