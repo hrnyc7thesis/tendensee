@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, AlertIOS } from 'react-native';
-import { Container, Thumbnail } from 'native-base';
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
@@ -9,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { MY_IP } from './../myip';
-
+import Prompt from 'react-native-prompt';
 
 const options = {
   title: 'Select Photo',
@@ -28,49 +27,63 @@ class UserSettings extends Component {
   constructor(props){
   super(props);
   this.state = {
-    notification: !!this.props.user.notifications,
-    allPrivate: !!this.props.user.private,
+    notification: this.props.user.notifications,// 1=true
+    allPrivate: this.props.user.private,//0=false
     email: this.props.user.email,
+    promptVisible: false
   }
 }
 
-_handlePhoto = (photo) => {
+handlePhoto = (photo) => {
   this.props.updatePhoto(photo, this.props.user, this.props.habits);
 };
-_toggleNotification = () => {
-  this.setState({notification: !this.state.notification});
-  this.props.handleNotification(this.state.notification, this.props.user, this.props.habits);
+
+toggleNotification = () => {
+  this.setState({notification: !this.state.notification}, this.sendNotificationUpdate)
   Snackbar.show({
     backgroundColor: this.state.notification ? '#AD1457' : '#4CAF50',
     title: this.state.notification ? 'Notifications Turned OFF' : 'Notifications Turned ON',
     duration: Snackbar.LENGTH_SHORT,
   });
 };
-_toggleAllPrivate = () => {
-  this.setState({allPrivate: !this.state.allPrivate});
+
+sendNotificationUpdate = () =>{
+  this.props.handleNotification(this.state.notification, this.props.user, this.props.habits);
+};
+
+sendPrivateUpdate = () =>{
   this.props.handlePrivate(this.state.allPrivate, this.props.user, this.props.habits);
+};
+
+toggleAllPrivate = () => {
+  this.setState({allPrivate: !this.state.allPrivate }, this.sendPrivateUpdate);
   Snackbar.show({
     backgroundColor: this.state.allPrivate ? '#E91E63' : '#263238',
     title: this.state.allPrivate ? 'Private OFF' : 'All Habit Set To Private',
     duration: Snackbar.LENGTH_SHORT,
   });
 };
-_validateAndSaveEmail = (promptValue) => {
+
+isValidateEmail(promptValue){
   var email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (email.test(promptValue)) {
+  return email.test(promptValue);
+};
+
+updateEmail = (promptValue) => {
     this.setState({ email: promptValue });
     this.props.updateEmail(promptValue, this.props.user, this.props.habits);
-  } else {
-    Alert.alert("Make sure your email is valid! Try Again!")
-  }
+    // Alert.alert("Make sure your email is valid! Try Again!")
 };
 
 render() {
-    return (
+    return(
       <View style= {styles.pageView}>
         <View style={styles.container}>
+          <View style={{alignItems: 'flex-start'}}>
+            <Icon size={15} name='arrow-left' onPress={() => {Actions.images()}}/>
           <Text style={styles.headingText}>Setting</Text>
-          <View style={styles.habitWrap}>
+         </View>
+          <View style={styles.sectionWrap}>
             <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }} onPress={this.ImageShow.bind(this)}>
                <Image
                   source={{uri: `${this.props.user.photo}` || 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}}
@@ -81,17 +94,25 @@ render() {
             <View style={styles.habitProp}>
               <Text style={styles.textst}> User Name: {this.props.user.username}</Text>
               <Text style={styles.textst}> Email: {this.state.email}
-                <Icon iconCenter onPress={() => AlertIOS.prompt('Type Your Email', null, this._validateAndSaveEmail)} name='pencil' style={{fontSize: 15, color: 'red'}}/>
+                <Icon iconCenter onPress={() => this.setState({ promptVisible: true })} name='pencil' style={{fontSize: 15, color: 'red'}} />
               </Text>
-              <Text style={styles.textst}>Facebook: {this.props.user.facebook}</Text>
+              <Prompt
+                title="Type your Email"
+                placeholder="Start typing"
+                defaultValue={this.state.email}
+                visible={this.state.promptVisible}
+                onCancel={() => this.setState({ promptVisible: false})}
+                onSubmit={(value) => this.isValidateEmail(value) ? this.setState({promptVisible: false}, this.updateEmail(value)): Alert.alert("Invalid email! please try again")}
+              />
+              <Text style={styles.textst}>Facebook: {this.props.user.facebook_name}</Text>
             </View>
           </View>
-          <View style={styles.habitWrap}>
+          <View style={styles.sectionWrap}>
             <Text style={styles.subHeadingSetting}>Habit Setting:</Text>
             <View style={styles.habitProp}>
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Notification For All Habits:   </Text>
-                <Switch value={this.state.notification} onValueChange={this._toggleNotification}
+                <Switch value={this.state.notification} onValueChange={this.toggleNotification}
                   onTintColor="#00ff00"
                   style={styles.switchSt}
                   thumbTintColor="#0000ff"
@@ -100,7 +121,7 @@ render() {
               </View>
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Make All Habit Private:         </Text>
-                <Switch value={this.state.allPrivate} onValueChange={this._toggleAllPrivate}
+                <Switch value={this.state.allPrivate} onValueChange={this.toggleAllPrivate}
                   onTintColor="#00ff00"
                   style={styles.switchSt}
                   thumbTintColor="#0000ff"
@@ -111,7 +132,7 @@ render() {
           </View>
         </View>
       </View>
-    );
+   );
 }
 
   ImageShow() {
@@ -126,7 +147,7 @@ render() {
         console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        this._handlePhoto(response.data);
+        this.handlePhoto(response.data);
       }
     });
   }
@@ -140,6 +161,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 4,
     borderWidth: 0.5,
+    backgroundColor: '#F5F5F5',
     borderColor: '#d6d7da',
     justifyContent: 'center',
     marginTop: 10,
@@ -152,14 +174,12 @@ const styles = StyleSheet.create({
     alignSelf:'center'
   },
   subHeadingSetting: {
-    borderRadius: 2,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
     fontSize: 19,
-    fontWeight: '300',
+    fontFamily: 'Helvetica Neue',
+    fontWeight: '500'
   },
-  habitWrap: {
-    // backgroundColor:
+  sectionWrap: {
+    backgroundColor: '#EEEEEE',
     justifyContent: 'space-around',
     padding: 20,
     borderWidth: 1,
@@ -174,12 +194,11 @@ const styles = StyleSheet.create({
   habitRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 20,
   },
   textst: {
     fontFamily: 'Georgia-Italic',
     marginBottom: 10,
-    fontSize: 15,
+    fontSize: 16,
   },
   switchSt: {
     transform: [{scaleX: .75}, {scaleY: .75}],
