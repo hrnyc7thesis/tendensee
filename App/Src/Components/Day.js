@@ -8,23 +8,22 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
 
   let imageHeight;
   let imageWidth;
+  let evenlySpaced;
+
+  let widthWithSpacers = width - 2 * 10 - 2 * 2;
+
   if (allHabits.length === 1 && howMany >= 1 && howMany <= 2) {
-    let evenlySpaced = (width - 2 * 10 - 2 * 2) / howMany;
-    imageHeight = evenlySpaced;
-    imageWidth = evenlySpaced;
+    evenlySpaced = widthWithSpacers / howMany;
   } else if (allHabits.length === 1 && howMany >= 3 && howMany <= 6) {
-    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
-    imageHeight = evenlySpaced
-    imageWidth = evenlySpaced
+    evenlySpaced = widthWithSpacers / 2;
   } else if (allHabits.length === 2) {
-    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
-    imageHeight = evenlySpaced
-    imageWidth = evenlySpaced
+    evenlySpaced = widthWithSpacers / 2;
   } else {
-    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 3;
-    imageHeight = evenlySpaced
-    imageWidth = evenlySpaced
+    evenlySpaced = widthWithSpacers / 3;
   }
+
+  imageHeight = evenlySpaced;
+  imageWidth = evenlySpaced;
 
   // To add red/green tint: style={{backgroundColor: 'lightpink', opacity: 0.75}}
   let image = day.default === true ? <View style={{}}><Image style={[styles.dayContainerImage, {opacity: 0.5, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
