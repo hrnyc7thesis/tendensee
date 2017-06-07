@@ -39,7 +39,7 @@ handlePhoto = (photo) => {
 };
 
 toggleNotification = () => {
-  this.setState({notification: !this.state.notification}, this.sendNotificationUpdata)
+  this.setState({notification: !this.state.notification}, this.sendNotificationUpdate)
   Snackbar.show({
     backgroundColor: this.state.notification ? '#AD1457' : '#4CAF50',
     title: this.state.notification ? 'Notifications Turned OFF' : 'Notifications Turned ON',
@@ -47,16 +47,16 @@ toggleNotification = () => {
   });
 };
 
-sendNotificationUpdata = () =>{
+sendNotificationUpdate = () =>{
   this.props.handleNotification(this.state.notification, this.props.user, this.props.habits);
-}
+};
 
-sendPrivateUpdata = () =>{
+sendPrivateUpdate = () =>{
   this.props.handlePrivate(this.state.allPrivate, this.props.user, this.props.habits);
-}
+};
 
 toggleAllPrivate = () => {
-  this.setState({allPrivate: !this.state.allPrivate }, this.sendPrivateUpdata);
+  this.setState({allPrivate: !this.state.allPrivate }, this.sendPrivateUpdate);
   Snackbar.show({
     backgroundColor: this.state.allPrivate ? '#E91E63' : '#263238',
     title: this.state.allPrivate ? 'Private OFF' : 'All Habit Set To Private',
@@ -64,14 +64,15 @@ toggleAllPrivate = () => {
   });
 };
 
-validateAndSaveEmail = (promptValue) => {
+isValidateEmail(promptValue){
   var email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (email.test(promptValue)) {
+  return email.test(promptValue);
+};
+
+updateEmail = (promptValue) => {
     this.setState({ email: promptValue });
     this.props.updateEmail(promptValue, this.props.user, this.props.habits);
-  } else {
-    Alert.alert("Make sure your email is valid! Try Again!")
-  }
+    // Alert.alert("Make sure your email is valid! Try Again!")
 };
 
 render() {
@@ -92,8 +93,7 @@ render() {
             <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
             <View style={styles.habitProp}>
               <Text style={styles.textst}> User Name: {this.props.user.username}</Text>
-              <Text style={styles.textst}> Email: {this.state.email}
-                <Icon iconCenter onPress={() => this.setState({ promptVisible: true })} name='pencil' style={{fontSize: 15, color: 'red'}} />
+              <Text style={styles.textst}> Email: {this.state.email} <Icon iconCenter onPress={() => this.setState({ promptVisible: true })} name='pencil' style={{fontSize: 15, color: 'red'}} />
               </Text>
               <Prompt
                 title="Type your Email"
@@ -101,7 +101,7 @@ render() {
                 defaultValue={this.state.email}
                 visible={this.state.promptVisible}
                 onCancel={() => this.setState({ promptVisible: false})}
-                onSubmit={(value) => this.setState({ promptVisible: false}, this.validateAndSaveEmail(value))}
+                onSubmit={(value) => this.isValidateEmail(value) ? this.setState({promptVisible: false}, this.updateEmail(value)): Alert.alert("Invalid email! please try again")}
               />
               <Text style={styles.textst}>Facebook: {this.props.user.facebook_name}</Text>
             </View>
