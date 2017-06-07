@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react'
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Dimensions } from 'react-native';
+import { Button, Icon } from 'native-base'
 import HabitBlock from './HabitBlock';
 import ModalRoot from './ModalRoot';
 var moment = require('moment');
+import { Actions } from 'react-native-router-flux';
 
 const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
   let toComplete = [];
@@ -28,6 +30,7 @@ const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
   })
 
   return(
+    <View>
     <ScrollView style={styles.habitsList}>
       { toComplete.map(habit => {
         return <HabitBlock
@@ -50,16 +53,49 @@ const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
         />
       })}
       <ModalRoot />
+
     </ScrollView>
+    <View style={styles.buttonsContainer}>
+      <Button transparent onPress={() => {Actions.images()}}>
+        <Icon style={{fontSize: 60, color: 'white'}} name="person" />
+      </Button>
+      <Button transparent onPress={() => Actions.camera()}>
+        <Icon style={{fontSize: 60, color: 'white'}} name="radio-button-on" />
+      </Button>
+      <View style={{borderRadius: 25, borderBottomWidth: 2, borderBottomColor: '#4d4dff'}}>
+        <Button transparent onPress={() => {Actions.habits()}}>
+          <Icon style={{fontSize: 80, color: 'gray', opacity: 1}} name="list" />
+        </Button>
+      </View>
+    </View>
+  </View>
   )
 }
+
+const {width, height} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   habitsList: {
     paddingHorizontal: 10,
     paddingTop: 10,
-  }
+  },
 
+  buttonsContainer: {
+    position: 'absolute',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    // borderRadius: 25,
+    alignSelf: 'stretch',
+    backgroundColor: 'rgba(220, 220, 220, 0.8)',
+    padding: 0,
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })
 
 export default HabitsList
