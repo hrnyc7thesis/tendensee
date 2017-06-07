@@ -1,26 +1,47 @@
 import React, { PropTypes } from 'react'
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 var moment = require('moment');
 import { incrementPhotoCount } from './../Actions/PhotoActions';
 
-const Day = ({day, habitProps, allHabits, onPressItem}) => {
+const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
+  const { width } = Dimensions.get('window');
 
-  let image = day.id === 0 ? <Image style={[styles.dayContainerImage, {opacity: 0.5}]} source={{uri: day.picture}} /> :
-    <Image style={[styles.dayContainerImage]} source={{uri: day.picture}} />
+  let imageHeight;
+  let imageWidth;
+  if (allHabits.length === 1 && howMany >= 1 && howMany <= 2) {
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / howMany;
+    imageHeight = evenlySpaced;
+    imageWidth = evenlySpaced;
+  } else if (allHabits.length === 1 && howMany >= 3 && howMany <= 6) {
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
+    imageHeight = evenlySpaced
+    imageWidth = evenlySpaced
+  } else if (allHabits.length === 2) {
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
+    imageHeight = evenlySpaced
+    imageWidth = evenlySpaced
+  } else {
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 3;
+    imageHeight = evenlySpaced
+    imageWidth = evenlySpaced
+  }
+
+  // To add red/green tint: style={{backgroundColor: 'lightpink', opacity: 0.75}}
+  let image = day.default === true ? <View style={{}}><Image style={[styles.dayContainerImage, {opacity: 0.5, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
+    <Image style={[styles.dayContainerImage, {width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} />
 
   return (
-    <TouchableOpacity style={styles.dayContainer} onPress={() => onPressItem(day, habitProps, allHabits)}>
+    <TouchableOpacity style={[styles.dayContainer, {width: imageWidth}]} onPress={() => onPressItem(day, habitProps, allHabits)}>
       <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd D")}</Text>
       {image}
-      {/* <Image style={styles.dayContainerImage} source={{uri: day.picture}} /> */}
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
   dayContainer: {
-    backgroundColor: '#ecf0f1',
-    width: 102,
+    // backgroundColor: '#ecf0f1',
+    width: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -29,26 +50,12 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
     width: 100,
     height: 100,
+    borderColor: 'white',//'#f0f0f5',
+    borderWidth: 2,
+    borderRadius: 10,
     // opacity: 0.5,
     // tintColor: 'rgba(220, 116, 116, 0.5)',
-  },
-
-  ContainerImage: {
-    width: 100,
-    height: 100,
   },
 })
 
 export default Day
-
-// const mapStateToProps = (state) => ({
-//   day:
-// })
-//
-// const mapStateToProps = (state) => {
-//   return {
-//     habits: getHabits(state.user.userData.habits)
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Day)
