@@ -21,11 +21,13 @@ class IndividualHabit extends Component {
       isModalVisible: false,
       isModalTransparent: true,
       // Habit
+      id: this.props.habitProps.id,
       habitName: this.props.habitProps.name,
       habitType: this.props.habitProps.type,
       isReminderChecked: this.props.habitProps.notification ? true : false,
       reminderTime: this.props.habitProps.notification,
       private: this.props.habitProps.private,
+      dates: this.props.habitProps.dates
     }
   }
 
@@ -38,7 +40,7 @@ class IndividualHabit extends Component {
     this._handleTimePicked(time);
     if(time === null) this._removeReminder();
     let habit = {
-      id: this.props.habitProps.id,
+      id: this.state.id,
       name: this.state.habitName,
       type: this.state.habitCategory,
       notification: time,
@@ -50,7 +52,7 @@ class IndividualHabit extends Component {
 
   _updateHabitPrivate = (bool) => {
     let habit = {
-      id: this.props.habitProps.id,
+      id: this.state.id,
       private: bool
     };
     this.props.updateHabit(this.props.user, habit);
@@ -108,7 +110,7 @@ class IndividualHabit extends Component {
     },
     (buttonIndex) => {
       if (buttonIndex !== CANCEL_INDEX) {
-        let putData = Object.assign({}, {id: this.props.habitProps.id}, {
+        let putData = Object.assign({}, {id: this.state.id}, {
           type: BUTTONS[buttonIndex]
         });
         this.setState({habitType:BUTTONS[buttonIndex]})
@@ -120,11 +122,11 @@ class IndividualHabit extends Component {
   }
 
   render() {
-    console.log('dates:', this.props.habitProps.dates)
-    let dateStrings = this.props.habitProps.dates.map(d => moment(d.date).format('YYYY-MM-DD'))
-    let startDate = new moment(this.props.habitProps.start_date);
+    console.log('dates:', this.state.dates)
+    let dateStrings = this.state.dates.map(d => moment(d.date).format('YYYY-MM-DD'))
+    let startDate = new moment(this.state.start_date);
     let today = new moment();
-    let totalDays = Math.max(today.diff(startDate, 'days'), this.props.habitProps.dates.length, 1);
+    let totalDays = Math.max(today.diff(startDate, 'days'), this.state.dates.length, 1);
     console.log('startd, today, totald', startDate, today, totalDays);
 
     let allDates = this.getDates(startDate, today);
@@ -136,7 +138,7 @@ class IndividualHabit extends Component {
       }
     });
     console.log(allDates);
-    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7) || 0;
+    let weeklyAvg = Math.round((this.state.dates.length/totalDays)*7) || 0;
     let longestStreak = 0;
     let habitScore = 0;
     allDates.reduce((acc, d, idx) => {
@@ -172,7 +174,7 @@ class IndividualHabit extends Component {
     let chartData = [streakChartData, habitScoreChartData];
     console.log('charstata', chartData)
 
-    let images = this.props.habitProps.dates ? this.props.habitProps.dates.map(d=> d.picture): ['No Pictures Yet']
+    let images = this.state.dates ? this.state.dates.map(d=> d.picture): ['No Pictures Yet']
     if(images.length>6){
       images = images.slice(0,9);
       showButton = {display:'flex'}
@@ -213,7 +215,7 @@ class IndividualHabit extends Component {
         <Card>
           <View style={[styles.stats, {paddingTop:10}]}>
             <Text>Success Rate: </Text>
-            <Text>{this.props.habitProps.dates.length}/{totalDays} ({Math.floor(this.props.habitProps.dates.length/totalDays*100)}%)</Text>
+            <Text>{this.state.dates.length}/{totalDays} ({Math.floor(this.state.dates.length/totalDays*100)}%)</Text>
           </View>
           <View style={styles.stats}>
             <Text>Average Per Week: </Text>
@@ -285,7 +287,7 @@ class IndividualHabit extends Component {
                           [
                             {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
                             {text: 'OK', onPress: () => {
-                              this.props.deleteHabit(this.props.user, this.props.habitProps.id)
+                              this.props.deleteHabit(this.props.user, this.state.id)
                               this._closeModal();
                               Actions.habits({type: ActionConst.RESET});
                             }},

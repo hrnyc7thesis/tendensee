@@ -1,7 +1,7 @@
 import { MY_IP } from './../myip';
 import { fetchUserSuccess } from './UserActions.js'
 import { Actions, ActionConst } from 'react-native-router-flux';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Alert } from 'react-native'
 
 
 export const authInit = () => {
@@ -55,7 +55,7 @@ export const landingTimeout = (token, route) => {
   return dispatch => {
     // console.log('token & route in timeout', token, route)
     if(!token && route === 'Landing') {
-      Actions.auth({type: ActionConst.RESET});
+      Actions.auth({type: ActionConst.RESET });
       dispatch(setLandingTimeout(true));
     }
   }
@@ -105,12 +105,18 @@ export const auth = (username, password, email, route) => {
     .then(data => {
       return data.json()
       .then(data => {
-        AsyncStorage.setItem('token', data.token);
-        AsyncStorage.setItem('user', JSON.stringify(data));
-        // console.log('data in authact:', data);
-        dispatch(authSuccess())
-        dispatch(fetchUserSuccess(data))
-        route === 'Login' && data.habits.length ? Actions.camera({type: ActionConst.RESET}) : Actions.habits({type: ActionConst.RESET});
+        if(data.token) {
+          AsyncStorage.setItem('token', data.token);
+          AsyncStorage.setItem('user', JSON.stringify(data));
+          console.log('data in authact:', data);
+          dispatch(authSuccess())
+          dispatch(fetchUserSuccess(data))
+          route === 'Login' && data.habits.length ? Actions.camera({type: ActionConst.RESET}) : Actions.habits({type: ActionConst.RESET});
+        }
+        else {
+          console.log(data);
+          Alert.alert(data)
+        }
       })
     })
     .catch(err => dispatch(authFail(err)));

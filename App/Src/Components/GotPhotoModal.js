@@ -6,7 +6,6 @@ import { H1, H2, H3, Button, ActionSheet, Container } from 'native-base';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
-import FBSDK, { ShareDialog } from 'react-native-fbsdk';
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
 
 
