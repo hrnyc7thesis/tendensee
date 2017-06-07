@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import HabitBlock from './HabitBlock';
 import ModalRoot from './ModalRoot';
 var moment = require('moment');
@@ -28,7 +28,7 @@ const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
   })
 
   return(
-    <ScrollView>
+    <ScrollView style={styles.habitsList}>
       { toComplete.map(habit => {
         return <HabitBlock
           key={habit.id}
@@ -53,5 +53,13 @@ const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  habitsList: {
+    paddingHorizontal: 10,
+    paddingTop: 10,
+  }
+
+})
 
 export default HabitsList

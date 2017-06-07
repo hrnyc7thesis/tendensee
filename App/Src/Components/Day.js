@@ -9,11 +9,11 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   let imageHeight;
   let imageWidth;
   if (allHabits.length === 1 && howMany >= 1 && howMany <= 3) {
-    let evenlySpaced = (width) / howMany;
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / howMany;
     imageHeight = evenlySpaced;
     imageWidth = evenlySpaced;
   } else {
-    let evenlySpaced = (width) / 3;
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
     imageHeight = evenlySpaced
     imageWidth = evenlySpaced
   }
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
     width: 100,
     height: 100,
-    borderColor: '#f0f0f5',
+    borderColor: 'white',//'#f0f0f5',
     borderWidth: 2,
     borderRadius: 10,
     // opacity: 0.5,

@@ -116,12 +116,12 @@ class Habits extends Component {
             <HabitsListContainer />
           </View>
 
-          <View style={styles.addHabitButtonContainer}>
+          {/* <View style={styles.addHabitButtonContainer}>
             <Button dark transparent onPress = {() => this._openModal()}>
               <Icon name='add-circle' style={{fontSize: 45}}/>
             </Button>
             <Text>(New habit)</Text>
-          </View>
+          </View> */}
         </GestureRecognizer>
 
         <Modal
