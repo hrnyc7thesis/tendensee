@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, TextInput, View, StyleSheet } from 'react-native';
+import { Alert, ScrollView, Text, TextInput, View, StyleSheet } from 'react-native';
 import { Button, Card, Form, Item, Input, H1, CardItem, Body } from 'native-base';
 import { auth } from '../Actions/AuthActions.js';
 import { addHabit } from '../Actions/HabitActions.js';
@@ -36,10 +36,14 @@ class Auth extends Component {
     routes: PropTypes.object.isRequired,
   };
 
-  onLoginPressed() {
-      this.props.actions.facebookLogin();
-      console.log(this.props);
-    }
+  onFacebookLoginPressed() {
+    this.props.actions.facebookLogin();
+    console.log(this.props);
+  }
+
+  disabledButton() {
+    this.state.username.length < 3 ? Alert.alert('Username must be at least 3 characters') : Alert.alert('Password must be at least 6 characters');
+  }
 
   userLogin () {
     this.props.onLogin(this.state.username, this.state.password, this.state.email, this.state.route);
@@ -52,6 +56,7 @@ class Auth extends Component {
   }
 
   render() {
+    let enableAuth = this.state.username.length >= 3 && this.state.password.length >=6 ? "" : 'disabled'
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     let showLogin = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
@@ -85,6 +90,7 @@ class Auth extends Component {
               <View style = {{ margin: 6 }} />
               <Item>
                 <Input
+                  secureTextEntry={true}
                   color='white'
                   autoCapitalize='none'
                   placeholder='   Password'
@@ -94,12 +100,16 @@ class Auth extends Component {
               </Item>
             </Form>
             <View style={styles.successButton}>
-              <Button block success onPress={e => this.userLogin()}>
+            {true || this.state.username.length >= 3 && this.state.password.length >=6 ? // GET RID OF TRUE TO MAKE WORK
+              <Button block success onPress={() => this.userLogin()}>
                 <Text style={styles.buttonText}>{this.state.route}</Text>
-              </Button>
+              </Button> : 
+              <Button block warning onPress={() => this.disabledButton()}>
+                <Text style={styles.buttonText}>{this.state.route}</Text>
+              </Button>}
             </View>
             <View style={styles.successButton}>
-              <Login {...this.props} onLoginPressed={this.onLoginPressed.bind(this)} />
+              <Login {...this.props} onFacebookLoginPressed={this.onFacebookLoginPressed.bind(this)} />
             </View>
             <View>
               <Button transparent onPress={e => this.toggleRoute()}>

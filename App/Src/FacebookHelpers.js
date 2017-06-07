@@ -19,7 +19,7 @@ export const facebookLoginAPI = () => {
       if (FBloginResult.deniedPermissions) {
         throw new Error('We need the requested permissions');
       }
-
+      
       return AccessToken.getCurrentAccessToken();
       console.log(FBloginResult);
     })
