@@ -8,7 +8,6 @@ import Modal from 'react-native-modal';
 const moment = require('moment');
 
 const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
-
   // Link up from database of different habits, should be habit names
   let BUTTONS = allHabits.map(h => h.name).concat(['Delete', 'Cancel'])
   let DESTRUCTIVE_INDEX = BUTTONS.length-2;

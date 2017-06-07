@@ -20,7 +20,6 @@ const EditPastDayModal = ({day, habitProps, dispatch}) => {
     token:''
   }
 
-  
   return (
     <Modal style={styles.container} transparent={true} visible={true}>
       <Card>

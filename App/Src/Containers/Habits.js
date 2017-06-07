@@ -105,7 +105,7 @@ class Habits extends Component {
       directionalOffsetThreshold: 80
     };
 
-    const noHabitText = this.props.user.habits.length ? '' : '  Add a new habit to get started!'
+    const noHabitText = this.props.user.habits.length ? '' : 'Add a new habit to get started!'
     const noHabitStyle = {};
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
 
@@ -114,22 +114,22 @@ class Habits extends Component {
       <Camera/>
       <View style={styles.habitsPageContainer}>
         <View style={{flex:1}}>
-          <Text style={[styles.noHabitText, noHabitStyle]}>
+          <View style={[styles.noHabitText, noHabitStyle]}>
             <H3>{noHabitText}</H3>
-          </Text>
+          </View>
 
           <View style={styles.container}>
             <HabitsListContainer />
           </View>
 
-          <View style={styles.addHabitButtonContainer}>
+          {/* <View style={styles.addHabitButtonContainer}>
             <Button dark transparent onPress = {() => this._openModal()}>
               <Icon name='add-circle' style={{fontSize: 45}}/>
             </Button>
             <Text>(New habit)</Text>
-          </View>
-        </View>
+          </View> */}
 
+        </View>
 
         <Modal
           animationType={this.state.animationType}
@@ -252,7 +252,7 @@ class Habits extends Component {
   }
 };
 
-
+const {width, height} = Dimensions.get('window')
 const styles = StyleSheet.create({
   buttonsContainer: {
     borderRadius: 25,
@@ -270,15 +270,14 @@ const styles = StyleSheet.create({
   },
   habitsPageContainer: {
     flex: 1,
-    backgroundColor:'blue',
+    // backgroundColor:'blue',
     justifyContent: 'flex-start'
   },
   container: {
     flex: -1,
     justifyContent: 'center',
-    paddingTop: 30,
-    marginBottom: 10,
-    height: 600,
+    paddingTop: 20, //30, changed based on header
+    height: 700,
   },
   addHabitButtonContainer: {
     flex: -1,
@@ -317,7 +316,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   noHabitText : {
-    marginTop: 200,
+    // marginTop: 300,
+    position: 'relative',
+    top: height / 2,
     justifyContent: 'center',
     alignItems: 'center'
   }
