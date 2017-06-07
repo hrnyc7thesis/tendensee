@@ -26,14 +26,14 @@ const getUserData = (userId) => {
   resData['user'] = {};
   return retrievePromise(dbHelpers.query('retrieveUser', userId))
   .then(user => {
-    console.log('user0,', user[0])
+    // console.log('user0,', user[0])
     for(let prop in user[0]) {
       resData.user[prop] = user[0][prop];
     }
     resData.user.notifications = resData.user.notifications.lastIndexOf(1) !== -1;
     resData.user.private = resData.user.private.lastIndexOf(1) !== -1;
 
-    console.log("getdata resData['user']", resData['user'])
+    // console.log("getdata resData['user']", resData['user'])
     if(resData['user'].password) delete resData['user'].password;
 
     //ADDED BELOW TO GET FRIENDS AND ALL OTHER USERS - DUNCAN
@@ -115,9 +115,9 @@ exports.getUser = (req, res) => {
     // console.log('gu req.cookies', req.cookies);
     // let username = req.session.passport.user;
     let token = req.headers['x-custom-header'];
-    console.log('in getuser - token', token)
+    // console.log('in getuser - token', token)
     let user = jwt.decode(token, config.tokenSecret);
-    console.log('gu user', user)
+    // console.log('gu user', user)
     getUserData(user.user.id)
     .then(data => {
       data.token = token;
@@ -172,7 +172,7 @@ exports.patchUser = (req, res) => {
 
 // HABITS -------------------------------->
 exports.addHabit = (req, res) => {
-  console.log('addhabit req.body', req.body)
+  // console.log('addhabit req.body', req.body)
   let newHabit = Object.assign({}, req.body.data);
   newHabit.id_users = req.body.user.id;
   newHabit.start_date = new Date().toMysqlFormat(); // LATER - ability to set date?
@@ -224,7 +224,7 @@ exports.deleteHabit = (req, res) => {
 
 // DATES ---------------------------------->
 exports.addDate = (req, res) => {
-  console.log('add date req.body.habits', req.body.habits);
+  // console.log('add date req.body.habits', req.body.habits);
   //RESPONSE DATA OBJECT
   let resData = {
     user: req.body.user,
@@ -259,10 +259,10 @@ exports.addDate = (req, res) => {
       }
     })
   }
-  console.log('habits', habits)
+  // console.log('habits', habits)
 
   let newDate = { id_users, date};
-  console.log('req body day, habit', req.body.day, req.body.picHabit);
+  // console.log('req body day, habit', req.body.day, req.body.picHabit);
   // DEAL WITH NO PICTURES INSTANCE
   let picture = req.body.data ? req.body.data.data : 'No Photo';
   uploadS3(picture, pic => {
@@ -274,8 +274,8 @@ exports.addDate = (req, res) => {
     if((req.body.day && req.body.picHabit) || habits.length === 1) {
       newDate.id_habits = habits.length ? habits[0].id : req.body.picHabit.id;
       // LATER: if ONLY 1 HABIT, TRAIN CLARIFAI!!!
-      console.log('pichabit', req.body.picHabit)
-      console.log('habit length 1 or edit - date to insert:', newDate)
+      // console.log('pichabit', req.body.picHabit)
+      // console.log('habit length 1 or edit - date to insert:', newDate)
       createPromise(newDate, 'dates')
       .then(date => {
         newDate.id = date.insertId;
@@ -295,7 +295,7 @@ exports.addDate = (req, res) => {
         if(!habit) res.status(409).json('Already marked off habit for the day');
         else {
           newDate.id_habits = habit.id;
-          console.log('image rec newdate', newDate);
+          // console.log('image rec newdate', newDate);
           createPromise(newDate, 'dates')
           .then(date => {
             newDate.id = date.insertId;
@@ -313,7 +313,7 @@ exports.addDate = (req, res) => {
 }
 
 exports.updateDate = (req, res) => {
-  console.log('UPDATE DATE DATA', req.body.data)
+  // console.log('UPDATE DATE DATA', req.body.data)
   let updateData = {
 
   }
@@ -329,7 +329,7 @@ exports.updateDate = (req, res) => {
       .then(date => {
         updatePromise({date: req.body.data.swap.date, id_habits: req.body.data.swap.id_habits }, 'dates', req.body.data.swap.id)
         .then(date => {
-          console.log('updated date:', date);
+          // console.log('updated date:', date);
           res.status(200).json(date);
         })
         .catch(err => console.error('Error updating date in DB (1):', err))
@@ -340,7 +340,7 @@ exports.updateDate = (req, res) => {
   } else {
     updatePromise(req.body.data, 'dates', req.body.data.id)
     .then(date => {
-      console.log('updated date:', date);
+      // console.log('updated date:', date);
       res.status(200).json(date);
     })
     .catch(err => console.error('Error updating date in DB:', err))
@@ -348,11 +348,11 @@ exports.updateDate = (req, res) => {
 }
 
 exports.deleteDate = (req, res) => {
-  console.log('DELETE DATE DATA', req.body.data)
+  // console.log('DELETE DATE DATA', req.body.data)
 
   deletePromise(req.body.data.id, 'dates')
   .then(date => {
-    console.log('deleted date:', date);
+    // console.log('deleted date:', date);
     res.status(200).json(date);
   })
   .catch(err => console.error('Error deleting date in DB:', err))
@@ -363,7 +363,8 @@ exports.deleteDate = (req, res) => {
 exports.addFriends = (req, res) => {
   let token = req.headers['x-custom-header'];
   let user = jwt.decode(token, config.tokenSecret);
-  let id_follower = user.id;
+  console.log('addfriends token',token,'user',user);
+  let id_follower = user.user.id;
   req.body.data.forEach(id_followee => {
     createPromise({id_follower, id_followee}, 'friends')
     .then((data) => {
@@ -379,7 +380,7 @@ exports.addFriends = (req, res) => {
 exports.deleteFriend = (req, res) => {
   let token = req.headers['x-custom-header'];
   let user = jwt.decode(token, config.tokenSecret);
-  let id_follower = user.id;
+  let id_follower = user.user.id;
   let id_followee = req.body.data;
   deleteFriendPromise(id_follower, id_followee)
   .then((data) => {
