@@ -249,10 +249,10 @@ exports.addDate = (req, res) => {
   } else {
     date = new Date().toMysqlFormat();
     habits = allHabits.filter(h => {
-
       if(h.dates.length) {
         var today = moment(new Date()).format('YYYY-MM-DD');
-        var day = moment(h.dates[h.dates.length-1].date).format('YYYY-MM-DD')
+        var day = moment(h.dates[0].date).format('YYYY-MM-DD')
+        console.log('today and day', today, day)
         return (h.dates && h.dates.length && (today != day))
       } else {
         return true

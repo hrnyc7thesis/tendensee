@@ -60,7 +60,7 @@ module.exports = {
     let queries = {
       retrieveUser: `select * from users where users.id = "${id}"`,
       retrieveUserHabits: `select habits.* from users, habits where users.id = "${id}" AND habits.id_users = users.id`,
-      retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id`,
+      retrieveDatesFromHabit: `select dates.* from habits, dates where habits.id = "${id}" AND dates.id_habits = habits.id ORDER BY date DESC`,
       retrieveAllOtherUsers: `select * from users where users.id <> "${id}"`,
       retrieveFriends: `select * from friends where id_follower = "${id}"`,
     }

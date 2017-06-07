@@ -12,10 +12,10 @@ exports.login = (req, res) => {
   .then(rows => {
     if (!rows.length) {
       console.log('Login Error: User Not Found.');
-      res.status(403).json('User Not Found.');
+      res.status(403).json('User Not Found. Please Try Again.');
     } else if (!bcrypt.compareSync(password, rows[0].password)){
       console.log('Login Error: Wrong Password.');
-      res.status(403).json('Wrong Password.');
+      res.status(403).json('Wrong Password. Please Try Again.');
     } else {
       user = rows[0];
       db.getUserData(user.id)
@@ -40,7 +40,7 @@ exports.register = (req, res) => {
   .then(rows => {
     if (rows.length) {
       console.log('SignUp Error: Username already taken.');
-      res.status(403).json('That username is already taken.');
+      res.status(403).json('That username is already taken. Please try another.');
     } else {
       let newUser = {
         username, 
