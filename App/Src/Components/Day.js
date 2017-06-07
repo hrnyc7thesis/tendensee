@@ -8,12 +8,20 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
 
   let imageHeight;
   let imageWidth;
-  if (allHabits.length === 1 && howMany >= 1 && howMany <= 3) {
+  if (allHabits.length === 1 && howMany >= 1 && howMany <= 2) {
     let evenlySpaced = (width - 2 * 10 - 2 * 2) / howMany;
     imageHeight = evenlySpaced;
     imageWidth = evenlySpaced;
-  } else {
+  } else if (allHabits.length === 1 && howMany >= 3 && howMany <= 6) {
     let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
+    imageHeight = evenlySpaced
+    imageWidth = evenlySpaced
+  } else if (allHabits.length === 2) {
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 2;
+    imageHeight = evenlySpaced
+    imageWidth = evenlySpaced
+  } else {
+    let evenlySpaced = (width - 2 * 10 - 2 * 2) / 3;
     imageHeight = evenlySpaced
     imageWidth = evenlySpaced
   }
