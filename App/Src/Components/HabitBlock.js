@@ -9,7 +9,7 @@ const HabitBlock = ({habit, allHabits, onPressPic, onPressNoPic, onPressHabit}) 
     <View style={styles.habitBlock}>
       <View style={styles.habitName}>
         <Text onPress={() => onPressHabit(habitProps)} style={styles.habitNameTitle}>{habit.name}</Text>
-        <Button onPress={() => onPressHabit(habitProps)} style={{paddingLeft: 0, paddingRight: 0, height: 30}}transparent iconLeft><Icon name='flash' /></Button>
+        <Button onPress={() => onPressHabit(habitProps)} style={{paddingLeft: 0, paddingRight: 0, height: 30}}transparent iconLeft><Icon name='ios-glasses-outline' /></Button>
       </View>
       <RecentDays allHabits={allHabits} dates={habit.dates} habitProps={habitProps} onPressNoPic={onPressNoPic} onPressPic={onPressPic}/>
     </View>
