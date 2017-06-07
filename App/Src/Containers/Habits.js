@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Alert, Text, ScrollView, View, StyleSheet } from 'react-native';
+import { Alert, Text, ScrollView, View, StyleSheet, Dimensions } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
@@ -96,7 +96,7 @@ class Habits extends Component {
       directionalOffsetThreshold: 80
     };
 
-    const noHabitText = this.props.user.habits.length ? '' : '  Add a new habit to get started!'
+    const noHabitText = this.props.user.habits.length ? '' : 'Add a new habit to get started!'
     const noHabitStyle = {};
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
 
@@ -108,9 +108,9 @@ class Habits extends Component {
           onSwipeLeft={() => this.onSwipeLeft()}
           config={config}
         >
-          <Text style={[styles.noHabitText, noHabitStyle]}>
-            <H3>{noHabitText}</H3>
-          </Text>
+          <View style={[styles.noHabitText, noHabitStyle]}>
+              <H3>{noHabitText}</H3>
+          </View>
 
           <View style={styles.container}>
             <HabitsListContainer />
@@ -233,7 +233,7 @@ class Habits extends Component {
   }
 };
 
-
+const {width, height} = Dimensions.get('window')
 const styles = StyleSheet.create({
   gesture: {
     flex: 1,
@@ -282,7 +282,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   noHabitText : {
-    marginTop: 200,
+    // marginTop: 300,
+    position: 'relative',
+    top: height / 2,
     justifyContent: 'center',
     alignItems: 'center'
   }
