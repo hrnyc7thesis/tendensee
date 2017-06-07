@@ -117,7 +117,6 @@ export const updatePhoto = (imageData, userData, habit) => {
 };
 
 export const updateEmail = (newEmail, userData, habit) => {
-  console.log("inside updateEmail function")
   return dispatch => {
     dispatch(updateUserEmailInit());
     let putData = Object.assign({}, {data: {email: newEmail}, user: userData, habits: habit});
@@ -159,6 +158,7 @@ export const handleNotification = (status, userData, habit) => {
       return data.json()
       .then(data => {
         dispatch(handleNotificationSuccess(data));
+        dispatch(fetchUser());
       })
     })
     .catch(err =>{
@@ -184,6 +184,7 @@ export const handlePrivate = (status, userData, habit) => {
       return data.json()
       .then(data => {
         dispatch(handlePrivateSuccess(data));
+        dispatch(fetchUser());
       })
     })
     .then(err => {

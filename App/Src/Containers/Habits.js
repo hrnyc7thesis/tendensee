@@ -270,6 +270,7 @@ const styles = StyleSheet.create({
   },
   habitsPageContainer: {
     flex: 1,
+    backgroundColor:'blue',
     justifyContent: 'flex-start'
   },
   container: {
