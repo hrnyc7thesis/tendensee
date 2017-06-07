@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
@@ -30,6 +30,7 @@ class UserSettings extends Component {
     notification: this.props.user.notifications,// 1=true
     allPrivate: this.props.user.private,//0=false
     email: this.props.user.email,
+    language:  'English',
     promptVisible: false
   }
 }
@@ -110,6 +111,14 @@ render() {
           <View style={styles.sectionWrap}>
             <Text style={styles.subHeadingSetting}>Habit Setting:</Text>
             <View style={styles.habitProp}>
+              {/* <Text style={styles.textst}>Choose Color Theme:</Text> */}
+                {/* <Picker
+                  selectedValue={this.state.language}
+                  onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
+                  <Picker.Item label="Java" value="java" />
+                  <Picker.Item label="JavaScript" value="js" />
+                </Picker> */}
+
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Notification For All Habits:   </Text>
                 <Switch value={this.state.notification} onValueChange={this.toggleNotification}
@@ -160,12 +169,12 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 4,
-    borderWidth: 0.5,
-    backgroundColor: '#F5F5F5',
+    borderWidth: 1.5,
+    backgroundColor: '#1fb7e9',
     borderColor: '#d6d7da',
     justifyContent: 'center',
     marginTop: 10,
-    padding:20,
+    padding:15,
   },
   headingText: {
     fontFamily: 'Cochin',
@@ -176,24 +185,35 @@ const styles = StyleSheet.create({
   subHeadingSetting: {
     fontSize: 19,
     fontFamily: 'Helvetica Neue',
-    fontWeight: '500'
+    fontWeight: '500',
+    alignSelf: 'flex-start',
   },
   sectionWrap: {
-    backgroundColor: '#EEEEEE',
+    borderRadius: 11,
+    backgroundColor: '#B2DFDB',
     justifyContent: 'space-around',
+    // alignSelf: 'flex-start',
     padding: 20,
     borderWidth: 1,
     marginTop: 10,
+    marginBottom: 10,
+    width: 334,
+    height: 260,
     alignItems: 'flex-start',
     borderColor: '#d6d7da',
   },
   habitProp: {
-    padding: 10,
-    justifyContent: 'space-around',
+    // backgroundColor: '#B2FF59',
+    marginTop: 10,
+    // padding: 10,
+    alignItems: 'flex-start',
+    // justifyContent: 'space-between',
   },
   habitRow: {
-    alignItems: 'center',
+    // alignItems: 'flex-start',
     flexDirection: 'row',
+    alignSelf: 'flex-start',
+    // justifyContent: 'space-around'
   },
   textst: {
     fontFamily: 'Georgia-Italic',
