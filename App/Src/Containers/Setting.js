@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { MY_IP } from './../myip';
 import Prompt from 'react-native-prompt';
+import colors from '../colorPalette.js';
 
 const options = {
   title: 'Select Photo',
@@ -42,14 +43,15 @@ handlePhoto = (photo) => {
 toggleNotification = () => {
   this.setState({notification: !this.state.notification}, this.sendNotificationUpdate)
   Snackbar.show({
-    backgroundColor: this.state.notification ? '#AD1457' : '#4CAF50',
-    title: this.state.notification ? 'Notifications Turned OFF' : 'Notifications Turned ON',
+    backgroundColor: this.state.notification ? '#0277bd' : '#58a5f0',
+    title: this.state.notification ? 'All Notifications Turned OFF' : 'All Notifications Turned ON',
     duration: Snackbar.LENGTH_SHORT,
   });
 };
 
 sendNotificationUpdate = () =>{
   this.props.handleNotification(this.state.notification, this.props.user, this.props.habits);
+  // console.log("sendNotificationUpdates++++++++++++++++", this.props.users.photo);
 };
 
 sendPrivateUpdate = () =>{
@@ -59,8 +61,8 @@ sendPrivateUpdate = () =>{
 toggleAllPrivate = () => {
   this.setState({allPrivate: !this.state.allPrivate }, this.sendPrivateUpdate);
   Snackbar.show({
-    backgroundColor: this.state.allPrivate ? '#E91E63' : '#263238',
-    title: this.state.allPrivate ? 'Private OFF' : 'All Habit Set To Private',
+    backgroundColor: this.state.allPrivate ? '#0277bd' : '#58a5f0',
+    title: this.state.allPrivate ? 'All Habits Set Private' : 'All Habits Set Public',
     duration: Snackbar.LENGTH_SHORT,
   });
 };
@@ -87,14 +89,14 @@ render() {
           <View style={styles.sectionWrap}>
             <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }} onPress={this.ImageShow.bind(this)}>
                <Image
-                  source={{uri: `${this.props.user.photo}` || 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}}
+                  source={{uri:`${this.props.user.photo}` || 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}}
                   style={{borderRadius: 30, height: 100, width: 100}}
                 />
             </TouchableOpacity>
             <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
             <View style={styles.habitProp}>
-              <Text style={styles.textst}> User Name: {this.props.user.username}</Text>
-              <Text style={styles.textst}> Email: {this.state.email}
+              <Text style={styles.textst}>User Name: {this.props.user.username}</Text>
+              <Text style={styles.textst}>Email: {this.state.email}
                 <Icon iconCenter onPress={() => this.setState({ promptVisible: true })} name='pencil' style={{fontSize: 15, color: 'red'}} />
               </Text>
               <Prompt
@@ -120,20 +122,20 @@ render() {
                 </Picker> */}
 
               <View style={styles.habitRow}>
-                <Text style={styles.textst}>Notification For All Habits:   </Text>
+                <Text style={styles.textst}>Notification For All Habits:    </Text>
                 <Switch value={this.state.notification} onValueChange={this.toggleNotification}
-                  onTintColor="#00ff00"
+                  onTintColor="#0277bd"
                   style={styles.switchSt}
-                  thumbTintColor="#0000ff"
+                  thumbTintColor="#f05545"
                   tintColor="#ff0000"
                 />
               </View>
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Make All Habit Private:         </Text>
                 <Switch value={this.state.allPrivate} onValueChange={this.toggleAllPrivate}
-                  onTintColor="#00ff00"
+                  onTintColor="#0277bd"
                   style={styles.switchSt}
-                  thumbTintColor="#0000ff"
+                  thumbTintColor="#f05545"
                   tintColor="#ff0000"
                 />
               </View>
@@ -170,37 +172,36 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 4,
     borderWidth: 1.5,
-    backgroundColor: '#1fb7e9',
+    backgroundColor: '#0277bd',
     borderColor: '#d6d7da',
     justifyContent: 'center',
     marginTop: 10,
     padding:15,
   },
   headingText: {
-    fontFamily: 'Cochin',
+    fontFamily: 'Arial',
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: '400',
     alignSelf:'center'
   },
   subHeadingSetting: {
     fontSize: 19,
-    fontFamily: 'Helvetica Neue',
-    fontWeight: '500',
+    fontFamily: 'Arial',
+    fontWeight: '300',
     alignSelf: 'flex-start',
   },
   sectionWrap: {
     borderRadius: 11,
-    backgroundColor: '#B2DFDB',
+    backgroundColor: '#cfd8dc',
     justifyContent: 'space-around',
-    // alignSelf: 'flex-start',
     padding: 20,
-    borderWidth: 1,
+    // borderWidth: 1,
     marginTop: 10,
     marginBottom: 10,
     width: 334,
     height: 260,
     alignItems: 'flex-start',
-    borderColor: '#d6d7da',
+    borderColor: '#7f0000',
   },
   habitProp: {
     // backgroundColor: '#B2FF59',
@@ -216,9 +217,11 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-around'
   },
   textst: {
-    fontFamily: 'Georgia-Italic',
+    fontFamily: 'Arial',
     marginBottom: 10,
     fontSize: 16,
+    paddingLeft: 10,
+
   },
   switchSt: {
     transform: [{scaleX: .75}, {scaleY: .75}],
