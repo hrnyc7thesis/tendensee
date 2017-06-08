@@ -20,7 +20,7 @@ class AppRouter extends Component {
   render() {
 
     return (
-      <ReduxRouter>
+      <ReduxRouter navigationBarStyle={styles.navBar} titleStyle={styles.navBarTitle} barButtonTextStyle={styles.barButtonTextStyle} barButtonIconStyle={styles.barButtonIconStyle}>
         <Scene key='root'>
           <Scene
           key='landing'
@@ -29,7 +29,7 @@ class AppRouter extends Component {
           title='Landing'
           passProps={true}
           initial={true}
-          titleOpacity={0} />
+          />
           <Scene
           key='auth'
           component={Auth}
@@ -41,6 +41,7 @@ class AppRouter extends Component {
           key='camera'
           component={Camera}
           hideNavBar={true}
+          panHandlers={null}
           title='Capture Your Habit'
           passProps={true} />
           <Scene
@@ -79,10 +80,18 @@ class AppRouter extends Component {
 }
 
 const styles = StyleSheet.create({
+
   navBar: {
-    backgroundColor: 'transparent',
-    borderBottomColor: 'transparent',
-    borderBottomWidth: 1,
+      backgroundColor:'#1fb7e9',
+  },
+  navBarTitle:{
+      color:'#FFFFFF'
+  },
+  barButtonTextStyle:{
+      color:'#FFFFFF'
+  },
+  barButtonIconStyle:{
+      tintColor:'rgb(255,255,255)'
   },
 });
 

@@ -4,8 +4,7 @@ const imageRec = new Clarifai.App(config.imageId, config.imageSecret)
 const dbHelpers = require('./db/helpers.js');
 const moment = require('moment');
 
-
-const habitTypes = ['Fitness', 'Diet', 'Study', 'Time', 'Sleeping', 'Hygiene', 'timeManagement'];
+const habitTypes = ['Fitness', 'Diet', 'Study', 'Mindset', 'Sleeping', 'Hygiene', 'timeManagement'];
 
 const keywords = {
   'Fitness': ['fitness', 'exercise', 'weights', 'working out', 'footwear', 'shoe'],
@@ -15,8 +14,9 @@ const keywords = {
   'Sleeping': ['sleep', 'sleeping', 'bed', 'pillow', 'alarm'],
   'Hygiene': ['floss', 'toothbrush', ],
   'Mindset': ['meditation', 'mindset'],
-  'Reading': ['TAKE THIS OUT - TOO CLOSE TO STUDY']
-}
+  'Reading': ['TAKE THIS OUT - TOO CLOSE TO STUDY'],
+  'other': ['dont know...'],
+};
 
 module.exports = (pic, habits) => {
   return imageRec.models.predict(Clarifai.GENERAL_MODEL, pic)
@@ -34,6 +34,7 @@ module.exports = (pic, habits) => {
       })
     })
     if(!result) {
+
       let index = Math.floor(Math.random()*habits.length);
       result = habits[index];
       console.log('NO MATCH FOR IMAGE REC - RANDOMIZED RESULT:', result)

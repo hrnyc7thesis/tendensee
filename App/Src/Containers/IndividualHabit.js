@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image, TouchableHighlight } from 'react-native';
+import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image, TouchableHighlight, StatusBar } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H3, CardItem, Body, CheckBox, Icon, ActionSheet } from 'native-base';
 import Modal from 'react-native-modal';
@@ -9,6 +9,12 @@ import { ActionCreators } from './../Actions/ActionCreators';
 import HabitsListContainer from './HabitsListContainer.js';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions, ActionConst } from 'react-native-router-flux';
+import NavigationBar from 'react-native-navbar';
+import SettingsNav from '../Components/SettingsNav';
+import BackNav from '../Components/BackNav';
+import TitleNav from '../Components/TitleNav';
+
+
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
@@ -64,6 +70,7 @@ class IndividualHabit extends Component {
   }
 
   _setPrivate() {
+    this.state.private ? Alert.alert('Habit hidden from other users') : Alert.alert('Habit will display to other users')
     this._updateHabitPrivate(!this.state.private);
     this.setState({private: !this.state.private});
     console.log(this.state.private)
@@ -182,91 +189,88 @@ class IndividualHabit extends Component {
       showButton = {display:'flex'}
     } else {showButton = {display:'none'}}
 
+          const colors = {
+              primary: '#0277bd',
+              primaryLight: '#58a5f0',
+              primaryDark: '#004c8c',
+              secondary: '#cfd8dc',
+              secondaryLight: '#ffffff',
+              secondaryDark: '#9ea7aa',
+              primaryText: '#ffffff',
+              secondaryText: '#000000',
+              background: '#f5f5f6'
+            }
     return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.topHeader}>
-          <View style={styles.topRowContainer}>
-            <Button dark transparent iconCenter onPress={() => {Actions.pop()}}>
-              <Icon name='arrow-back' />
-            </Button>
-            <Button style={{alignSelf: 'flex-end'}} dark transparent iconCenter onPress={() => {this._openModal()}}>
-              <Icon name='settings' />
-            </Button>
-          </View>
-        </View>
-        <View style={styles.header}>
-          <H1>{this.state.habitName}</H1>
-        </View>
-        <View style={styles.header}>
-          <H3>{this.state.habitType}</H3>
-        </View>
-        <View style={styles.reminder}>
-          <Text></Text>
-          <Text></Text>
-          <View style={styles.reminderIcon}>
-            <Icon name='notifications'/>
-            <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._updateHabit(null) : this._showTimePicker()}} />
-          </View>
-          <View>
-            <Text onPress={() => { this.state.isReminderChecked ? '' : this._showTimePicker()}} style={{backgroundColor:'#ADD8E6', padding:6}}>{this.state.reminderTime ? moment(new moment(this.state.reminderTime,'HH:mm:ss')).format("h:mmA") : 'Activate?' }</Text>
-          </View>
-          <Text></Text>
-          <Text></Text>
-        </View>
-        <Card>
-          <View style={[styles.stats, {paddingTop:10}]}>
-            <Text>Success Rate: </Text>
-            <Text>{this.props.habitProps.dates.length}/{totalDays} ({Math.floor(this.props.habitProps.dates.length/totalDays*100)}%)</Text>
-          </View>
-          <View style={styles.stats}>
-            <Text>Average Per Week: </Text>
-            <Text>{weeklyAvg}</Text>
-          </View>
-          <View style={styles.stats}>
-            <Text>Current Streak: </Text>
-            <Text>{currentStreak}</Text>
-          </View>
-          <View style={styles.stats}>
-            <Text>Longest Streak: </Text>
-            <Text>{longestStreak}</Text>
-          </View>
-          <View style={styles.container}>
-            <View style={styles.habitImages}>
-            {images.map((image, idx) => {
-              return (
-                  <Image key={idx} source={{uri: image}} style={styles.habitImage}/>
-              );
-            })}
-            </View>
-          </View>
-          <Button light block style={showButton}>
-            <Text>All {this.state.habitName} Images</Text>
-          </Button>
-        </Card>
-        <View style={styles.header}>
-          <H3>Habit Chart</H3>
-        </View>
-        <DateTimePicker
-          isVisible={this.state.isTimePickerVisible}
-          onConfirm={this._updateHabit}
-          onCancel={this._hideTimePicker}
-          mode={'time'}
-          titleIOS={'Daiy Reminder Time'}
-        />
-        <Container>
-          <Modal
-            animationType={this.state.animationType}
-            transparent={this.state.transparent}
-            visible={this.state.isModalVisible}
-            onRequestClose={() => {this._closeModal()}}>
+
+        <View style={styles.container}>
+          <StatusBar hidden={true} />
+          <NavigationBar
+            statusBar={{hidden:true}}
+            tintColor={colors.primaryDark}
+            title={<TitleNav
+                          title={this.state.habitName}
+                          style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+                        />}
+            leftButton={<BackNav
+                          style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
+                          onPress={() => {Actions.habits()}}
+                        />} 
+            rightButton={<SettingsNav
+                          style={{ marginRight: 14, marginTop:6, color: colors.primaryText }}
+                          onPress={() => {this._openModal()}}
+                        />} 
+          />
+          <ScrollView>
             <Card>
-              <View style={styles.card}>
-                <CardItem>
-                  <H1>Edit Habit</H1>
-                </CardItem>
-                <CardItem>
-                  <Body>
+              <View style={[styles.stats, {paddingTop:10}]}>
+                <Text>Success Rate: </Text>
+                <Text>{this.props.habitProps.dates.length}/{totalDays} ({Math.floor(this.props.habitProps.dates.length/totalDays*100)}%)</Text>
+              </View>
+              <View style={styles.stats}>
+                <Text>Average Per Week: </Text>
+                <Text>{weeklyAvg}</Text>
+              </View>
+              <View style={styles.stats}>
+                <Text>Current Streak: </Text>
+                <Text>{currentStreak}</Text>
+              </View>
+              <View style={styles.stats}>
+                <Text>Longest Streak: </Text>
+                <Text>{longestStreak}</Text>
+              </View>
+              <View style={styles.container}>
+                <View style={styles.habitImages}>
+                {images.map((image, idx) => {
+                  return (
+                      <Image key={idx} source={{uri: image}} style={styles.habitImage}/>
+                  );
+                })}
+                </View>
+              </View>
+              {/*<Button light block style={showButton}>
+                <Text>All {this.state.habitName} Images</Text>
+              </Button>*/}
+            </Card>
+            <View style={styles.header}>
+              <H3>Habit Chart</H3>
+            </View>
+            <DateTimePicker
+              isVisible={this.state.isTimePickerVisible}
+              onConfirm={this._updateHabit}
+              onCancel={this._hideTimePicker}
+              mode={'time'}
+              titleIOS={'Daiy Reminder Time'}
+            />
+            <Container>
+              <Modal
+                animationType={this.state.animationType}
+                transparent={true}
+                visible={this.state.isModalVisible}
+                style={styles.modal}
+                onRequestClose={() => {this._closeModal()}}>
+                    <View>
+                      <H1 style={{fontWeight: 'bold'}}>Edit Habit</H1>
+                    </View>
                     <View style={styles.formContainer}>
                       <Form>
                         <Text>Habit Name</Text>
@@ -278,9 +282,12 @@ class IndividualHabit extends Component {
                         <Text>Private?</Text>
                         <Switch value={this.state.private} onValueChange={() => {this._setPrivate()}} />
                       </View>
-                      <TouchableHighlight underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
-                        <Text style={styles.selectNewLink}>Edit Habit Type</Text>
-                      </TouchableHighlight>
+                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
+
+                        <Button underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
+                          <Text style={styles.selectNewLink}>Edit Habit Type</Text>
+                        </Button>
+                      </View>
                       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{fontWeight: 'bold', color:'red'}}>Delete</Text>
                         <Icon name='trash' onPress = {() => Alert.alert(
@@ -302,14 +309,10 @@ class IndividualHabit extends Component {
                         </Button>
                       </View>
                     </View>
-                  </Body>
-                </CardItem>
-              </View>
-            </Card>
-          </Modal>
-        </Container>
-      </View>
-    </ScrollView>
+              </Modal>
+            </Container>
+          </ScrollView>
+        </View>
     )
   }
 }
@@ -324,6 +327,16 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     margin: 10,
     marginTop: 5
+  },
+  modal: {
+    borderWidth: 2,
+    borderColor: 'black',
+    flex: 0,
+    alignItems: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    justifyContent: 'space-around',
+    backgroundColor: 'white'
   },
   header: {
     alignItems: 'center',
@@ -349,7 +362,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   card: {
-    justifyContent: 'space-around',
+    flex:1,
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   stats: {

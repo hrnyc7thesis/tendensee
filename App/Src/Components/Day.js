@@ -26,7 +26,7 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   imageWidth = evenlySpaced;
 
   // To add red/green tint: style={{backgroundColor: 'lightpink', opacity: 0.75}}
-  let image = day.default === true ? <View style={{}}><Image style={[styles.dayContainerImage, {opacity: 0.5, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
+  let image = day.default === true ? <View style={{backgroundColor: 'lightpink', opacity: 1}}><Image style={[styles.dayContainerImage, {opacity: 0.2, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
     <Image style={[styles.dayContainerImage, {width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} />
 
   return (

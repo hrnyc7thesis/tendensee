@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet, Image, ScrollView, TextInput, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, TextInput, Dimensions, StatusBar } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Button, Card, Form, Item, Input, H1, H2, H3, CardItem, Body, CheckBox, Icon, Tab, Tabs, TabHeading, Container } from 'native-base';
 import Modal from 'react-native-modal';
@@ -113,6 +113,7 @@ class Images extends Component {
     return (
       <Swiper loop={false} showsPagination={false} showsButtons={false}>
         <Container>
+          <StatusBar hidden={true} />
           <UserView
             isSelf={isSelf}
             self={this.props.user}
@@ -166,7 +167,7 @@ class Images extends Component {
                       .filter(user => {
                         return !this.props.visibleUserFriends.includes(user.id);
                       })
-                      .filter(user => {
+                       .filter(user => {
                         return user.username.toLowerCase().includes(this.state.searchedUsername.toLowerCase());
                       })
                       .map(user => {

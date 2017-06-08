@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Alert, Text, ScrollView, View, StyleSheet, Dimensions } from 'react-native';
+import { Alert, Text, ScrollView, View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Button, Card, Form, Item, Input, H1, H3, CardItem, Body, CheckBox, Icon } from 'native-base';
 import Modal from 'react-native-modal';
@@ -11,6 +11,10 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions } from 'react-native-router-flux';
 import Swiper from 'react-native-swiper';
 import Camera from './Camera';
+import BackNav from '../Components/BackNav';
+import AddNav from '../Components/AddNav';
+import TitleNav from '../Components/TitleNav';
+import NavigationBar from 'react-native-navbar';
 
 
 
@@ -105,14 +109,45 @@ class Habits extends Component {
       directionalOffsetThreshold: 80
     };
 
+    const colors = {
+              primary: '#0277bd',
+              primaryLight: '#58a5f0',
+              primaryDark: '#004c8c',
+              secondary: '#cfd8dc',
+              secondaryLight: '#ffffff',
+              secondaryDark: '#9ea7aa',
+              primaryText: '#ffffff',
+              secondaryText: '#000000',
+              background: '#f5f5f6'
+            }
+
     const noHabitText = this.props.user.habits.length ? '' : 'Add a new habit to get started!'
     const noHabitStyle = {};
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
 
     return (
+
       <Swiper index={1} loadMinimal={true} loadMinimalSize={0} loop={false} showsPagination={false} showsButtons={false}>
       <Camera />
       <View style={styles.habitsPageContainer}>
+      <StatusBar hidden={true} />
+        <NavigationBar
+          statusBar={{hidden:true}}
+          tintColor={colors.primaryDark}
+          title={<TitleNav
+                        title={'tendensee'}
+          style={{marginTop:4}}
+                        style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+                      />}
+          leftButton={<BackNav
+                        style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
+                        onPress={() => {Actions.camera()}}
+                      />} 
+          rightButton={<AddNav
+                        style={{ marginRight: 14, marginTop:6, color: colors.primaryText }}
+                        onPress={() => {this._openModal()}}
+                      />} 
+        />
         <View style={{flex:1}}>
           <View style={[styles.noHabitText, noHabitStyle]}>
             <H3>{noHabitText}</H3>
@@ -133,29 +168,21 @@ class Habits extends Component {
 
         <Modal
           animationType={this.state.animationType}
-          transparent={this.state.transparent}
+          transparent={true}
           visible={this.state.isModalVisible}
+          style={styles.modal}
           onRequestClose={() => {this._closeModal()}}>
-          <Card>
-            <View style={styles.card}>
-              <CardItem>
+              <View style={{alignItems: 'center'}}>
                 <H1 style={{fontWeight: 'bold'}}>Add Habit</H1>
-              </CardItem>
-              <CardItem>
-                <Body>
-                  <View style={styles.formContainer}>
-                    <Form>
-                      <Item rounded>
-                        <Input placeholder='Name your habit!' style={{marginLeft: 10}} value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
-                      </Item>
-                    </Form>
-                  </View>
-                </Body>
-              </CardItem>
-              <CardItem>
-                <H3 style={{fontWeight: 'bold'}}>Classify your habit:</H3>
-              </CardItem>
-              <CardItem>
+              </View>
+              <View style={styles.formContainer}>
+                <Form>
+                  <Item rounded>
+                    <Input placeholder='Name your habit!' style={{marginLeft: 10}} value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
+                  </Item>
+                </Form>
+              </View>
+              <View style={{alignItems: 'center'}}>
                 <View style={styles.buttonGrid}>
                   <View style={styles.buttonColumn}>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[0]}]}>
@@ -202,25 +229,20 @@ class Habits extends Component {
                     </View>
                   </View>
                 </View>
-              </CardItem>
-              <CardItem>
+              <View style={{alignItems: 'center', marginTop: 15}}>
                 <Text style={styles.reminderText}>Send reminders?</Text>
                 <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
-                {/* <Text>Send reminders?</Text> */}
-                {/* <CheckBox checked={this.state.isPrivate} onPress={() => !this.state.isPrivate} /> */}
-              </CardItem>
-              <CardItem>
-                <View style={styles.successButton}>
+              </View>
+              <View style={{alignItems: 'center', marginLeft:30, marginRight: 30, marginTop: 15}}>
                   <Button block success onPress={() => {this._submitHabit()}}>
                     <Text style={styles.buttonText}>Add</Text>
                   </Button>
-                </View>
-              </CardItem>
-              <CardItem>
+              </View>
+              <View style={{marginLeft:30, marginRight: 30, marginTop: 10}}>
                 <Button transparent danger iconCenter onPress={this._closeModal}>
                   <Icon name='trash' />
                 </Button>
-              </CardItem>
+              </View>
             </View>
             <DateTimePicker
               isVisible={this.state.isTimePickerVisible}
@@ -229,7 +251,6 @@ class Habits extends Component {
               mode={'time'}
               titleIOS={'Pick a time'}
             />
-          </Card>
         </Modal>
 
         <View style={styles.buttonsContainer}>
@@ -295,14 +316,17 @@ const styles = StyleSheet.create({
   },
   buttonGrid: {
     flexDirection: 'row',
-    margin: 10,
-    marginTop: 5
+    marginTop: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    alignSelf: 'stretch'
   },
   buttonColumn: {
     flexBasis: 0,
     flexGrow: 1
   },
   categoryButton: {
+    alignSelf: 'stretch',
     margin: 5
   },
   buttonText: {
@@ -314,6 +338,16 @@ const styles = StyleSheet.create({
   },
   successButton: {
     flex: 1
+  },
+  modal: {
+    borderWidth: 2,
+    borderColor: 'black',
+    flex: 0,
+    alignItems: 'stretch',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    justifyContent: 'space-around',
+    backgroundColor: 'white'
   },
   noHabitText : {
     // marginTop: 300,
