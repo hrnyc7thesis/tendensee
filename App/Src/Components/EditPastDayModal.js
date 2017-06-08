@@ -19,38 +19,37 @@ const EditPastDayModal = ({day, habitProps, dispatch}) => {
     habits: [],
     token:''
   }
-
   
   return (
     <Modal style={styles.container} transparent={true} visible={true}>
       <Card>
-          <View style={{alignItems: 'center', flex: 1}}>
-            <View style={{marginTop: 10, marginBottom: 10}}>
-              <H1>{habitProps.name}</H1>
-            </View>
-            <Text>Mark Completed</Text>
-            <Text>{moment(day.date).format("dddd, MMMM Do")}</Text>
-            <View style={{marginTop: 10, marginBottom: 10}}>
-              <Button block style={{marginTop: 10, marginBottom: 10}} onPress={() => {
-                dispatch(hideModal());
-                Actions.camera({type: ActionConst.RESET, day, habitProps});
-              }}>
-                <Text>Take Photo</Text>
-              </Button>
-              <Button block style={{marginTop: 10, marginBottom: 10}} onPress={() => {
-                console.log(data);
-                dispatch(hideModal());
-                dispatch(sendPhoto(data, day, habitProps));
-              }}>
-                <Text>No Photo</Text>
-              </Button>
-            </View>
-            <View>
-              <Button transparent onPress={() => dispatch(hideModal())}>
-                <Text>Cancel</Text>
-              </Button>
-            </View>
+        <View style={{alignItems: 'center', flex: 1}}>
+          <View style={{marginTop: 10, marginBottom: 10}}>
+            <H1>{habitProps.name}</H1>
           </View>
+          <Text>Mark Completed</Text>
+          <Text>{moment(day.date).format("dddd, MMMM Do")}</Text>
+          <View style={{marginTop: 10, marginBottom: 10}}>
+            <Button block style={{marginTop: 10, marginBottom: 10}} onPress={() => {
+              dispatch(hideModal());
+              Actions.camera({habitDay:day, habitProps});
+            }}>
+              <Text>Take Photo</Text>
+            </Button>
+            <Button block style={{marginTop: 10, marginBottom: 10}} onPress={() => {
+              console.log(data);
+              dispatch(sendPhoto(data, day, habitProps));
+              Alert.alert('Habit checked off without photo.','', [{ text: "OK", onPress: () => dispatch(hideModal())}])
+            }}>
+              <Text>No Photo</Text>
+            </Button>
+          </View>
+          <View>
+            <Button transparent onPress={() => dispatch(hideModal())}>
+              <Text>Cancel</Text>
+            </Button>
+          </View>
+        </View>
       </Card>
     </Modal>
   )

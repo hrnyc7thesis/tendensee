@@ -41,7 +41,7 @@ class Landing extends Component {
   render() {
     console.log('landing render isloggedin', this.props.auth.isLoggedIn)
     return (
-        <View style={{flex:1, alignSelf:'stretch', backgroundColor: '#1fb7e9'}} />
+        <View style={{flex:1, alignSelf:'stretch', backgroundColor: '#1a7a52'}} />
     )
   }
 }

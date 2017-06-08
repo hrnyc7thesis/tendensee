@@ -39,6 +39,8 @@ export const sendPhoto = (data, day, habit) => {
     sendData.day = day;
     sendData.picHabit = habit;
 
+    console.log('pichabti, data', sendData.picHabit, sendData.data)
+
 
     return fetch(`http://${MY_IP}:8080/api/dates`, {
       method: 'POST',
@@ -49,11 +51,13 @@ export const sendPhoto = (data, day, habit) => {
       },
       body: JSON.stringify(sendData)
     })
-    .then(data => {
-      return data.json().then(data => {
+    .then(resData => {
+      return resData.json().then(resData => {
         dispatch(fetchUser())
-        dispatch(sendPhotoSuccess(data));
-        dispatch(showGotPhotoModal());
+        dispatch(sendPhotoSuccess(resData));
+        if (sendData.data) {
+          dispatch(showGotPhotoModal());
+        }
       });
     })
     .catch(err => {

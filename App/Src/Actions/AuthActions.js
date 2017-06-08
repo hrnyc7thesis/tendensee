@@ -116,6 +116,7 @@ export const auth = (username, password, email, route) => {
         else {
           console.log(data);
           Alert.alert(data)
+          dispatch(authFail(data))
         }
       })
     })
