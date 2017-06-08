@@ -277,8 +277,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingTop: 20, //30, changed based on header
+    // width: width,
     height: 700,
-    alignSelf: 'flex-end'
+    alignSelf: 'center'
   },
   addHabitButtonContainer: {
     flex: -1,

@@ -58,14 +58,14 @@ const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
     </ScrollView>
     <View style={styles.buttonsContainer}>
       <Button transparent onPress={() => {Actions.images()}}>
-        <Icon style={{fontSize: 60, color: 'white'}} name="person" />
+        <Icon style={{fontSize: 50, color: 'white'}} name="person" />
       </Button>
       <Button transparent onPress={() => Actions.camera()}>
-        <Icon style={{fontSize: 60, color: 'white'}} name="radio-button-on" />
+        <Icon style={{fontSize: 50, color: 'white'}} name="radio-button-on" />
       </Button>
       <View style={{borderRadius: 25, borderBottomWidth: 2, borderBottomColor: '#4d4dff'}}>
         <Button transparent onPress={() => {Actions.habits()}}>
-          <Icon style={{fontSize: 80, color: 'gray', opacity: 1}} name="list" />
+          <Icon style={{fontSize: 60, color: 'gray', opacity: 1}} name="list" />
         </Button>
       </View>
     </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   habitsList: {
     paddingHorizontal: 10,
     paddingTop: 10,
-    backgroundColor: colors.background, //colors.primaryLight,
+    backgroundColor: colors.primary,//colors.background, //colors.primaryLight,
   },
 
   buttonsContainer: {
@@ -102,7 +102,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     // borderRadius: 25,
     alignSelf: 'stretch',
-    backgroundColor: 'rgba(220, 220, 220, 0.8)',
+    // backgroundColor: 'rgba(220, 220, 220, 0.8)',
+    backgroundColor: colors.primaryDark,
+    opacity: 0.8,
     padding: 0,
     flex: 0,
     flexDirection: 'row',

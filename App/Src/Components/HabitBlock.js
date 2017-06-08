@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 
   habitNameTitle: {
     color: colors.primary, //'white',
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     fontSize: 20,
   },
 })

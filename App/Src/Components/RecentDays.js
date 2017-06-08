@@ -50,7 +50,7 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
 
   let days;
   if (allHabits.length === 1) {
-    days =  <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>{allDates}</View>
+    days =  <View style={{flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: 5}}>{allDates}</View>
   } else {
     days = <ScrollView horizontal style={styles.recentDaysContainer}>{allDates}</ScrollView>
   }
@@ -63,7 +63,7 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
 const styles = StyleSheet.create({
   recentDaysContainer: {
     flexDirection: 'row',
-    marginHorizontal: 7,
+    marginHorizontal: 5,
   }
 });
 

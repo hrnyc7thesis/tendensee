@@ -15,7 +15,7 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   let imageWidth;
   let evenlySpaced;
 
-  let widthWithSpacers = width - 2 * 10 - 2 * 6;
+  let widthWithSpacers = width - 2 * 10 - 2 * 6 - 2 * 5;
 
   if (allHabits.length === 1 && howMany >= 1 && howMany <= 2) {
     evenlySpaced = widthWithSpacers / howMany;
@@ -46,8 +46,8 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   let image;
   if (day.default === true) {
     image = <View style={{opacity: 0.5, alignItems: 'center', justifyContent: 'center'}}>
-      <Image style={[styles.dayContainerImage, {width: imageWidth, height: imageHeight, backgroundColor: 'red'}]}/>
-      <Icon style={{position: 'absolute', marginLeft: 'auto', marginRight: 'auto', backgroundColor: 'transparent', fontSize: 30}} name='emoticon-sad' />
+      <Image style={[styles.dayContainerImage, {width: imageWidth, height: imageHeight, backgroundColor: colors.secondary}]}/>
+      <Icon style={{color: 'red', position: 'absolute', marginLeft: 'auto', marginRight: 'auto', backgroundColor: 'transparent', fontSize: 40}} name='emoticon-sad' />
     </View>
   } else {
     if (day.picture === 'https://s3.us-east-2.amazonaws.com/tgoc99habit/bTyogRbpc.jpg') {
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondaryLight,
     bottom: 0,
     left: 0,
+    paddingHorizontal: 3,
   },
 
   iconStyle: {
