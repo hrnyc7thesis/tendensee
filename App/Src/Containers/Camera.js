@@ -6,7 +6,7 @@ import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Button, Icon } from 'native-base';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import PhotoCalculatingModal from './../Components/PhotoCalculatingModal';
 import GotPhotoModal from './../Components/GotPhotoModal';
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
@@ -17,10 +17,12 @@ class Cam extends Component {
 
   constructor(props) {
     super(props);
-    // this.state= {
-    //   deleteActionRun: false,
-    //   accelerationObservable: null,
-    // }
+    this.state= {
+      // deleteActionRun: false,
+      // accelerationObservable: null,
+      habitProps: this.props.habitProps,
+      habitDay: this.props.habitDay,
+    }
     console.log('camera constructor')
   }
 
@@ -59,7 +61,8 @@ class Cam extends Component {
     //     }
     //   })
     // }
-
+    console.log('cam all state', this.state)
+    console.log('cam ernder day, habit', this.state.habitDay, this.state.habitProps, this.takePicture)
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80
@@ -98,14 +101,15 @@ class Cam extends Component {
           </View>
 
           <View style={styles.gotPhotoModal}>
-            <GotPhotoModal />
+            <GotPhotoModal habitDay={this.state.habitDay} habitProps={this.props.habitProps} />
           </View>
 
         </GestureRecognizer>
     );
   }
 
-  takePicture() {
+  takePicture(d, h) {
+    console.log('in tp')
     let options = {};
     this.camera.capture({metadata: options})
     .then((data) => {
@@ -113,7 +117,7 @@ class Cam extends Component {
       let sendData = Object.assign({}, this.props.user, {
         data: data
       });
-      this.props.sendPhoto(sendData, this.props.day, this.props.habitProps);
+      this.props.sendPhoto(sendData, this.state.habitDay, this.props.habitProps);
       // this.setState({ deleteActionRun: false });
       // accelerationObservable = new Accelerometer({
       //   updateInterval: 2000
@@ -158,6 +162,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     currentPhoto: state.sendPhotos.currentPhoto,
     habits: state.user.userData.habits,
+
   }
 };
 

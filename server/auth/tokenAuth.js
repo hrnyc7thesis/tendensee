@@ -80,7 +80,8 @@ exports.checkAuth = (req, res) => {
     res.status(403).json("No Token");
   } else {
   let user = jwt.decode(token, secret);
-  db.retrieve(`select * from users where users.username = "${user.username}"`) //
+  console.log('TOKEN USER', user)
+  db.retrieve(`select * from users where users.username = "${user.user.username}"`) //
   .then(rows => {
     if (!rows.length) {
       res.status(401).json('User Not Found.');

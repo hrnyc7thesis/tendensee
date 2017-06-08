@@ -4,7 +4,6 @@ const dbconfig = require('../db/db-config.js');
 const secret = process.env.tokenSecret ? process.env.tokenSecret : require('../config.js').tokenSecret;
 
 module.exports = (req, res) => {
-
   console.log('fb req.body.id', req.body.id)
   db.retrieve(`select * from users where users.facebook_id = "${req.body.id}"`) //
   .then(rows => {
@@ -23,7 +22,7 @@ module.exports = (req, res) => {
         newUser.id = user.insertId;
         db.getUserData(newUser.id)
         .then(data => {
-          let token = jwt.encode(data, secret);  // rows obj right thing here?
+          let token = jwt.encode(data, secret);
           data.token = token;
           console.log('FBlogin senddata', data)
           res.status(200).json(data)
@@ -33,7 +32,6 @@ module.exports = (req, res) => {
       db.getUserData(rows[0].id)
       .then(data => {
         console.log(data);
-        console.log('secret', secret);
         let token = jwt.encode(data, secret);
         data.token = token;
         console.log('FBlogin senddata', data)

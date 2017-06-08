@@ -110,8 +110,8 @@ class Habits extends Component {
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
 
     return (
-      <Swiper index={1} loop={false} showsPagination={false} showsButtons={false}>
-      <Camera/>
+      <Swiper index={1} loadMinimal={true} loadMinimalSize={0} loop={false} showsPagination={false} showsButtons={false}>
+      <Camera />
       <View style={styles.habitsPageContainer}>
         <View style={{flex:1}}>
           <View style={[styles.noHabitText, noHabitStyle]}>

@@ -47,6 +47,7 @@ export function facebookLogin() {
         return data.json()
       })
       .then(data => {
+        
         //LATER - page to set new username with first time fb login
         // if(data.user.username === data.user.facebook_id){
         //   Actions.fbSignup({type: ActionConst.RESET, data})
