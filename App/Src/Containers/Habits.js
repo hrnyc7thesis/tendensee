@@ -232,7 +232,7 @@ class Habits extends Component {
           </Card>
         </Modal>
 
-        <View style={styles.buttonsContainer}>
+        {/* <View style={styles.buttonsContainer}>
           <Button transparent onPress={() => {Actions.images()}}>
             <Icon style={{fontSize: 60, color: 'white'}} name="person" />
           </Button>
@@ -244,7 +244,7 @@ class Habits extends Component {
               <Icon style={{fontSize: 80, color: 'gray', opacity: 1}} name="list" />
             </Button>
           </View>
-        </View>
+        </View> */}
 
       </View>
     </Swiper>
