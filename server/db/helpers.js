@@ -13,9 +13,6 @@ let user;
       return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
   };
 module.exports = {
-
-  // HELPERS FOR DATE FORMATTING
-
   // FUNCTION ESCAPES INPUT
   create: (input, table, cb) => {
     db.query(`INSERT INTO ${table} SET ?`, input, (err, res) => {

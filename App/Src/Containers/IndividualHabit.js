@@ -122,23 +122,25 @@ class IndividualHabit extends Component {
   }
 
   render() {
-    console.log('dates:', this.state.dates)
-    let dateStrings = this.state.dates.map(d => moment(d.date).format('YYYY-MM-DD'))
-    let startDate = new moment(this.state.start_date);
+    let dateStrings = this.props.habitProps.dates.sort((a,b) => new Date(a.date.toString()) - new Date(b.date.toString())).map(d => moment(d.date).format('YYYY-MM-DD'));
+    console.log('dates:', this.props.habitProps.dates)
+    console.log('datesrings:', dateStrings)
+    let startDate = new moment(this.props.habitProps.start_date);
     let today = new moment();
-    let totalDays = Math.max(today.diff(startDate, 'days'), this.state.dates.length, 1);
+    let totalDays = Math.max(today.diff(startDate, 'days'), this.props.habitProps.dates.length, 1);
     console.log('startd, today, totald', startDate, today, totalDays);
 
     let allDates = this.getDates(startDate, today);
     allDates = allDates.map(d=> {
+      console.log()
       if(dateStrings.includes(d[0].toString())) {
         return [d[0], 1]
       } else {
         return d
       }
     });
-    console.log(allDates);
-    let weeklyAvg = Math.round((this.state.dates.length/totalDays)*7) || 0;
+    console.log('ad', allDates);
+    let weeklyAvg = Math.round((this.props.habitProps.dates.length/totalDays)*7) || 0;
     let longestStreak = 0;
     let habitScore = 0;
     allDates.reduce((acc, d, idx) => {
@@ -174,7 +176,7 @@ class IndividualHabit extends Component {
     let chartData = [streakChartData, habitScoreChartData];
     console.log('charstata', chartData)
 
-    let images = this.state.dates ? this.state.dates.map(d=> d.picture): ['No Pictures Yet']
+    let images = this.props.habitProps.dates ? this.props.habitProps.dates.map(d=> d.picture): ['No Pictures Yet']
     if(images.length>6){
       images = images.slice(0,9);
       showButton = {display:'flex'}
@@ -215,7 +217,7 @@ class IndividualHabit extends Component {
         <Card>
           <View style={[styles.stats, {paddingTop:10}]}>
             <Text>Success Rate: </Text>
-            <Text>{this.state.dates.length}/{totalDays} ({Math.floor(this.state.dates.length/totalDays*100)}%)</Text>
+            <Text>{this.props.habitProps.dates.length}/{totalDays} ({Math.floor(this.props.habitProps.dates.length/totalDays*100)}%)</Text>
           </View>
           <View style={styles.stats}>
             <Text>Average Per Week: </Text>
@@ -283,7 +285,7 @@ class IndividualHabit extends Component {
                         <Text style={{fontWeight: 'bold', color:'red'}}>Delete</Text>
                         <Icon name='trash' onPress = {() => Alert.alert(
                           'Delete Habit',
-                          'Are you sure you want to delete this Habit?',
+                          'Are you sure you want to delete this Habit and all related photos?',
                           [
                             {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
                             {text: 'OK', onPress: () => {

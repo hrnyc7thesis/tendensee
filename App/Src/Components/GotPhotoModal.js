@@ -39,7 +39,8 @@ class GotPhotoModal extends Component {
           id_habits: this.props.habits.filter(h => h.name === BUTTONS[buttonIndex])[0].id
         });
         this.props.updateDay(newDate);
-        this.props.hideGotPhotoModal();
+        let alertTitle = `Photo moved to ${BUTTONS[buttonIndex]}!`;
+        Alert.alert(alertTitle,'', [{ text: "OK", onPress: () => this.props.hideGotPhotoModal()}])
         Actions.habits();
       }
     });
@@ -71,7 +72,7 @@ class GotPhotoModal extends Component {
         onRequestClose={() => {this._closeModal()}}
         style={styles.modal}>
         <View style={styles.headerContainer}>
-          <H1 style={{fontWeight: 'bold'}}>Image Recognized!</H1>
+          <H1 style={{fontWeight: 'bold'}}>Image Captured!</H1>
         </View>
         <TouchableHighlight underlayColor='gray' style={styles.shakeTextContainer} onPress={() => this._deleteDateAndCloseModal()}>
           <Text style={styles.shakeText}>Press to retake</Text>
@@ -92,10 +93,10 @@ class GotPhotoModal extends Component {
           <H2 style={{fontWeight: 'bold'}}>{matchedHabit ? matchedHabit.name : null}</H2>
         </View>
         <View style={styles.notRightHabitTextContainer}>
-          <Text style={styles.notRightHabitText}>Not the right habit?</Text>
+          {this.props.habits.length === 1 || this.props.habitProps ? <H3 style={{fontStyle: 'italic'}}>Congrats!</H3> : <Text style={styles.notRightHabitText}>Not the right habit?</Text>}
         </View>
         <TouchableHighlight underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
-          <Text style={styles.selectNewLink}>Assign to another</Text>
+          {this.props.habits.length === 1 || this.props.habitProps ? <Text/> : <Text style={styles.selectNewLink}>Assign to another</Text>}
         </TouchableHighlight>
         <View style={styles.okButtonContainer}>
           <Button block success style={{alignSelf: 'stretch'}} onPress={() => this._redirectToHabits()}>
