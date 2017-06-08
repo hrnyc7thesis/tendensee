@@ -27,12 +27,12 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
 
   // To add red/green tint: style={{backgroundColor: 'lightpink', opacity: 0.75}}
   let image = day.default === true ? <View style={{}}><Image style={[styles.dayContainerImage, {opacity: 0.5, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>:
-    <Image style={[styles.dayContainerImage, {width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} />
+    <View><Image style={[styles.dayContainerImage, {opacity: 1, width: imageWidth, height: imageHeight}]} source={{uri: day.picture}} /></View>
 
   return (
     <TouchableOpacity style={[styles.dayContainer, {width: imageWidth}]} onPress={() => onPressItem(day, habitProps, allHabits)}>
-      <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd D")}</Text>
       {image}
+      <Text style={styles.dayOfWeekTitle}>{moment(day.date).format("ddd D")}</Text>
     </TouchableOpacity>
   )
 }
@@ -43,15 +43,26 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     justifyContent: 'center',
+
+    marginHorizontal: 2,
+  },
+
+  dayOfWeekTitle: {
+      position: 'absolute',
+      // backgroundColor: 'red',
+      bottom: 0,
+      left: 0,
   },
 
   dayContainerImage: {
     // backgroundColor: 'transparent',
     width: 100,
     height: 100,
-    borderColor: 'white',//'#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
+
+    // borderColor: 'white',//'#f0f0f5',
+    // borderWidth: 2,
+    // borderRadius: 10,
+
     // opacity: 0.5,
     // tintColor: 'rgba(220, 116, 116, 0.5)',
   },

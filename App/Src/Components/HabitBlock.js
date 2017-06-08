@@ -25,19 +25,19 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     backgroundColor: 'white',
     marginBottom: 0,
-    borderColor: 'white',//'#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
     marginBottom: 10, //12,
     paddingBottom: 5, //10
 
-    shadowColor: 'black',
-    shadowOffset: {
-     width: 0,
-     height: 3
-   },
-   shadowRadius: 5,
-   shadowOpacity: 0.25
+    // borderColor: 'white',//'#f0f0f5',
+    // borderWidth: 2,
+    // borderRadius: 10,
+  //   shadowColor: 'black',
+  //   shadowOffset: {
+  //    width: 0,
+  //    height: 3
+  //  },
+  //  shadowRadius: 5,
+  //  shadowOpacity: 0.25
 
   },
 
