@@ -86,13 +86,15 @@ class Cam extends Component {
             aspect={Camera.constants.Aspect.fill}>
             <View style={styles.buttonsContainer}>
               <Button transparent onPress={() => {Actions.images()}}>
-                <Icon style={{fontSize: 60, color: 'white'}} name="person" />
+                <Icon style={{fontSize: 40, color: 'white', opacity: 1}} name="person" />
               </Button>
-              <Button transparent onPress={this.takePicture.bind(this)}>
-                <Icon style={{fontSize: 80, color: 'blue', opacity: 0.5, marginLeft: -5}} name="radio-button-on" />
-              </Button>
+              <View style={{borderRadius: 25, borderBottomWidth: 3, borderBottomColor: 'white', paddingBottom: 2}}>
+                <Button transparent onPress={() => Actions.camera()}>
+                  <Icon style={{fontSize: 50, color: 'white'}} name="radio-button-on" />
+                </Button>
+              </View>
               <Button transparent onPress={() => {Actions.habits()}}>
-                <Icon style={{fontSize: 60, color: 'white'}} name="list" />
+                <Icon style={{fontSize: 40, color: 'white'}} name="list" />
               </Button>
             </View>
           </Camera>
@@ -141,11 +143,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonsContainer: {
-    borderRadius: 25,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.6,
+    borderRadius: 0,
     alignSelf: 'stretch',
-    backgroundColor: 'rgba(220, 220, 220, 0.3)',
-    padding: 0,
-    margin: 0,
+    backgroundColor: colors.primaryDark,
+    paddingTop: 5,
     flex: 0,
     flexDirection: 'row',
     justifyContent: 'center',
