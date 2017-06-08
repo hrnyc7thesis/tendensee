@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { MY_IP } from './../myip';
 import Prompt from 'react-native-prompt';
-import colors from '../colorPalette.js';
+import colors from '../ColorPalette.js';
 
 const options = {
   title: 'Select Photo',
