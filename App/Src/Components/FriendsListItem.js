@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { Card, CheckBox, Button, Icon } from 'native-base';
+import colors from './../ColorPalette';
 
 class Friend extends Component {
   constructor(props) {
@@ -61,10 +62,10 @@ class Friend extends Component {
         </View>
         <View style={styles.friendCheckbox}>
           {this.props.isModalVisible ?
-            <CheckBox checked={this.state.isFriendChecked} onPress={() => {this._toggleFriendChecked()}} />
+            <CheckBox style={{color: colors.primaryDark}} checked={this.state.isFriendChecked} onPress={() => {this._toggleFriendChecked()}} />
            :
             this.props.isSelf ? (
-              <Icon style={{flex: 1, fontSize: 30, color: 'red'}} name="close" onPress={() => {this._deleteFriend()}}/>
+              <Icon style={{flex: 1, fontSize: 30, color: colors.primary}} name="close" onPress={() => {this._deleteFriend()}}/>
             ) : (
               null
             )
@@ -77,15 +78,15 @@ class Friend extends Component {
 
 const styles = StyleSheet.create({
   friendCard: {
+    backgroundColor: colors.secondaryLight,
     flex: 1,
     flexBasis: 0,
     flexShrink: 1,
-    margin: 10,
+    margin: 5,
     marginBottom: 0,
     flexDirection: 'row',
     borderColor: '#d1d1e0',
     borderWidth: 1,
-    borderRadius: 10,
     justifyContent: 'space-between',
     padding: 20,
     paddingLeft: 10,
@@ -115,10 +116,12 @@ const styles = StyleSheet.create({
     paddingBottom: 2
   },
   username: {
+    color: colors.secondaryText,
     fontWeight: 'bold',
     fontSize: 16,
   },
   quote: {
+    color: colors.secondaryText,
     fontStyle: 'italic',
     fontSize: 8
   },

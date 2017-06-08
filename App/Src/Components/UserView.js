@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, TouchableHighlight, Alert, Text, View, StyleSheet, Image, ScrollView, Dimensions, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, Dimensions, TextInput } from 'react-native';
 import { Container , Button, Icon, Tabs, Tab, TabHeading, H1, H2, H3 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Friend from './FriendsListItem';
-import ModalRoot from './ModalRoot';
+import colors from './../ColorPalette';
 
 const { width } = Dimensions.get('window');
-const photoWidth = (width - 2 * 10 - 2 * 2 - 4 * 5) / 3;
+const photoWidth = (width - 4 * 5) / 3;
 
 class UserView extends Component {
 
@@ -30,13 +30,12 @@ class UserView extends Component {
     // console.log('this.props.user',this.props.user);
     return (
       <Container>
-        <ModalRoot />
         <View style={styles.screenAboveTabs}>
           <View style={styles.topRowContainer}>
             <View style={styles.leftButtonContainer}>
               {this.props.isSelf ? (
                 <Button style={{alignSelf: 'flex-start'}} dark transparent iconCenter onPress={() => {Actions.setting()}}>
-                  <Icon name='settings' />
+                  <Icon name='settings' style={{color: colors.primaryText}} />
                 </Button>
               ) : (
                 <Button dark transparent iconCenter onPress={() => {this._changeVisibleUser()}}>
@@ -44,28 +43,36 @@ class UserView extends Component {
                 </Button>
               )}
             </View>
-            <View style={styles.userPictureContainer}>
-              <Image source={{uri: this.props.user.user ? this.props.user.user.photo : 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
+            <View style={styles.logo}>
+              <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>tendenSee</H1>
             </View>
             <View style={styles.rightButtonContainer}>
               {this.props.isSelf ? (
                 <Button style={{alignSelf: 'flex-end'}} dark transparent iconCenter onPress={() => {Actions.camera()}}>
-                  <Icon name='arrow-forward' />
+                  <Icon name='arrow-forward' style={{color: colors.primaryText}} />
                 </Button>
               ) : (
                 <Button dark transparent iconCenter></Button>
               )}
             </View>
           </View>
-          <View style={styles.usernameContainer}>
-            <Text style={styles.usernameText}>{this.props.user.user ? this.props.user.user.username : null}</Text>
-          </View>
-          <View style={styles.taglineContainer}>
-            <Text style={styles.taglineText}>{this.props.user.user ? this.props.user.user.tagline : null}</Text>
+          <View style={styles.userInfo}>
+            <View style={styles.userPictureContainer}>
+              <Image source={{uri: this.props.user.user ? this.props.user.user.photo : 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
+            </View>
+            <View style={{flexDirection: 'column'}}>
+              <View style={styles.usernameContainer}>
+                <Text style={styles.usernameText}>{this.props.user.user ? this.props.user.user.username : null}</Text>
+              </View>
+              <View style={styles.taglineContainer}>
+                {/* <Text style={styles.taglineText}>{this.props.user.user ? this.props.user.user.tagline : null}</Text> */}
+                <Text style={styles.taglineText}>{this.props.user.user ? `${this.props.user.habits.length} Habits, ${this.props.images.length} Photos, ${this.props.friends.length} Friends` : null}</Text>
+              </View>
+            </View>
           </View>
         </View>
-        <Tabs>
-         <Tab heading={ <TabHeading><Text>Photos</Text></TabHeading>}>
+        <Tabs tabBarUnderlineStyle={{backgroundColor: colors.primaryDark}}>
+         <Tab style={{backgroundColor: colors.background}} heading={ <TabHeading style={{padding: 10, backgroundColor: colors.secondary}}><Text style={{color: colors.secondaryText}}>Photos</Text></TabHeading>}>
           <ScrollView>
             <View style={styles.habitImages}>
             {this.props.images.length === 0 ? (
@@ -74,17 +81,13 @@ class UserView extends Component {
               </View>
             ) : (
               this.props.images.map(image => {
-                return (
-                  <TouchableOpacity onPress={() => this.props.onPressPhoto(image)}>
-                    <Image source={{uri: image.picture}} style={styles.habitImage}/>
-                  </TouchableOpacity>
-                )
+                return (<Image source={{uri: image.picture}} style={styles.habitImage}/>)
               })
             )}
             </View>
           </ScrollView>
          </Tab>
-         <Tab heading={ <TabHeading><Text>Friends</Text></TabHeading>}>
+         <Tab style={{backgroundColor: colors.background}} heading={ <TabHeading style={{backgroundColor: colors.secondary}}><Text style={{color: colors.secondaryText}}>Friends</Text></TabHeading>}>
           <View style={styles.friendsTabContainer}>
             {this.props.isSelf && (
               <View style={styles.friendSearchFormAndButton}>
@@ -92,8 +95,8 @@ class UserView extends Component {
                   <TextInput style={styles.textInput} placeholder='Search' value={this.state.searchFriendsText} onChangeText={(text) => {this._setSearchFriendsText(text)}} />
                 </View>
                 <View style={styles.addFriendsButtonContainer}>
-                    <Button transparent info iconLeft onPress={() => {this.props.openModal()}}>
-                      <Icon name='add-circle' />
+                    <Button transparent info iconCenter onPress={() => {this.props.openModal()}}>
+                      <Icon name='add-circle' style={{color: colors.primaryDark}}/>
                     </Button>
                 </View>
               </View>
@@ -135,45 +138,63 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8'
   },
   topRowContainer: {
+    backgroundColor: colors.primaryDark,
+    alignSelf: 'stretch',
     flexDirection: 'row',
-    margin: 25,
-    marginBottom: 5,
+    margin: 0,
+    marginBottom: 0,
     justifyContent: 'space-between',
+  },
+  logo: {
+    alignSelf: 'center',
   },
   leftButtonContainer: {
     flex: 1
   },
   userPictureContainer: {
-    flex: 1,
-    height: 85,
+    flex: 0,
   },
   rightButtonContainer: {
     flex: 1
   },
-  userImage: {
-    flex: 1,
-    resizeMode: 'contain',
-    marginTop: 20
+  userInfo: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    backgroundColor: colors.primary,
+    flex: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  usernameContainer: {
+  userImage: {
+    marginRight: 10,
+    borderRadius: 25,
+    flex: 0,
+    // resizeMode: 'contain',
+    height: 50,
+    width: 50,
     alignSelf: 'center',
   },
+  usernameContainer: {
+    flex: 0,
+    marginRight:10,
+  },
   usernameText: {
+    color: colors.primaryText,
     fontWeight: 'bold',
     fontSize: 20
   },
   taglineContainer: {
-    alignSelf: 'center',
+    flex: 0,
   },
   taglineText: {
+    color: colors.primaryText,
     fontStyle: 'italic',
     fontSize: 10
   },
   habitImages: {
     borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
-    margin: 10,
+    margin: 0,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -189,8 +210,7 @@ const styles = StyleSheet.create({
     height: photoWidth,
     marginTop: 5,
     marginLeft: 5,
-    marginBottom: 5,
-    borderRadius: 3,
+    // borderRadius: 5,
   },
   friendsTabContainer: {
     flex: 1
@@ -199,10 +219,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   friendSearchFormContainer: {
-    borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 30,
-    margin: 15,
+    borderColor: colors.secondaryDark,
+    borderWidth: 1,
+    borderRadius: 1,
+    margin: 5,
     marginBottom: 0,
     flex: 5,
   },
@@ -211,23 +231,20 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   addFriendsButtonContainer: {
-    marginLeft: -10,
-    marginTop: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginLeft: -10,
+    // marginTop: 15,
   },
   currentFriendsListContainer: {
     flex: 8,
-    borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
-    margin: 15
+    // borderColor: '#f0f0f5',
+    // borderWidth: 2,
+    margin: 0
   },
   noFriendsView: {
     alignItems: 'center',
     marginTop: 20
-  },
-  touchableOpacity: {
-    flex: 1,
-    borderRadius: 5
   },
 })
 
