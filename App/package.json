@@ -17,6 +17,7 @@
     "react-native-image-picker": "^0.26.3",
     "react-native-modal": "^2.4.0",
     "react-native-modal-datetime-picker": "^4.6.0",
+    "react-native-navbar": "^1.7.1",
     "react-native-pathjs-charts": "0.0.28",
     "react-native-prompt": "^1.0.0",
     "react-native-router-flux": "^3.39.1",

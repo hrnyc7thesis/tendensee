@@ -261,7 +261,8 @@ const noHabitChosenHelper = (req,res) => {
 }
 
 exports.addDate = (req, res) => {
-  req.body.day && req.body.picHabit ? preChosenHabitHelper(req,res) : noHabitChosenHelper(req,res);
+  console.log('add Date day and habit:', req.body.day, req.body.picHabit);
+  (req.body.day && req.body.picHabit) ? preChosenHabitHelper(req,res) : noHabitChosenHelper(req,res);
 }
 
 exports.updateDate = (req, res) => {

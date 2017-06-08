@@ -69,7 +69,7 @@ class Auth extends Component {
           </View>
           <View style={styles.formContainer}>
             <Form>
-              <Item>
+              <Item regular>
                 <Input 
                   placeholder='   Username'
                   autoCapitalize='none'
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#1fb7e9',
-    marginTop: 40
+    marginTop: 90
   },
   formContainer: {
     alignSelf: 'stretch',

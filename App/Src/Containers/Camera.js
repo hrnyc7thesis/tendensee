@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Alert, Text, View, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
+import { Alert, Text, View, Dimensions, StyleSheet, TouchableHighlight, StatusBar } from 'react-native';
 import { bindActionCreators } from 'redux';
 import Camera from 'react-native-camera';
 import { ActionCreators } from './../Actions/ActionCreators';
@@ -75,6 +75,7 @@ class Cam extends Component {
           config={config}
           onSwipeRight={() => this.onSwipeRight()}
         >
+      <StatusBar hidden={true} />
           <Camera
             ref={(cam) => {
               this.camera = cam;
