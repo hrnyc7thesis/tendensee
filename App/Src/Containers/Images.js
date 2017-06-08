@@ -11,6 +11,7 @@ import Friend from './../Components/FriendsListItem';
 import UserView from './../Components/UserView';
 import Camera from './Camera';
 import Swiper from 'react-native-swiper';
+import colors from './../ColorPalette';
 
 
 class Images extends Component {
@@ -19,7 +20,7 @@ class Images extends Component {
     this.state = {
       animationType: 'slide',
       isModalVisible: false,
-      isModalTransparent: false,
+      isModalTransparent: true,
       searchedUsername: '',
       selectedFriends: [],
     }
@@ -129,33 +130,34 @@ class Images extends Component {
             onPressPhoto={this._showUserHabitPhoto.bind(this)}
           />
           <View style={styles.buttonsContainer}>
-            <View style={{borderRadius: 25, borderBottomWidth: 2, borderBottomColor: '#4d4dff', paddingBottom: 2}}>
+            <View style={{borderRadius: 25, borderBottomWidth: 3, borderBottomColor: 'white', paddingBottom: 2}}>
               <Button transparent onPress={() => {Actions.images()}}>
-                <Icon style={{fontSize: 80, color: 'gray', opacity: 1}} name="person" />
+                <Icon style={{fontSize: 50, color: 'white', opacity: 1}} name="person" />
               </Button>
             </View>
             <Button transparent onPress={() => Actions.camera()}>
-              <Icon style={{fontSize: 60, color: 'white', marginLeft: -10}} name="radio-button-on" />
+              <Icon style={{fontSize: 40, color: 'white', marginLeft: 0, marginBottom: -5}} name="radio-button-on" />
             </Button>
             <Button transparent onPress={() => {Actions.habits()}}>
-              <Icon style={{fontSize: 60, color: 'white'}} name="list" />
+              <Icon style={{fontSize: 40, color: 'white'}} name="list" />
             </Button>
           </View>
 
           <View>
             <Modal
               animationType={this.state.animationType}
-              transparent={this.state.transparent}
+              transparent={false}
               visible={this.state.isModalVisible}
-              onRequestClose={() => {this._closeModal()}}>
-              <Card>
+              onRequestClose={() => {this._closeModal()}}
+              style={styles.modal}>
+              {/* <Card> */}
                 <View style={styles.card}>
                   <View>
-                    <H1>Add Friends</H1>
+                    <H1 style={{color: colors.secondaryText, fontWeight: 'bold', marginBottom: 5}}>Add Friends</H1>
                   </View>
                   <View style={styles.formContainer}>
-                    <Form>
-                      <Item rounded>
+                    <Form style={{marginLeft: 0}}>
+                      <Item regular style={{marginLeft: 5, marginRight: 5, backgroundColor: colors.primaryText}}>
                         <Input placeholder='Search..' value={this.state.searchedUsername} onChangeText={(text) => {this._setSearchedUsername(text)}} />
                       </Item>
                     </Form>
@@ -191,7 +193,7 @@ class Images extends Component {
                     </Button>
                   </View>
                 </View>
-              </Card>
+              {/* </Card> */}
             </Modal>
           </View>
         </Container>
@@ -203,36 +205,63 @@ class Images extends Component {
 
 const styles = StyleSheet.create({
   card: {
+    backgroundColor: colors.secondary,
     flex: 1,
+    padding: 15,
+    margin: 0,
     alignItems: 'center',
-    margin: 15,
+    justifyContent: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    justifyContent: 'space-around',
   },
+  modal: {
+    backgroundColor: colors.secondaryDark,
+    margin: 0,
+  },
+  // modal: {
+  //   borderWidth: 2,
+  //   borderColor: 'black',
+  //   borderRadius: 15,
+  //   flex: 0,
+  //   alignItems: 'center',
+  //   marginTop: 'auto',
+  //   marginBottom: 'auto',
+  //   justifyContent: 'space-around',
+  //   backgroundColor: 'white'
+  // },
   formContainer: {
+    flex: 0,
     alignSelf: 'stretch',
-    margin: 10,
+    margin: 0,
     marginTop: 5,
+    paddingLeft: 0,
+    borderRadius: 1,
+    borderColor: colors.secondaryDark,
   },
   addFriendsListContainer: {
     alignSelf: 'stretch',
-    flex: 4,
-    borderColor: '#f0f0f5',
-    borderWidth: 2,
-    borderRadius: 10,
+    flex: 0,
+    // borderColor: '#f0f0f5',
+    // borderWidth: 2,
   },
   closeModalButton: {
-    color: 'green',
+    color: colors.primary,
   },
   gesture: {
     flex: 1,
     justifyContent: 'flex-start',
   },
   buttonsContainer: {
-    opacity: 1,
-    borderRadius: 25,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0.6,
+    borderRadius: 0,
     alignSelf: 'stretch',
-    backgroundColor: 'rgba(220, 220, 220, 0.8)',
-    padding: 0,
-    margin: 0,
+    backgroundColor: colors.primaryDark,
+    paddingTop: 5,
     flex: 0,
     flexDirection: 'row',
     justifyContent: 'center',
