@@ -63,6 +63,7 @@ const RecentDays = ({dates, allHabits, habitProps, onPressPic, onPressNoPic}) =>
 const styles = StyleSheet.create({
   recentDaysContainer: {
     flexDirection: 'row',
+    marginHorizontal: 7,
   }
 });
 

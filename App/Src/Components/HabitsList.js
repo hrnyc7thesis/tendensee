@@ -5,6 +5,7 @@ import HabitBlock from './HabitBlock';
 import ModalRoot from './ModalRoot';
 var moment = require('moment');
 import { Actions } from 'react-native-router-flux';
+import colors from './../ColorPalette'
 
 const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
   let toComplete = [];
@@ -74,10 +75,22 @@ const HabitsList = ({habits, editHabitDay, onPressHabit, editPast}) => {
 
 const {width, height} = Dimensions.get('window')
 
+const palette = {
+  primary: '#b71c1c',
+  primaryLight: '#f05545',
+  primaryDark: '#7f0000',
+  secondary: '#263238',
+  secondaryLight: '#4f5b62',
+  secondaryDark: '#000a12',
+  text: '#ffffff',
+  background: '#f5f5f6',
+}
+
 const styles = StyleSheet.create({
   habitsList: {
     paddingHorizontal: 10,
     paddingTop: 10,
+    backgroundColor: colors.background, //colors.primaryLight,
   },
 
   buttonsContainer: {
