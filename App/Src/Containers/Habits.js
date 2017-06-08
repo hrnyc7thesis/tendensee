@@ -274,10 +274,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   container: {
-    flex: -1,
+    flex: 1,
     justifyContent: 'center',
     paddingTop: 20, //30, changed based on header
     height: 700,
+    alignSelf: 'flex-end'
   },
   addHabitButtonContainer: {
     flex: -1,

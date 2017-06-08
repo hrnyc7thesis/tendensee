@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import RecentDays from './RecentDays.js';
 import { Button, Icon, H1, H2, H3, Content, Card, CardItem, } from 'native-base';
 const HabitBlock = ({habit, allHabits, onPressPic, onPressNoPic, onPressHabit}) => {
@@ -8,10 +8,10 @@ const HabitBlock = ({habit, allHabits, onPressPic, onPressNoPic, onPressHabit}) 
   return (
     // <Card style={{}}>
     <View elevation={5} style={styles.habitBlock}>
-      <View style={styles.habitName}>
+      <TouchableOpacity style={styles.habitName} onPress={() => onPressHabit(habitProps)}>
         <Text onPress={() => onPressHabit(habitProps)} style={styles.habitNameTitle}>{habit.name}</Text>
         <Button onPress={() => onPressHabit(habitProps)} style={{paddingLeft: 0, paddingRight: 0, height: 30, }} transparent iconLeft><Icon name='ios-glasses-outline' /></Button>
-      </View>
+      </TouchableOpacity>
       <RecentDays allHabits={allHabits} dates={habit.dates} habitProps={habitProps} onPressNoPic={onPressNoPic} onPressPic={onPressPic}/>
     </View>
   // </Card>
