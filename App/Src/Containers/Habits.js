@@ -146,7 +146,7 @@ class Habits extends Component {
           statusBar={{hidden:true}}
           tintColor={colors.primaryDark}
           title={<TitleNav
-                        title={'tendensee'}
+                        title={'tenden|see'}
           style={{marginTop:4}}
                         style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
                       />}

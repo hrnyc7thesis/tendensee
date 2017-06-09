@@ -12,7 +12,7 @@ import GotPhotoModal from './../Components/GotPhotoModal';
 import colors from './../ColorPalette';
 
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
-import colors from './../ColorPalette'
+
 
 // let accelerationObservable;
 
