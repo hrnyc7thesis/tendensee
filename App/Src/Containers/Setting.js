@@ -27,6 +27,9 @@ const options = {
   }
 };
 
+const { width,height } = Dimensions.get('window');
+
+
 class UserSettings extends Component {
   constructor(props){
   super(props);
@@ -88,13 +91,14 @@ render() {
           statusBar={{hidden:true}}
           tintColor={colors.primaryDark}
           title={<WordTitleNav
-                        title={'Settings'}
-          style={{marginTop:4}}
-          style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+            title={'Settings'}
+            style={{marginTop:4}}
+            style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
           />}
+
           leftButton={<BackNav
-          style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
-          onPress={() => {Actions.camera()}}/>}
+              style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
+              onPress={() => {Actions.camera()}}/>}
         />
         <View style={styles.container}>
           <View style={styles.profileWrap}>
@@ -172,6 +176,8 @@ render() {
 const styles = StyleSheet.create({
   pageView: {
     backgroundColor: colors.primary,
+    width: width,
+    height: height,
   },
   container: {
     borderRadius: 4,
@@ -179,6 +185,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     padding:16.5,
+    // width: width,
+    // height: height,
   },
   headingText: {
     fontFamily: 'Arial',
@@ -199,8 +207,6 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 10,
     marginBottom: 10,
-    width: 342,
-    height: 305,
     alignItems: 'flex-start',
   },
   habitWrap: {
@@ -210,8 +216,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 10,
     marginBottom: 10,
-    width: 342,
-    height: 235,
+    height: 240,
     alignItems: 'flex-start',
   },
   habitProp: {
