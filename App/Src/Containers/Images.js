@@ -12,10 +12,6 @@ import UserView from './../Components/UserView';
 import Camera from './Camera';
 import Swiper from 'react-native-swiper';
 import colors from './../ColorPalette';
-import NavigationBar from 'react-native-navbar';
-import SettingsNav from '../Components/SettingsNav';
-import BackNav from '../Components/BackNav';
-import TitleNav from '../Components/TitleNav';
 
 
 class Images extends Component {
@@ -134,22 +130,19 @@ class Images extends Component {
             closeModal={this._closeModal.bind(this)}
             onPressPhoto={this._showUserHabitPhoto.bind(this)}
           />
-          <NavigationBar
-            statusBar={{hidden:true}}
-            tintColor={colors.primaryDark}
-            title={<TitleNav
-                          title={this.state.habitName}
-                          style={{ fontWeight: 'bold', marginTop:4, fontSize: 18, color: colors.primaryText, }}
-                        />}
-            leftButton={<BackNav
-                          style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
-                          onPress={() => {Actions.habits()}}
-                        />}
-            rightButton={<SettingsNav
-                          style={{ marginRight: 14, marginTop:6, color: colors.primaryText }}
-                          onPress={() => {this._openModal()}}
-                        />}
-          />
+          <View style={styles.buttonsContainer}>
+            <View style={{borderRadius: 25, borderBottomWidth: 3, borderBottomColor: 'white', paddingBottom: 2}}>
+              <Button transparent onPress={() => {Actions.images()}}>
+                <Icon style={{fontSize: 50, color: 'white', opacity: 1}} name="person" />
+              </Button>
+            </View>
+            <Button transparent onPress={() => Actions.camera()}>
+              <Icon style={{fontSize: 40, color: 'white', marginLeft: 0, marginBottom: -5}} name="radio-button-on" />
+            </Button>
+            <Button transparent onPress={() => {Actions.habits()}}>
+              <Icon style={{fontSize: 40, color: 'white'}} name="list" />
+            </Button>
+          </View>
 
           <View>
             <Modal
