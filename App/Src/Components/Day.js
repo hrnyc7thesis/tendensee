@@ -15,14 +15,14 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   let imageWidth;
   let evenlySpaced;
 
-  let widthWithSpacers = width - 2 * 10 - 2 * 6 - 2 * 5;
+  let widthWithSpacers = width - 2 * 10 - 2 * 6 - 2 * 5; // change to *6 for when 1 hab, 6 dates
 
   if (allHabits.length === 1 && howMany >= 1 && howMany <= 2) {
     evenlySpaced = (widthWithSpacers + 4) / howMany;
   } else if (allHabits.length === 1 && howMany >= 3 && howMany <= 6) {
-    evenlySpaced = (widthWithSpacers + 4) / 2;
+    evenlySpaced = (widthWithSpacers + 4) / 2; // change to + 0, when 1 hab, 6 dates
   } else if (allHabits.length === 2) {
-    evenlySpaced = widthWithSpacers / 2;
+    evenlySpaced = (widthWithSpacers + 4) / 2;
   } else {
     evenlySpaced = widthWithSpacers / 3;
   }
