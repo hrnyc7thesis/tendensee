@@ -9,3 +9,4 @@ export default colors = {
   secondaryText: '#000000',
   background: '#f5f5f6'
 }
+

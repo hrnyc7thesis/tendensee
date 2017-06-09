@@ -4,6 +4,8 @@ import { View, StyleSheet, Text } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
+import { H1 } from 'native-base';
+
 
 class Landing extends Component {
 
@@ -41,7 +43,9 @@ class Landing extends Component {
   render() {
     console.log('landing render isloggedin', this.props.auth.isLoggedIn)
     return (
-        <View style={{flex:1, alignSelf:'stretch', backgroundColor: '#1a7a52'}} />
+        <View style={{flex:1, alignSelf:'stretch', justifyContent: 'center', alignItems: 'center', backgroundColor: '#0277bd'}}>
+          <H1 style={{color:'white', fontWeight:'bold', marginBottom: 200}}> tenden|see </H1>
+        </View>
     )
   }
 }

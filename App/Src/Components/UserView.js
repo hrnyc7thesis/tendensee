@@ -5,6 +5,10 @@ import { Actions } from 'react-native-router-flux';
 import Friend from './FriendsListItem';
 import colors from './../ColorPalette';
 import ModalRoot from './ModalRoot';
+import NavigationBar from 'react-native-navbar';
+import SettingsNav from '../Components/SettingsNav';
+import BackNav from '../Components/BackNav';
+import TitleNav from '../Components/TitleNav';
 
 const { width } = Dimensions.get('window');
 const photoWidth = (width - 4 * 5) / 3;
@@ -45,7 +49,7 @@ class UserView extends Component {
               )}
             </View>
             <View style={styles.logo}>
-              <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>tendenSee</H1>
+              <Text style={{fontWeight: 'bold', fontSize: 24, color: colors.primaryText}}>tenden|see</Text>
             </View>
             <View style={styles.rightButtonContainer}>
               {this.props.isSelf ? (

@@ -147,8 +147,7 @@ class Habits extends Component {
           tintColor={colors.primaryDark}
           title={<TitleNav
                         title={'tenden|see'}
-          style={{marginTop:4}}
-                        style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+                        style={{ fontWeight: 'bold', marginTop:4, fontSize: 18, color: colors.primaryText }}
                       />}
           leftButton={<BackNav
                         style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}

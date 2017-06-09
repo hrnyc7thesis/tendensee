@@ -8,6 +8,8 @@ import { Actions } from 'react-native-router-flux';
 import { facebookLogin } from '../Actions/FacebookActions';
 import Login from '../Components/Login.js';
 import { bindActionCreators } from 'redux';
+import colors from './../ColorPalette';
+
 
 
 const FBSDK = require('react-native-fbsdk');
@@ -60,16 +62,17 @@ class Auth extends Component {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     let showLogin = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
+    console.log(showEmail)
     let emailMargin = { margin: this.state.route === 'Login' ? 0 : 6 };
     return (
       <View style={styles.container}>
         <View style={styles.card}>
           <View>
-            <H1 style={{fontWeight:'bold'}}>tenden|see</H1>
+            <H1 style={{fontWeight:'bold', color: 'white'}}>tenden|see</H1>
           </View>
           <View style={styles.formContainer}>
             <Form>
-              <Item regular>
+             <Item regular style={{marginLeft: 5, marginRight: 5, backgroundColor: colors.primaryText}}>
                 <Input 
                   placeholder='   Username'
                   autoCapitalize='none'
@@ -78,7 +81,8 @@ class Auth extends Component {
                 />
               </Item>
               <View style = { emailMargin } />
-              <Item style={showEmail}>
+              <View style = {showEmail }>
+              <Item regular style={{marginLeft: 5, marginRight: 5, backgroundColor: colors.primaryText}}>
                 <Input
                   placeholder='   E-mail'
                   autoCapitalize='none'
@@ -87,8 +91,9 @@ class Auth extends Component {
                   onChangeText={(text) => this.setState({ email: text })}
                 />
               </Item>
+              </View>
               <View style = {{ margin: 6 }} />
-              <Item>
+              <Item regular style={{marginLeft: 5, marginRight: 5, backgroundColor: colors.primaryText}}>
                 <Input
                   secureTextEntry={true}
                   color='white'
@@ -101,17 +106,17 @@ class Auth extends Component {
             </Form>
             <View style={styles.successButton}>
             {true || this.state.username.length >= 3 && this.state.password.length >=6 ? // GET RID OF TRUE TO MAKE WORK
-              <Button block success onPress={() => this.userLogin()}>
-                <Text style={styles.buttonText}>{this.state.route}</Text>
+              <Button block style={{backgroundColor: colors.primaryLight}} onPress={() => this.userLogin()}>
+                <Text style={[{fontSize: 16}, styles.buttonText]}>{this.state.route}</Text>
               </Button> : 
-              <Button block warning onPress={() => this.disabledButton()}>
+              <Button block style={{backgroundColor: colors.primaryLight}} onPress={() => this.disabledButton()}>
                 <Text style={styles.buttonText}>{this.state.route}</Text>
               </Button>}
             </View>
             <View style={styles.successButton}>
               <Login {...this.props} onFacebookLoginPressed={this.onFacebookLoginPressed.bind(this)} />
             </View>
-            <View>
+            <View style={{alignSelf:'center'}}>
               <Button transparent onPress={e => this.toggleRoute()}>
                 <Text style={[showLogin, {alignSelf: 'center', color:'white'}]}> Already Have an Account? Login</Text>
               </Button>
@@ -127,7 +132,7 @@ const styles = StyleSheet.create({
   card: {
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#1fb7e9',
+    backgroundColor: '#0277bd',
     marginTop: 90
   },
   formContainer: {
@@ -137,7 +142,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#1fb7e9',
+    backgroundColor: '#0277bd',
   },
   successButton: {
     marginTop: 12

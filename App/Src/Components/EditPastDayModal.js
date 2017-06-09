@@ -1,14 +1,16 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux';
-import { Alert, Picker, ActionSheetIOS, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Right, Body, H1, H3 } from 'native-base';
+import { Alert, Picker, ActionSheetIOS, View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { Container, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Right, Body, H1, H3 } from 'native-base';
 import { editPastDay, hideModal } from './../Actions/ModalActions';
 import { updateDay, deleteDay } from './../Actions/DayActions';
 import { sendPhoto } from './../Actions/PhotoActions';
 import Modal from 'react-native-modal';
 import { Actions, ActionConst } from 'react-native-router-flux';
 const moment = require('moment');
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage } from 'react-native';
+import colors from './../ColorPalette';
+
 
 
 const EditPastDayModal = ({day, habitProps, dispatch}) => {
@@ -22,20 +24,20 @@ const EditPastDayModal = ({day, habitProps, dispatch}) => {
 
   return (
     <Modal style={styles.modal} transparent={true} visible={true}>
-      <View style={{alignItems: 'center'}}>
-        <View style={{marginTop: 10, marginBottom: 10}}>
-          <H1>{habitProps.name}</H1>
-        </View>
+      <View style={{alignItems: 'center', backgroundColor: colors.primaryDark}}>
+        <H1 style={{fontWeight: 'bold', marginBottom:4, color: colors.primaryText}}>{habitProps.name}</H1>
+      </View>
+      <View style={{alignItems: 'center', marginTop: 12}}>
         <Text>Mark Completed</Text>
         <Text>{moment(day.date).format("dddd, MMMM Do")}</Text>
-        <View style={{marginTop: 10, marginBottom: 10}}>
+        <View style={{marginTop: 10, marginBottom: 6}}>
           <Button block style={{marginTop: 10, marginBottom: 10}} onPress={() => {
             dispatch(hideModal());
             Actions.camera({habitDay:day, habitProps});
           }}>
             <Text>Take Photo</Text>
           </Button>
-          <Button block style={{marginTop: 10, marginBottom: 10}} onPress={() => {
+          <Button block style={{marginTop: 10}} onPress={() => {
             console.log(data);
             dispatch(sendPhoto(data, day, habitProps));
             Alert.alert('Habit checked off without photo.','', [{ text: "OK", onPress: () => dispatch(hideModal())}])
@@ -45,7 +47,7 @@ const EditPastDayModal = ({day, habitProps, dispatch}) => {
         </View>
         <View>
           <Button transparent onPress={() => dispatch(hideModal())}>
-            <Text>Cancel</Text>
+            <Text style={{color:colors.primary}}>Cancel</Text>
           </Button>
         </View>
       </View>
@@ -60,9 +62,9 @@ const styles = StyleSheet.create({
   },
   modal: {
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: colors.primaryDark,
     flex: 0,
-    alignItems: 'center',
+    alignItems: 'stretch',
     marginTop: 'auto',
     marginBottom: 'auto',
     justifyContent: 'space-around',
