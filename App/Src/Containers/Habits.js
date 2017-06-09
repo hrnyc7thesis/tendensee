@@ -247,7 +247,7 @@ class Habits extends Component {
                 <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
               </View>
               <View style={{alignItems: 'stretch', marginTop: 15}}>
-                  <Button style={{backgroundColor: colors.primary}} full success onPress={() => {this._submitHabit()}}>
+                  <Button style={{backgroundColor: colors.primary, width: 300}} full onPress={() => {this._submitHabit()}}>
                     <Text style={{color: colors.primaryText}}>Add</Text>
                   </Button>
               </View>
