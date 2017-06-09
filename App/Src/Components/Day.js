@@ -18,9 +18,9 @@ const Day = ({day, howMany, habitProps, allHabits, onPressItem}) => {
   let widthWithSpacers = width - 2 * 10 - 2 * 6 - 2 * 5;
 
   if (allHabits.length === 1 && howMany >= 1 && howMany <= 2) {
-    evenlySpaced = widthWithSpacers / howMany;
+    evenlySpaced = (widthWithSpacers + 4) / howMany;
   } else if (allHabits.length === 1 && howMany >= 3 && howMany <= 6) {
-    evenlySpaced = widthWithSpacers / 2;
+    evenlySpaced = (widthWithSpacers + 4) / 2;
   } else if (allHabits.length === 2) {
     evenlySpaced = widthWithSpacers / 2;
   } else {
