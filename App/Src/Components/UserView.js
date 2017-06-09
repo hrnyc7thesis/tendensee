@@ -44,7 +44,7 @@ class UserView extends Component {
                 </Button>
               ) : (
                 <Button dark transparent iconCenter onPress={() => {this._changeVisibleUser()}}>
-                  <Icon name='arrow-back' />
+                  <Icon name='arrow-back' style={{color: colors.primaryText}} />
                 </Button>
               )}
             </View>
@@ -63,7 +63,7 @@ class UserView extends Component {
           </View>
           <View style={styles.userInfo}>
             <View style={styles.userPictureContainer}>
-              <Image source={{uri: this.props.user.user ? this.props.user.user.photo : 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
+              <Image source={{uri: this.props.user.user && this.props.user.user.photo !== 'NO_PHOTO' ? this.props.user.user.photo : 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}} style={styles.userImage}/>
             </View>
             <View style={{flexDirection: 'column'}}>
               <View style={styles.usernameContainer}>
