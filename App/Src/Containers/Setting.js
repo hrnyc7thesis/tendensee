@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker, StatusBar } from 'react-native';
-=======
-import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker, Button } from 'react-native';
->>>>>>> ail prompt fixed also some changes to style
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
@@ -13,14 +9,10 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { MY_IP } from './../myip';
 import Prompt from 'react-native-prompt';
-<<<<<<< HEAD
 import colors from '../ColorPalette.js';
 import BackNav from '../Components/BackNav';
 import TitleNav from '../Components/TitleNav';
 import NavigationBar from 'react-native-navbar';
-=======
-import colors from '../ColorPalette';
->>>>>>> ail prompt fixed also some changes to style
 
 const options = {
   title: 'Select Photo',
@@ -42,6 +34,7 @@ class UserSettings extends Component {
     notification: this.props.user.notifications,// 1=true
     allPrivate: this.props.user.private,//0=false
     email: this.props.user.email,
+    facebook: this.props.user.facebook_name,
     language:  'English',
     promptVisible: false
   }
@@ -54,7 +47,7 @@ handlePhoto = (photo) => {
 toggleNotification = () => {
   this.setState({notification: !this.state.notification}, this.sendNotificationUpdate)
   Snackbar.show({
-    backgroundColor: this.state.notification ? '#0277bd' : '#58a5f0',
+    backgroundColor: this.state.notification ? colors.primary : colors.primaryLight,
     title: this.state.notification ? 'All Notifications Turned OFF' : 'All Notifications Turned ON',
     duration: Snackbar.LENGTH_SHORT,
   });
@@ -71,7 +64,7 @@ sendPrivateUpdate = () =>{
 toggleAllPrivate = () => {
   this.setState({allPrivate: !this.state.allPrivate }, this.sendPrivateUpdate);
   Snackbar.show({
-    backgroundColor: this.state.allPrivate ? '#0277bd' : '#58a5f0',
+    backgroundColor: this.state.allPrivate ? colors.primary : colors.primaryLight,
     title: this.state.allPrivate ? 'All Habits Set Private' : 'All Habits Set Public',
     duration: Snackbar.LENGTH_SHORT,
   });
@@ -95,20 +88,15 @@ render() {
           statusBar={{hidden:true}}
           tintColor={colors.primaryDark}
           title={<TitleNav
-                        title={'Settings'}
+          title={'Settings'}
           style={{marginTop:4}}
-                        style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
-                      />}
+          style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+          />}
           leftButton={<BackNav
-                        style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
-                        onPress={() => {Actions.camera()}}
-                      />} 
+          style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
+          onPress={() => {Actions.camera()}}/>}
         />
         <View style={styles.container}>
-          <View style={{alignItems: 'flex-start'}}>
-            <Icon style={{color: '#cfd8dc', fontSize: 17 }} size={15} name='arrow-left' onPress={() => {Actions.images()}}/>
-          <Text style={styles.headingText}>Setting</Text>
-         </View>
           <View style={styles.profileWrap}>
             <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }} onPress={this.ImageShow.bind(this)}>
                <Image
@@ -122,7 +110,7 @@ render() {
               <Text style={styles.textst}>User Name: {this.props.user.username}</Text>
               <View style={{  flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.textst}>Email: {this.state.email}  </Text>
-                <Icon name='pencil' style={{fontSize: 15, color: 'red'}} onPress={() => this.setState({ promptVisible: true })}/>
+                <Icon name='pencil' style={{marginBottom: 10, fontSize: 17, color: 'red'}} onPress={() => this.setState({ promptVisible: true })}/>
               </View>
               <Prompt
                 title="Type your Email"
@@ -132,7 +120,7 @@ render() {
                 onCancel={() => this.setState({ promptVisible: false})}
                 onSubmit={(value) => this.isValidateEmail(value) ? this.setState({promptVisible: false}, this.updateEmail(value)): Alert.alert("Invalid email! please try again")}
               />
-              <Text style={styles.textst}>Facebook: {this.props.user.facebook_name}</Text>
+              <Text style={styles.textst}>Facebook: {this.state.facebook === 'NO_FACEBOOK_AUTH' ? 'Not signed in with facebook!' : this.state.facebook}</Text>
             </View>
           </View>
           <View style={styles.habitWrap}>
@@ -141,19 +129,19 @@ render() {
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Notification For All Habits:    </Text>
                 <Switch value={this.state.notification} onValueChange={this.toggleNotification}
-                  onTintColor="#0277bd"
+                  onTintColor={colors.primary}
                   style={styles.switchSt}
                   thumbTintColor="#f05545"
-                  tintColor="#ff0000"
+                  tintColor={colors.primary}
                 />
               </View>
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Make All Habit Private:         </Text>
                 <Switch value={this.state.allPrivate} onValueChange={this.toggleAllPrivate}
-                  onTintColor="#0277bd"
+                  onTintColor={colors.primary}
                   style={styles.switchSt}
                   thumbTintColor="#f05545"
-                  tintColor="#ff0000"
+                  tintColor={colors.primary}
                 />
               </View>
             </View>
@@ -183,14 +171,11 @@ render() {
 
 const styles = StyleSheet.create({
   pageView: {
-    backgroundColor: '#0277bd',
-    marginTop: 10,
-    padding: 4,
+    backgroundColor: colors.primary,
   },
   container: {
     borderRadius: 4,
-    backgroundColor: '#0277bd',
-    borderColor: '#d6d7da',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     marginTop: 10,
     padding:16.5,
@@ -209,28 +194,25 @@ const styles = StyleSheet.create({
   },
   profileWrap: {
     borderRadius: 11,
-    backgroundColor: '#cfd8dc',
+    backgroundColor: colors.secondary,
     justifyContent: 'space-around',
     padding: 20,
     marginTop: 10,
     marginBottom: 10,
-    width: 334,
-    height: 300,
+    width: 342,
+    height: 305,
     alignItems: 'flex-start',
-    borderColor: '#7f0000',
   },
   habitWrap: {
     borderRadius: 11,
-    backgroundColor: '#cfd8dc',
+    backgroundColor: colors.secondary,
     justifyContent: 'space-around',
     padding: 20,
-    // borderWidth: 1,
     marginTop: 10,
     marginBottom: 10,
-    width: 334,
-    height: 230,
+    width: 342,
+    height: 235,
     alignItems: 'flex-start',
-    borderColor: '#7f0000',
   },
   habitProp: {
     marginTop: 10,
