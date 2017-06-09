@@ -11,7 +11,7 @@ import { MY_IP } from './../myip';
 import Prompt from 'react-native-prompt';
 import colors from '../ColorPalette.js';
 import BackNav from '../Components/BackNav';
-import TitleNav from '../Components/TitleNav';
+import WordTitleNav from '../Components/WordTitleNav';
 import NavigationBar from 'react-native-navbar';
 
 const options = {
@@ -87,8 +87,8 @@ render() {
         <NavigationBar
           statusBar={{hidden:true}}
           tintColor={colors.primaryDark}
-          title={<TitleNav
-          title={'Settings'}
+          title={<WordTitleNav
+                        title={'Settings'}
           style={{marginTop:4}}
           style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
           />}

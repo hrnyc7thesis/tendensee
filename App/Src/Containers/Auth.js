@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Alert, ScrollView, Text, TextInput, View, StyleSheet } from 'react-native';
+import { Alert, ScrollView, Text, TextInput, View, StyleSheet, Image } from 'react-native';
 import { Button, Card, Form, Item, Input, H1, CardItem, Body } from 'native-base';
 import { auth } from '../Actions/AuthActions.js';
 import { addHabit } from '../Actions/HabitActions.js';
@@ -60,15 +60,15 @@ class Auth extends Component {
   render() {
     let enableAuth = this.state.username.length >= 3 && this.state.password.length >=6 ? "" : 'disabled'
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
+    let altText = this.state.route === 'SignUp' ? 'Already Have an Account? Login' : 'Sign Up For an Account'
     let showLogin = { display: this.state.route === 'Login' ? 'none' : 'flex'};
     let showEmail = { display: this.state.route === 'Login' ? 'none' : 'flex'};
-    console.log(showEmail)
     let emailMargin = { margin: this.state.route === 'Login' ? 0 : 6 };
     return (
       <View style={styles.container}>
         <View style={styles.card}>
           <View>
-            <H1 style={{fontWeight:'bold', color: 'white'}}>tenden|see</H1>
+            <Image style={{ height: 50, width: 200, marginBottom:0, resizeMode: 'contain'}} source={{uri: 'https://s3.us-east-2.amazonaws.com/tgoc99habit/tendensee-logo-1000.png'}}/>
           </View>
           <View style={styles.formContainer}>
             <Form>
@@ -118,7 +118,7 @@ class Auth extends Component {
             </View>
             <View style={{alignSelf:'center'}}>
               <Button transparent onPress={e => this.toggleRoute()}>
-                <Text style={[showLogin, {alignSelf: 'center', color:'white'}]}> Already Have an Account? Login</Text>
+                <Text style={{alignSelf: 'center', color:'white'}}>{altText}</Text>
               </Button>
             </View>
           </View>

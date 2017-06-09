@@ -49,7 +49,7 @@ class UserView extends Component {
               )}
             </View>
             <View style={styles.logo}>
-              <Text style={{fontWeight: 'bold', fontSize: 24, color: colors.primaryText}}>tenden|see</Text>
+              <Image style={{ height: 30, width: 135, marginBottom:0, resizeMode: 'contain'}} source={{uri: 'https://s3.us-east-2.amazonaws.com/tgoc99habit/tendensee-logo-1000.png'}}/>
             </View>
             <View style={styles.rightButtonContainer}>
               {this.props.isSelf ? (

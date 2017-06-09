@@ -12,7 +12,7 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import NavigationBar from 'react-native-navbar';
 import SettingsNav from '../Components/SettingsNav';
 import BackNav from '../Components/BackNav';
-import TitleNav from '../Components/TitleNav';
+import WordTitleNav from '../Components/WordTitleNav';
 import ModalRoot from '../Components/ModalRoot';
 
 
@@ -219,7 +219,7 @@ class IndividualHabit extends Component {
           <NavigationBar
             statusBar={{hidden:true}}
             tintColor={colors.primaryDark}
-            title={<TitleNav
+            title={<WordTitleNav
                           title={this.state.habitName}
                           style={{ fontWeight: 'bold', marginTop:4, fontSize: 18, color: colors.primaryText, }}
                         />}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
@@ -44,7 +44,7 @@ class Landing extends Component {
     console.log('landing render isloggedin', this.props.auth.isLoggedIn)
     return (
         <View style={{flex:1, alignSelf:'stretch', justifyContent: 'center', alignItems: 'center', backgroundColor: '#0277bd'}}>
-          <H1 style={{color:'white', fontWeight:'bold', marginBottom: 200}}> tenden|see </H1>
+          <Image style={{ height: 50, width: 200, marginBottom:200, resizeMode: 'contain'}} source={{uri: 'https://s3.us-east-2.amazonaws.com/tgoc99habit/tendensee-logo-1000.png'}}/>
         </View>
     )
   }

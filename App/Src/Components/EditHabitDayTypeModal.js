@@ -6,6 +6,8 @@ import { editHabitDayType, hideModal } from './../Actions/ModalActions';
 import { updateDay, deleteDay } from './../Actions/DayActions';
 import Modal from 'react-native-modal';
 const moment = require('moment');
+import colors from './../ColorPalette';
+
 
 const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
   // Link up from database of different habits, should be habit names
@@ -33,49 +35,45 @@ const EditHabitDayTypeModal = ({day, allHabits, habitProps, dispatch}) => {
 
   return (
   <Container>
-    <Modal transparent={true} visible={true}>
-      <Card>
-        <View style={styles.card}>
-          <View style={{alignItems: 'center'}}>
-            <View style={{marginTop: 10, marginBottom: 10}}>
-              <H1>{habitProps.name}</H1>
-            </View>
-            <Text>{moment(day.date).format("dddd, MMMM Do")}</Text>
-            <Image source={{uri: day.picture}} style={{height: 400, width: 280}} resizeMode='contain'/>
-            <View style={{marginTop: 10, marginBottom: 10, flexDirection: 'row'}}>
-              <Button style={{marginRight: 10}} onPress={() => ActionSheet.show(
-                {
-                  options: BUTTONS,
-                  cancelButtonIndex: CANCEL_INDEX,
-                  destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                  title: 'Edit Habit Date Details'
-                },
-                (buttonIndex) => {
-                  console.log('index and button', buttonIndex, BUTTONS[buttonIndex], DESTRUCTIVE_INDEX)
-                  if(buttonIndex == DESTRUCTIVE_INDEX) {
-                    dispatch(deleteDay(day))
-                    Alert.alert(`Photo Deleted from ${habitProps.name}`,'', [{ text: "OK", onPress: () => dispatch(hideModal())}]);
-                  } else if(buttonIndex != CANCEL_INDEX) {
-                    let swap = swapDate(buttonIndex)
-                    dispatch(updateDay({id: day.id, id_habits:habitIds[buttonIndex], swap, }))
-                    let alertTitle = swap ? `Photo swapped from ${habitProps.name} to ${BUTTONS[buttonIndex]}!` : `Photo moved to ${BUTTONS[buttonIndex]}!`;
-                    Alert.alert(alertTitle,'', [{ text: "OK", onPress: () => dispatch(hideModal())}])
-                  } else {
-                    dispatch(hideModal());
-                  }
-                }
-                )}>
-                <Text>{habitProps.name}</Text>
-              </Button>
-            </View>
-            <View>
-              <Button transparent onPress={() => dispatch(hideModal())}>
-                <Text>Cancel</Text>
-              </Button>
-            </View>
-          </View>
+    <Modal style={styles.modal} transparent={true} visible={true}>
+      <View style={{alignItems: 'center', backgroundColor: colors.primaryDark}}>
+        <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>{habitProps.name}</H1>
+      </View>
+      <View style={{alignItems: 'center', marginTop:12}}>
+        <Text>{moment(day.date).format("dddd, MMMM Do")}</Text>
+        <Image source={{uri: day.picture}} style={{height: 350, width: 280}} resizeMode='contain'/>
+        <View style={{marginTop: 10, flexDirection: 'row'}}>
+          <Button onPress={() => ActionSheet.show(
+            {
+              options: BUTTONS,
+              cancelButtonIndex: CANCEL_INDEX,
+              destructiveButtonIndex: DESTRUCTIVE_INDEX,
+              title: 'Edit Habit Date Details'
+            },
+            (buttonIndex) => {
+              console.log('index and button', buttonIndex, BUTTONS[buttonIndex], DESTRUCTIVE_INDEX)
+              if(buttonIndex == DESTRUCTIVE_INDEX) {
+                dispatch(deleteDay(day))
+                Alert.alert(`Photo Deleted from ${habitProps.name}`,'', [{ text: "OK", onPress: () => dispatch(hideModal())}]);
+              } else if(buttonIndex != CANCEL_INDEX) {
+                let swap = swapDate(buttonIndex)
+                dispatch(updateDay({id: day.id, id_habits:habitIds[buttonIndex], swap, }))
+                let alertTitle = swap ? `Photo swapped from ${habitProps.name} to ${BUTTONS[buttonIndex]}!` : `Photo moved to ${BUTTONS[buttonIndex]}!`;
+                Alert.alert(alertTitle,'', [{ text: "OK", onPress: () => dispatch(hideModal())}])
+              } else {
+                dispatch(hideModal());
+              }
+            }
+            )}>
+            <Text>{habitProps.name}</Text>
+          </Button>
         </View>
-      </Card>
+        <View>
+          <Button transparent onPress={() => dispatch(hideModal())}>
+            <Text>Cancel</Text>
+          </Button>
+        </View>
+      </View>
     </Modal>
   </Container>
   )
@@ -85,12 +83,20 @@ const styles = StyleSheet.create({
   card: {
     margin: 15
   },
-
+  modal: {
+    borderWidth: 2,
+    borderColor: colors.primaryDark,
+    flex: 0,
+    alignItems: 'stretch',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    justifyContent: 'space-around',
+    backgroundColor: 'white'
+  },
   habitName: {
     width: 70,
     alignItems: 'center',
   },
-
   habitNameTitle: {
     color: 'white',
   },

@@ -25,7 +25,7 @@ const EditPastDayModal = ({day, habitProps, dispatch}) => {
   return (
     <Modal style={styles.modal} transparent={true} visible={true}>
       <View style={{alignItems: 'center', backgroundColor: colors.primaryDark}}>
-        <H1 style={{fontWeight: 'bold', marginBottom:4, color: colors.primaryText}}>{habitProps.name}</H1>
+        <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>{habitProps.name}</H1>
       </View>
       <View style={{alignItems: 'center', marginTop: 12}}>
         <Text>Mark Completed</Text>
