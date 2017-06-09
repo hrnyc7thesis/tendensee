@@ -10,6 +10,7 @@ import { Actions, ActionConst } from 'react-native-router-flux';
 import PhotoCalculatingModal from './../Components/PhotoCalculatingModal';
 import GotPhotoModal from './../Components/GotPhotoModal';
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
+import colors from './../ColorPalette'
 
 // let accelerationObservable;
 
