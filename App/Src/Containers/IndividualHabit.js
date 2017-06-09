@@ -355,8 +355,8 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   modal: {
-    borderWidth: 2,
-    borderColor: 'black',
+    borderWidth: 1,
+    borderColor: colors.primaryDark,
     flex: 0,
     alignItems: 'center',
     marginTop: 'auto',

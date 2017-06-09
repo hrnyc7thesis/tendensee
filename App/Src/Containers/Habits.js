@@ -111,7 +111,7 @@ class Habits extends Component {
 
     const colors = {
               primary: '#0277bd',
-              primaryLight: '#58a5f0',
+              secondary: '#58a5f0',
               primaryDark: '#004c8c',
               secondary: '#cfd8dc',
               secondaryLight: '#ffffff',
@@ -185,13 +185,13 @@ class Habits extends Component {
           visible={this.state.isModalVisible}
           style={styles.modal}
           onRequestClose={() => {this._closeModal()}}>
-              <View style={{alignItems: 'center'}}>
-                <H1 style={{fontWeight: 'bold'}}>Add Habit</H1>
+              <View style={{alignItems: 'center', backgroundColor: colors.primaryDark}}>
+                <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>Add Habit</H1>
               </View>
               <View style={styles.formContainer}>
                 <Form>
-                  <Item rounded>
-                    <Input placeholder='Name your habit!' style={{marginLeft: 10}} value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
+                  <Item regular>
+                    <Input placeholder='Name:' style={{marginLeft: 10}} value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
                   </Item>
                 </Form>
               </View>
@@ -199,61 +199,61 @@ class Habits extends Component {
                 <View style={styles.buttonGrid}>
                   <View style={styles.buttonColumn}>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[0]}]}>
-                      <Button block onPress={() => {this._selectCategory(0, 'Fitness')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(0, 'Fitness')}}>
                         <Text style={styles.buttonText}>Fitness</Text>
                       </Button>
                     </View>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[1]}]}>
-                      <Button block onPress={() => {this._selectCategory(1, 'Mindset')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(1, 'Mindset')}}>
                         <Text style={styles.buttonText}>Mindset</Text>
                       </Button>
                     </View>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[2]}]}>
-                      <Button block onPress={() => {this._selectCategory(2, 'Diet')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(2, 'Diet')}}>
                         <Text style={styles.buttonText}>Diet</Text>
                       </Button>
                     </View>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[3]}]}>
-                      <Button block onPress={() => {this._selectCategory(3, 'Time Mgmt.')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(3, 'Time Mgmt.')}}>
                         <Text style={styles.buttonText}>Time Mgmt.</Text>
                       </Button>
                     </View>
                   </View>
                   <View style={styles.buttonColumn}>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[4]}]}>
-                      <Button block onPress={() => {this._selectCategory(4, 'Study')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(4, 'Study')}}>
                         <Text style={styles.buttonText}>Study</Text>
                       </Button>
                     </View>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[5]}]}>
-                      <Button block onPress={() => {this._selectCategory(5, 'Hygiene')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(5, 'Hygiene')}}>
                         <Text style={styles.buttonText}>Hygiene</Text>
                       </Button>
                     </View>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[6]}]}>
-                      <Button block onPress={() => {this._selectCategory(6, 'Sleeping')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(6, 'Sleeping')}}>
                         <Text style={styles.buttonText}>Sleeping</Text>
                       </Button>
                     </View>
                     <View style={[styles.categoryButton, {opacity: this.state.buttonOpacities[7]}]}>
-                      <Button block onPress={() => {this._selectCategory(7, 'Reading')}}>
+                      <Button style={{backgroundColor: colors.secondaryDark}} full onPress={() => {this._selectCategory(7, 'Reading')}}>
                         <Text style={styles.buttonText}>Reading</Text>
                       </Button>
                     </View>
                   </View>
                 </View>
-              <View style={{alignItems: 'center', marginTop: 15}}>
+              <View style={{alignItems: 'center', marginTop: 15, flexDirection: 'row'}}>
                 <Text style={styles.reminderText}>Send reminders?</Text>
                 <CheckBox checked={this.state.isReminderChecked} onPress={() => { this.state.isReminderChecked ? this._removeReminder() : this._showTimePicker()}} />
               </View>
-              <View style={{alignItems: 'center', marginLeft:30, marginRight: 30, marginTop: 15}}>
-                  <Button block success onPress={() => {this._submitHabit()}}>
-                    <Text style={styles.buttonText}>Add</Text>
+              <View style={{alignItems: 'stretch', marginTop: 15}}>
+                  <Button style={{backgroundColor: colors.primary}} full success onPress={() => {this._submitHabit()}}>
+                    <Text style={{color: colors.primaryText}}>Add</Text>
                   </Button>
               </View>
-              <View style={{marginLeft:30, marginRight: 30, marginTop: 10}}>
+              <View style={{marginLeft:0, marginRight: 0, marginTop: 10}}>
                 <Button transparent danger iconCenter onPress={this._closeModal}>
-                  <Icon name='trash' />
+                  <Icon style={{color: colors.secondaryDark}} name='trash' />
                 </Button>
               </View>
             </View>
@@ -320,20 +320,23 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   card: {
+    width: 400,
     backgroundColor: '#80dfff',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   formContainer: {
+    flex: 0,
     alignSelf: 'stretch',
     margin: 10,
-    marginTop: 5
+    marginLeft: 10,
+    marginRight: 10,
   },
   buttonGrid: {
     flexDirection: 'row',
     marginTop: 5,
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: 5,
+    marginRight: 5,
     alignSelf: 'stretch'
   },
   buttonColumn: {
@@ -345,18 +348,19 @@ const styles = StyleSheet.create({
     margin: 5
   },
   buttonText: {
-    color: 'white',
+    color: colors.secondaryText,
     fontWeight: 'bold'
   },
   reminderText: {
     fontWeight: 'bold'
   },
   successButton: {
-    flex: 1
+    flex: 1,
+    alignSelf: 'stretch'
   },
   modal: {
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: colors.primaryDark,
     flex: 0,
     alignItems: 'stretch',
     marginTop: 'auto',
