@@ -16,6 +16,7 @@ import TitleNav from '../Components/TitleNav';
 import ModalRoot from '../Components/ModalRoot';
 
 
+
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
@@ -186,10 +187,10 @@ class IndividualHabit extends Component {
     //ALL DATES NOW INCLUDES CURRENT STREAK AT ANY DAY (at index 2) & habit score (at index 3)
     console.log('ad', allDates);
     let streakChartData = allDates.map(d=> {
-      return { "x": moment(d[0]).format('DD'), "y": d[2] }
+      return [moment(d[0]).format('DD'), d[2]]
     })
     let habitScoreChartData = allDates.map(d=> {
-      return { "x": moment(d[0]).format('DD'), "y": d[3] }
+      return [moment(d[0]).format('DD'), d[3]]
     })
     let chartData = [streakChartData, habitScoreChartData];
     console.log('charstata', chartData)
@@ -220,7 +221,7 @@ class IndividualHabit extends Component {
             tintColor={colors.primaryDark}
             title={<TitleNav
                           title={this.state.habitName}
-                          style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText, marginBottom: 5, }}
+                          style={{ fontWeight: 'bold', marginTop:4, fontSize: 18, color: colors.primaryText, }}
                         />}
             leftButton={<BackNav
                           style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
