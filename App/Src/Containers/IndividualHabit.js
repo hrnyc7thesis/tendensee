@@ -25,7 +25,7 @@ class IndividualHabit extends Component {
       //Modal
       animationType: 'slide',
       isModalVisible: false,
-      isModalTransparent: true,
+      isModalTransparent: false,
       // Habit
       id: this.props.habitProps.id,
       habitName: this.props.habitProps.name,
