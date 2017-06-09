@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image, TouchableHighlight, StatusBar } from 'react-native';
+import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image, TouchableHighlight, StatusBar, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H2, H3, CardItem, Body, CheckBox, Icon, ActionSheet } from 'native-base';
 import Modal from 'react-native-modal';
@@ -13,6 +13,7 @@ import NavigationBar from 'react-native-navbar';
 import SettingsNav from '../Components/SettingsNav';
 import BackNav from '../Components/BackNav';
 import TitleNav from '../Components/TitleNav';
+import ModalRoot from '../Components/ModalRoot';
 
 
 const moment = require ('moment')
@@ -129,6 +130,16 @@ class IndividualHabit extends Component {
   }
 
   render() {
+    let photos = [];
+    let dates = this.props.habitProps.dates;
+    if (dates) {
+      dates.forEach(day => {
+        photos.push({picture: day.picture, date: day.date, habitName: this.state.habitName, habitType: this.state.habitType})
+      })
+    } else {
+      photos = [];
+    }
+
     let dateStrings = this.props.habitProps.dates.sort((a,b) => new Date(a.date.toString()) - new Date(b.date.toString())).map(d => moment(d.date).format('YYYY-MM-DD'));
     console.log('dates:', this.props.habitProps.dates)
     console.log('datesrings:', dateStrings)
@@ -240,13 +251,21 @@ class IndividualHabit extends Component {
               </View>
               <View style={styles.container}>
                 <View style={styles.habitImages}>
-                {images.map((image, idx) => {
+                {/* {images.map((image, idx) => {
                   return (
                       <Image key={idx} source={{uri: image}} style={styles.habitImage}/>
                   );
+                })} */}
+                {photos.map(image => {
+                  return (
+                    <TouchableOpacity onPress={() => this.props.showUserHabitPhoto(image)}>
+                      <Image source={{uri: image.picture}} style={styles.habitImage}/>
+                    </TouchableOpacity>
+                  )
                 })}
                 </View>
               </View>
+              <ModalRoot />
               {/*<Button light block style={showButton}>
                 <Text>All {this.state.habitName} Images</Text>
               </Button>*/}
