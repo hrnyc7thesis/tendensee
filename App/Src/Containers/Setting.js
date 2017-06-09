@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker } from 'react-native';
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
@@ -10,6 +10,9 @@ import {bindActionCreators} from 'redux';
 import { MY_IP } from './../myip';
 import Prompt from 'react-native-prompt';
 import colors from '../ColorPalette.js';
+import BackNav from '../Components/BackNav';
+import TitleNav from '../Components/TitleNav';
+import NavigationBar from 'react-native-navbar';
 
 const options = {
   title: 'Select Photo',
@@ -81,6 +84,20 @@ updateEmail = (promptValue) => {
 render() {
     return(
       <View style= {styles.pageView}>
+      <StatusBar hidden={true} />
+        <NavigationBar
+          statusBar={{hidden:true}}
+          tintColor={colors.primaryDark}
+          title={<TitleNav
+                        title={'Settings'}
+          style={{marginTop:4}}
+                        style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+                      />}
+          leftButton={<BackNav
+                        style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
+                        onPress={() => {Actions.camera()}}
+                      />} 
+        />
         <View style={styles.container}>
           <View style={{alignItems: 'flex-start'}}>
             <Icon size={15} name='arrow-left' onPress={() => {Actions.images()}}/>

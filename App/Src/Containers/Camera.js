@@ -13,6 +13,7 @@ import colors from './../ColorPalette';
 
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
 
+
 // let accelerationObservable;
 
 class Cam extends Component {

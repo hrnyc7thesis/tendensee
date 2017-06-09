@@ -6,8 +6,7 @@ import { Icon, Text, H1 } from 'native-base';
 export default class TitleNav extends Component {
   render() {
     return (
-      // <TouchableOpacity style={{marginBottom: 10}}>
-      <TouchableOpacity>
+      <TouchableOpacity style={{marginBottom: 6}}>
         <Text style={this.props.style}>{this.props.title}</Text>
       </TouchableOpacity>
     );
