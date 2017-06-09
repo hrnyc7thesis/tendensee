@@ -35,7 +35,7 @@ class Friend extends Component {
     return (
       <View style={styles.friendCard}>
         <View style={styles.photo}>
-          <TouchableHighlight style={styles.touchableOpacity} underlayColor="blue" onPress={() => {this._changeVisibleUser()}}>
+          <TouchableHighlight style={styles.touchableOpacity} underlayColor={colors.primary} onPress={() => {this._changeVisibleUser()}}>
             <Image style={styles.image}
               source={
                 this.props.user.photo === 'NO_PHOTO' ?

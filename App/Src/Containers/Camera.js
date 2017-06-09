@@ -9,6 +9,8 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import PhotoCalculatingModal from './../Components/PhotoCalculatingModal';
 import GotPhotoModal from './../Components/GotPhotoModal';
+import colors from './../ColorPalette';
+
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
 
 // let accelerationObservable;
@@ -89,7 +91,7 @@ class Cam extends Component {
                 <Icon style={{fontSize: 40, color: 'white', opacity: 1}} name="person" />
               </Button>
               <View style={{borderRadius: 25, borderBottomWidth: 3, borderBottomColor: 'white', paddingBottom: 2}}>
-                <Button transparent onPress={() => Actions.camera()}>
+                <Button transparent onPress={() => this.takePicture()}>
                   <Icon style={{fontSize: 50, color: 'white'}} name="radio-button-on" />
                 </Button>
               </View>
