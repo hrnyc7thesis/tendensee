@@ -5,7 +5,7 @@ import configureStore from './Src/Store/ConfigureStore';
 import Router from './Src/Containers/Router';
 
 const store = configureStore({});
-
+console.disableYellowBox = true;
 const App = () => (
   <Provider store={store}>
     <Router />
