@@ -9,7 +9,10 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import PhotoCalculatingModal from './../Components/PhotoCalculatingModal';
 import GotPhotoModal from './../Components/GotPhotoModal';
+import colors from './../ColorPalette';
+
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
+
 
 // let accelerationObservable;
 
