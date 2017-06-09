@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker, StatusBar } from 'react-native';
+=======
+import { ScrollView, Text, Alert, View, Image, StyleSheet, Switch, TouchableOpacity, Picker, Button } from 'react-native';
+>>>>>>> ail prompt fixed also some changes to style
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 const ImagePicker = require('react-native-image-picker');
 import Snackbar from 'react-native-snackbar';
@@ -9,10 +13,14 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { MY_IP } from './../myip';
 import Prompt from 'react-native-prompt';
+<<<<<<< HEAD
 import colors from '../ColorPalette.js';
 import BackNav from '../Components/BackNav';
 import TitleNav from '../Components/TitleNav';
 import NavigationBar from 'react-native-navbar';
+=======
+import colors from '../ColorPalette';
+>>>>>>> ail prompt fixed also some changes to style
 
 const options = {
   title: 'Select Photo',
@@ -54,7 +62,6 @@ toggleNotification = () => {
 
 sendNotificationUpdate = () =>{
   this.props.handleNotification(this.state.notification, this.props.user, this.props.habits);
-  // console.log("sendNotificationUpdates++++++++++++++++", this.props.users.photo);
 };
 
 sendPrivateUpdate = () =>{
@@ -75,10 +82,9 @@ isValidateEmail(promptValue){
   return email.test(promptValue);
 };
 
-updateEmail = (promptValue) => {
-    this.setState({ email: promptValue });
-    this.props.updateEmail(promptValue, this.props.user, this.props.habits);
-    // Alert.alert("Make sure your email is valid! Try Again!")
+updateEmail = (newEmail) => {
+    this.setState({ email: newEmail });
+    this.props.updateEmail(newEmail, this.props.user, this.props.habits);
 };
 
 render() {
@@ -100,22 +106,24 @@ render() {
         />
         <View style={styles.container}>
           <View style={{alignItems: 'flex-start'}}>
-            <Icon size={15} name='arrow-left' onPress={() => {Actions.images()}}/>
+            <Icon style={{color: '#cfd8dc', fontSize: 17 }} size={15} name='arrow-left' onPress={() => {Actions.images()}}/>
           <Text style={styles.headingText}>Setting</Text>
          </View>
-          <View style={styles.sectionWrap}>
+          <View style={styles.profileWrap}>
             <TouchableOpacity style={{alignSelf:'center', marginBottom:20 }} onPress={this.ImageShow.bind(this)}>
                <Image
                   source={{uri:`${this.props.user.photo}` || 'https://cdn3.iconfinder.com/data/icons/back-to-the-future/512/marty-mcfly-512.png'}}
                   style={{borderRadius: 30, height: 100, width: 100}}
                 />
+                <Text style={{fontSize: 12}}>Set Profile Image</Text>
             </TouchableOpacity>
             <Text style={styles.subHeadingSetting}>Profile Setting:</Text>
             <View style={styles.habitProp}>
               <Text style={styles.textst}>User Name: {this.props.user.username}</Text>
-              <Text style={styles.textst}>Email: {this.state.email}
-                <Icon iconCenter onPress={() => this.setState({ promptVisible: true })} name='pencil' style={{fontSize: 15, color: 'red'}} />
-              </Text>
+              <View style={{  flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.textst}>Email: {this.state.email}  </Text>
+                <Icon name='pencil' style={{fontSize: 15, color: 'red'}} onPress={() => this.setState({ promptVisible: true })}/>
+              </View>
               <Prompt
                 title="Type your Email"
                 placeholder="Start typing"
@@ -127,17 +135,9 @@ render() {
               <Text style={styles.textst}>Facebook: {this.props.user.facebook_name}</Text>
             </View>
           </View>
-          <View style={styles.sectionWrap}>
+          <View style={styles.habitWrap}>
             <Text style={styles.subHeadingSetting}>Habit Setting:</Text>
             <View style={styles.habitProp}>
-              {/* <Text style={styles.textst}>Choose Color Theme:</Text> */}
-                {/* <Picker
-                  selectedValue={this.state.language}
-                  onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-                  <Picker.Item label="Java" value="java" />
-                  <Picker.Item label="JavaScript" value="js" />
-                </Picker> */}
-
               <View style={styles.habitRow}>
                 <Text style={styles.textst}>Notification For All Habits:    </Text>
                 <Switch value={this.state.notification} onValueChange={this.toggleNotification}
@@ -183,17 +183,17 @@ render() {
 
 const styles = StyleSheet.create({
   pageView: {
+    backgroundColor: '#0277bd',
     marginTop: 10,
     padding: 4,
   },
   container: {
     borderRadius: 4,
-    borderWidth: 1.5,
     backgroundColor: '#0277bd',
     borderColor: '#d6d7da',
     justifyContent: 'center',
     marginTop: 10,
-    padding:15,
+    padding:16.5,
   },
   headingText: {
     fontFamily: 'Arial',
@@ -207,7 +207,19 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     alignSelf: 'flex-start',
   },
-  sectionWrap: {
+  profileWrap: {
+    borderRadius: 11,
+    backgroundColor: '#cfd8dc',
+    justifyContent: 'space-around',
+    padding: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    width: 334,
+    height: 300,
+    alignItems: 'flex-start',
+    borderColor: '#7f0000',
+  },
+  habitWrap: {
     borderRadius: 11,
     backgroundColor: '#cfd8dc',
     justifyContent: 'space-around',
@@ -216,22 +228,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     width: 334,
-    height: 260,
+    height: 230,
     alignItems: 'flex-start',
     borderColor: '#7f0000',
   },
   habitProp: {
-    // backgroundColor: '#B2FF59',
     marginTop: 10,
-    // padding: 10,
     alignItems: 'flex-start',
-    // justifyContent: 'space-between',
   },
   habitRow: {
-    // alignItems: 'flex-start',
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    // justifyContent: 'space-around'
   },
   textst: {
     fontFamily: 'Arial',
