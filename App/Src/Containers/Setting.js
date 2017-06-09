@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     width: width,
     height: height,
+
   },
   container: {
     borderRadius: 4,
