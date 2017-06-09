@@ -6,16 +6,18 @@ import { H1, H2, H3, Button, ActionSheet, Container } from 'native-base';
 import { ActionCreators } from './../Actions/ActionCreators';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
+import colors from './../ColorPalette';
+
 // import { Accelerometer, Gyroscope } from 'react-native-sensors';
 
 
 class GotPhotoModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       x: 0,
       y: 0,
-      z: 0, 
+      z: 0,
     }
   }
 
@@ -67,12 +69,13 @@ class GotPhotoModal extends Component {
       <Modal
         isVisible={this.props.sendPhotos.showGotPhotoModal}
         // isVisible={true}
+        // isVisible={true}
         animationType={'fade'}
         transparent={true}
         onRequestClose={() => {this._closeModal()}}
         style={styles.modal}>
         <View style={styles.headerContainer}>
-          <H1 style={{fontWeight: 'bold'}}>Image Captured!</H1>
+          <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>Image Captured!</H1>
         </View>
         <TouchableHighlight underlayColor='gray' style={styles.shakeTextContainer} onPress={() => this._deleteDateAndCloseModal()}>
           <Text style={styles.shakeText}>Press to retake</Text>
@@ -99,7 +102,7 @@ class GotPhotoModal extends Component {
           {this.props.habits.length === 1 || this.props.habitProps ? <Text/> : <Text style={styles.selectNewLink}>Assign to another</Text>}
         </TouchableHighlight>
         <View style={styles.okButtonContainer}>
-          <Button block success style={{alignSelf: 'stretch'}} onPress={() => this._redirectToHabits()}>
+          <Button full style={{backgroundColor: colors.primaryDark}} onPress={() => this._redirectToHabits()}>
             <Text style={styles.okButtonText}>Ok!</Text>
           </Button>
         </View>
@@ -112,23 +115,30 @@ class GotPhotoModal extends Component {
 const styles = StyleSheet.create({
   modal: {
     borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 15,
+    borderColor: colors.secondaryDark,
     flex: 0,
     alignItems: 'center',
     marginTop: 'auto',
     marginBottom: 'auto',
     justifyContent: 'space-around',
-    backgroundColor: 'white'
+    backgroundColor: colors.secondary,
   },
   headerContainer: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    backgroundColor: colors.primaryDark,
     flex: 0,
-    marginTop: 20,
+    paddingTop: 10,
   },
   shakeTextContainer: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    backgroundColor: colors.primaryDark,
+    paddingBottom: 10,
     flex: 0,
   },
   shakeText: {
+    color: colors.secondaryDark,
     fontStyle: 'italic',
   },
   yourPhotoTextContainer: {
@@ -174,14 +184,14 @@ const styles = StyleSheet.create({
   selectNewLink: {
     textDecorationLine: 'underline',
     fontStyle: 'italic',
-    color: 'blue',
+    color: colors.primaryDark,
   },
   okButtonContainer: {
     alignSelf: 'stretch',
     marginBottom: 20,
     marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
+    // marginLeft: 20,
+    // marginRight: 20,
   },
   okButtonText: {
     color: 'white',

@@ -7,6 +7,7 @@ import Modal from 'react-native-modal';
 const moment = require('moment');
 
 const ShowUserHabitPhotoModal = ({photo, dispatch}) => {
+  console.log('photo!!!', photo)
   return (
     <Container>
       <Modal transparent={true} visible={true}>

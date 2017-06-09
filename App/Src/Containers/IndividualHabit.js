@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Switch, Text, ScrollView, View, StyleSheet, Dimensions, Image, TouchableHighlight, StatusBar } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H3, CardItem, Body, CheckBox, Icon, ActionSheet } from 'native-base';
+import { Container, Content, Button, Card, Form, Item, Header, Input, H1, H2, H3, CardItem, Body, CheckBox, Icon, ActionSheet } from 'native-base';
 import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { ActionCreators } from './../Actions/ActionCreators';
@@ -25,7 +25,7 @@ class IndividualHabit extends Component {
       //Modal
       animationType: 'slide',
       isModalVisible: false,
-      isModalTransparent: true,
+      isModalTransparent: false,
       // Habit
       id: this.props.habitProps.id,
       habitName: this.props.habitProps.name,
@@ -209,19 +209,19 @@ class IndividualHabit extends Component {
             tintColor={colors.primaryDark}
             title={<TitleNav
                           title={this.state.habitName}
-                          style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText }}
+                          style={{ fontWeight: 'bold', fontSize: 18, color: colors.primaryText, marginBottom: 5, }}
                         />}
             leftButton={<BackNav
                           style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
                           onPress={() => {Actions.habits()}}
-                        />} 
+                        />}
             rightButton={<SettingsNav
                           style={{ marginRight: 14, marginTop:6, color: colors.primaryText }}
                           onPress={() => {this._openModal()}}
-                        />} 
+                        />}
           />
           <ScrollView>
-            <Card>
+            <View>
               <View style={[styles.stats, {paddingTop:10}]}>
                 <Text>Success Rate: </Text>
                 <Text>{this.props.habitProps.dates.length}/{totalDays} ({Math.floor(this.props.habitProps.dates.length/totalDays*100)}%)</Text>
@@ -250,10 +250,10 @@ class IndividualHabit extends Component {
               {/*<Button light block style={showButton}>
                 <Text>All {this.state.habitName} Images</Text>
               </Button>*/}
-            </Card>
-            <View style={styles.header}>
-              <H3>Habit Chart</H3>
             </View>
+            {/* <View style={styles.header}>
+              <H3>Habit Chart</H3>
+            </View> */}
             <DateTimePicker
               isVisible={this.state.isTimePickerVisible}
               onConfirm={this._updateHabit}
@@ -268,47 +268,73 @@ class IndividualHabit extends Component {
                 visible={this.state.isModalVisible}
                 style={styles.modal}
                 onRequestClose={() => {this._closeModal()}}>
-                    <View>
-                      <H1 style={{fontWeight: 'bold'}}>Edit Habit</H1>
+                  <View style={{backgroundColor: colors.primaryDark, alignSelf: 'stretch', alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    {/* <Button style={{}} dark transparent iconLeft> */}
+                      {/* <Icon style={{color: colors.primary}} name='close' /> */}
+                    {/* </Button> */}
+                    <View style={{flex: 1}}></View>
+                    <View style={{flex: 1, flexGrow: 2, alignItems: 'center', marginRight: 25}}>
+                      <H1 style={{fontWeight: 'bold', color: colors.primaryText}}>Edit Habit</H1>
                     </View>
-                    <View style={styles.formContainer}>
+                    <View style={{flex: 1, marginRight: -25}}>
+                    <Button dark transparent iconRight onPress={() => this._closeModal()}>
+                      <Icon style={{color: colors.primaryText}} name='close' />
+                    </Button>
+                    </View>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{flex: 1, margin: 10, marginBottom: 0}}>
+                      <H2 style={{fontWeight: 'bold'}}>Name:</H2>
+                    </View>
+                    <View style={{flex: 1, alignSelf: 'stretch', margin: 10, marginBottom: 0}}>
                       <Form>
-                        <Text>Habit Name</Text>
-                        <Item rounded>
+                        <Item regular>
                           <Input value={this.state.habitName} onChangeText={(text) => {this._setHabitName(text)}} />
                         </Item>
                       </Form>
-                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
-                        <Text>Private?</Text>
-                        <Switch value={this.state.private} onValueChange={() => {this._setPrivate()}} />
-                      </View>
-                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 30}}>
-
-                        <Button underlayColor='gray' style={styles.selectNewLinkContainer} onPress={() => this._showActionSheet()}>
-                          <Text style={styles.selectNewLink}>Edit Habit Type</Text>
-                        </Button>
-                      </View>
-                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{fontWeight: 'bold', color:'red'}}>Delete</Text>
-                        <Icon name='trash' onPress = {() => Alert.alert(
-                          'Delete Habit',
-                          'Are you sure you want to delete this Habit and all related photos?',
-                          [
-                            {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
-                            {text: 'OK', onPress: () => {
-                              this.props.deleteHabit(this.props.user, this.state.id)
-                              this._closeModal();
-                              Actions.habits({type: ActionConst.RESET});
-                            }},
-                          ]
-                        )} />
-                      </View>
-                      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <Button transparent onPress={() => this._closeModal()}>
-                          <Text>Cancel</Text>
-                        </Button>
-                      </View>
                     </View>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{flex: 1, margin: 10, marginBottom: 0}}>
+                      <H2 style={{fontWeight: 'bold'}}>Type:</H2>
+                    </View>
+                    <View style={{flex: 1, margin: 10, marginBottom: 0}}>
+                      <Button full underlayColor='gray' style={{backgroundColor: colors.secondaryDark}} onPress={() => this._showActionSheet()}>
+                        <Text style={{color: colors.secondaryText}}>{this.state.habitType}</Text>
+                      </Button>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{flex: 1, margin: 10, marginBottom: 10}}>
+                      <H2 style={{fontWeight: 'bold'}}>Private:</H2>
+                    </View>
+                    <View style={{flex: 1, margin: 10, marginBottom: 10}}>
+                      <Switch value={this.state.private} onValueChange={() => {this._setPrivate()}} />
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                    <View style={{flex: 1, margin: 10, marginBottom: 10}}>
+                      <H3 style={{fontWeight: 'bold', color:'red'}} name='trash' onPress = {() => Alert.alert(
+                        'Delete Habit',
+                        'Are you sure you want to delete this Habit and all related photos?',
+                        [
+                          {text: 'Cancel', onPress: () => console.log('Canceled Habit Delete!')},
+                          {text: 'OK', onPress: () => {
+                            this.props.deleteHabit(this.props.user, this.state.id)
+                            this._closeModal();
+                            Actions.habits({type: ActionConst.RESET});
+                          }},
+                        ]
+                      )}>Delete</H3>
+                    </View>
+                    <View style={{flex: 1, margin: 10, marginBottom: 10, alignItems: 'center'}}>
+                      <Button full style={{backgroundColor: colors.primary}} onPress={() => {this._updateHabit(); this._closeModal();}}>
+                        <Text style={{color: colors.primaryText}}>Update</Text>
+                      </Button>
+                    </View>
+                  </View>
               </Modal>
             </Container>
           </ScrollView>

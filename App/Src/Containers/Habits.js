@@ -125,6 +125,17 @@ class Habits extends Component {
     const noHabitStyle = {};
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
 
+    let toDiplay;
+    if (this.props.user.habits.length) {
+      toDisplay = <View style={styles.container}>
+        <HabitsListContainer />
+      </View>
+    } else {
+      toDisplay = <View style={[styles.noHabitText, noHabitStyle]}>
+        <H3>{noHabitText}</H3>
+      </View>
+    }
+
     return (
 
       <Swiper index={1} loadMinimal={true} loadMinimalSize={0} loop={false} showsPagination={false} showsButtons={false}>
@@ -142,20 +153,22 @@ class Habits extends Component {
           leftButton={<BackNav
                         style={{ marginLeft: 14, marginTop:6, color: colors.primaryText }}
                         onPress={() => {Actions.camera()}}
-                      />} 
+                      />}
           rightButton={<AddNav
                         style={{ marginRight: 14, marginTop:6, color: colors.primaryText }}
                         onPress={() => {this._openModal()}}
-                      />} 
+                      />}
         />
         <View style={{flex:1}}>
-          <View style={[styles.noHabitText, noHabitStyle]}>
+
+          {toDisplay}
+          {/* <View style={[styles.noHabitText, noHabitStyle]}>
             <H3>{noHabitText}</H3>
           </View>
 
           <View style={styles.container}>
             <HabitsListContainer />
-          </View>
+          </View> */}
 
           {/* <View style={styles.addHabitButtonContainer}>
             <Button dark transparent onPress = {() => this._openModal()}>
@@ -291,13 +304,13 @@ const styles = StyleSheet.create({
   },
   habitsPageContainer: {
     flex: 1,
-    // backgroundColor:'blue',
+    // backgroundColor: colors.primary,
     justifyContent: 'flex-start'
   },
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: 20, //30, changed based on header
+    paddingTop: 0, //30, changed based on header
     // width: width,
     height: 700,
     alignSelf: 'center'
