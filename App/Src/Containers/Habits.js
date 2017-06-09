@@ -15,6 +15,7 @@ import BackNav from '../Components/BackNav';
 import AddNav from '../Components/AddNav';
 import TitleNav from '../Components/TitleNav';
 import NavigationBar from 'react-native-navbar';
+import colors from './../ColorPalette';
 
 
 
@@ -109,18 +110,6 @@ class Habits extends Component {
       directionalOffsetThreshold: 80
     };
 
-    const colors = {
-              primary: '#0277bd',
-              secondary: '#58a5f0',
-              primaryDark: '#004c8c',
-              secondary: '#cfd8dc',
-              secondaryLight: '#ffffff',
-              secondaryDark: '#9ea7aa',
-              primaryText: '#ffffff',
-              secondaryText: '#000000',
-              background: '#f5f5f6'
-            }
-
     const noHabitText = this.props.user.habits.length ? '' : 'Add a new habit to get started!'
     const noHabitStyle = {};
     noHabitStyle.display = this.props.user.habits.length ? 'none' : 'flex';
@@ -132,7 +121,10 @@ class Habits extends Component {
       </View>
     } else {
       toDisplay = <View style={[styles.noHabitText, noHabitStyle]}>
-        <H3>{noHabitText}</H3>
+        <H3 style={{marginTop:200, fontWeight:'bold', color: colors.primaryDark}}>{noHabitText}</H3>
+        <Button style={{alignSelf:'center', marginTop:20}}transparent onPress={() => {this._openModal()}}>
+          <Icon style={{fontSize: 50, color: colors.primaryDark}} name="add-circle" />
+        </Button>
       </View>
     }
 
@@ -368,9 +360,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   noHabitText : {
-    // marginTop: 300,
-    position: 'relative',
-    top: height / 2,
     justifyContent: 'center',
     alignItems: 'center'
   }
