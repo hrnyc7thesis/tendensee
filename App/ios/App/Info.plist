@@ -60,7 +60,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Take Pictures!</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Save Photos!</string>
 	<key>UIAppFonts</key>

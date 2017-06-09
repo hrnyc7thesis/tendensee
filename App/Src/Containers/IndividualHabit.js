@@ -15,6 +15,7 @@ import BackNav from '../Components/BackNav';
 import TitleNav from '../Components/TitleNav';
 
 
+
 const moment = require ('moment')
 
 class IndividualHabit extends Component {
@@ -175,10 +176,10 @@ class IndividualHabit extends Component {
     //ALL DATES NOW INCLUDES CURRENT STREAK AT ANY DAY (at index 2) & habit score (at index 3)
     console.log('ad', allDates);
     let streakChartData = allDates.map(d=> {
-      return { "x": moment(d[0]).format('DD'), "y": d[2] }
+      return [moment(d[0]).format('DD'), d[2]]
     })
     let habitScoreChartData = allDates.map(d=> {
-      return { "x": moment(d[0]).format('DD'), "y": d[3] }
+      return [moment(d[0]).format('DD'), d[3]]
     })
     let chartData = [streakChartData, habitScoreChartData];
     console.log('charstata', chartData)
@@ -251,9 +252,6 @@ class IndividualHabit extends Component {
                 <Text>All {this.state.habitName} Images</Text>
               </Button>*/}
             </Card>
-            <View style={styles.header}>
-              <H3>Habit Chart</H3>
-            </View>
             <DateTimePicker
               isVisible={this.state.isTimePickerVisible}
               onConfirm={this._updateHabit}
