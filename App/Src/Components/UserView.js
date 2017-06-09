@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Image, ScrollView, Dimensions, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import { Container , Button, Icon, Tabs, Tab, TabHeading, H1, H2, H3 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Friend from './FriendsListItem';
 import colors from './../ColorPalette';
+import ModalRoot from './ModalRoot';
 
 const { width } = Dimensions.get('window');
 const photoWidth = (width - 4 * 5) / 3;
@@ -71,6 +72,7 @@ class UserView extends Component {
             </View>
           </View>
         </View>
+        <ModalRoot />
         <Tabs tabBarUnderlineStyle={{backgroundColor: colors.primaryDark}}>
          <Tab style={{backgroundColor: colors.background}} heading={ <TabHeading style={{padding: 10, backgroundColor: colors.secondary}}><Text style={{color: colors.secondaryText}}>Photos</Text></TabHeading>}>
           <ScrollView>
@@ -81,7 +83,11 @@ class UserView extends Component {
               </View>
             ) : (
               this.props.images.map(image => {
-                return (<Image source={{uri: image.picture}} style={styles.habitImage}/>)
+                return (
+                  <TouchableOpacity onPress={() => this.props.onPressPhoto(image)}>
+                    <Image source={{uri: image.picture}} style={styles.habitImage}/>
+                  </TouchableOpacity>
+                )
               })
             )}
             </View>
