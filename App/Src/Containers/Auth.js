@@ -10,14 +10,6 @@ import Login from '../Components/Login.js';
 import { bindActionCreators } from 'redux';
 import colors from './../ColorPalette';
 
-
-
-const FBSDK = require('react-native-fbsdk');
-const {
-  LoginButton,
-  AccessToken
-} = FBSDK;
-
 class Auth extends Component {
 
   componentWillMount() {
@@ -106,7 +98,7 @@ class Auth extends Component {
             </Form>
             <View style={styles.successButton}>
             {true || this.state.username.length >= 3 && this.state.password.length >=6 ? // GET RID OF TRUE TO MAKE WORK
-              <Button block style={{backgroundColor: colors.primaryLight}} onPress={() => this.userLogin()}>
+              <Button block style={{backgroundColor: colors.primaryLight, marginTop:18}} onPress={() => this.userLogin()}>
                 <Text style={[{fontSize: 16}, styles.buttonText]}>{this.state.route}</Text>
               </Button> : 
               <Button block style={{backgroundColor: colors.primaryLight}} onPress={() => this.disabledButton()}>
@@ -167,7 +159,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLogin: (username, password, email, route) => { dispatch (auth(username, password, email, route)); },
     actions: bindActionCreators({ facebookLogin }, dispatch),
-
   }
 }
 
