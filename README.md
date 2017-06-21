@@ -37,6 +37,7 @@ tenden|see allows users to manage and track daily tasks like any other habit tra
 * [Node.js](https://nodejs.org) - JavaScript runtime
 * [Express](https://expressjs.com/) - Flexible Node.js web application framework
 * [MySQL](https://www.mysql.com/) - Open-source relational database management system
+* [Facebook Login](https://developers.facebook.com/docs/facebook-login) - Secure, fast and convenient way for people to login
 * [Amazon S3](https://aws.amazon.com/s3/) - Simple, durable, massively scalable object storage
 
 ## Team
