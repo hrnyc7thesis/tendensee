@@ -11,7 +11,8 @@
 tenden|see allows users to manage and track daily tasks like any other habit tracker.  Unlike the other apps out there, tenden|see uses photos to increase adherence by simplifying the checking off of a daily task, making that process more rewarding, and adding an element of social proof.  tenden|see was built in React Native / Redux with a RESTful Node / Express server and a MySQL relational database and has been optimized for both iOS and Android.  
 
 ## Video Demo
-https://s3.us-east-2.amazonaws.com/tgoc99habit/appvideo.gif
+<a href="https://s3.us-east-2.amazonaws.com/tgoc99habit/appvideo.gif" target="_blank">Watch the app demo</a>
+(Google Play and Apple App Store submissions pending)
 
 <img alt="login" src="https://user-images.githubusercontent.com/15256420/27359178-5e028296-55e8-11e7-88d8-2260c2f44169.png" width="187.5" height="335" /> <img alt="habitlist" src="https://user-images.githubusercontent.com/15256420/27359179-5e09feea-55e8-11e7-922d-3c59f2c06fdf.png" width="187.5" height="335" />
 <img alt="photos" src="https://user-images.githubusercontent.com/15256420/27359171-5028a83a-55e8-11e7-8d7d-087ca8b0ce4a.png" width="187.5" height="335" />
